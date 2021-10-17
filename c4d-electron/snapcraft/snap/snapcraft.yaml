@@ -1,0 +1,57 @@
+name: c4d
+version: 1.1.0
+summary: c4editor
+description: >-
+  Simple c4 editor. 
+grade: stable
+confinement: strict
+compression: lzo
+
+apps:
+  d4d:
+    extensions: [gnome-3-34]
+    plugs:
+    - browser-support
+    - network
+    - network-bind
+    - home
+    - opengl
+    - x11
+    - removable-media
+    - raw-usb
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR
+    command: c4d/c4d --no-sandbox
+parts:
+  c4d:
+    source: https://github.com/rzrbld/c4d.git
+    source-subdir: src/
+    source-type: git
+    plugin: nil
+    override-build: |
+        echo $SNAPCRAFT_PART_INSTALL
+        ls -al
+        mv snapcraft/* src/
+        cd src
+        pwd
+        ls -al
+        npm config set user 0
+        npm config set unsafe-perm true
+        npm install electron electron-packager
+        npx electron-packager . --overwrite --platform=linux --output=release-build --prune=true
+        ls -al
+        cp -rv ./c4d-* $SNAPCRAFT_PART_INSTALL/c4d
+    build-snaps:
+    - node/14/stable
+    build-packages:
+    - unzip
+    stage-packages:
+      - libnss3
+      - libnspr4
+    organize:
+      c4d-linux-x64: c4d
+base: core18
+plugs:
+  browser-sandbox:
+    allow-sandbox: true
+    interface: browser-support

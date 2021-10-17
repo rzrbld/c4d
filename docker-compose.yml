@@ -1,0 +1,18 @@
+version: '3'
+services:
+  puml-server:
+    image: plantuml/plantuml-server:jetty
+    ports:
+      - "8088:8080"
+  neo4j:
+    image: neo4j:latest
+    environment:
+      ANEO4J_AUTH: "neo4j/test"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+  gogs:
+    image: gogs/gogs
+    ports:
+      - "8080:3000"
+      - "2222:2222"
