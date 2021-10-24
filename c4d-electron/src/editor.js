@@ -14,9 +14,11 @@ const hljs = require('highlight.js');
 const etree = require('electron-tree-view');
 var plantumlEncoder = require('plantuml-encoder')
 var Split = require('split.js')
+const { v4: uuidv4 } = require('uuid');
 // var scriptsDir = path.join(__dirname,'scripts');
 var pumlServerURL = 'http://localhost:8088/svg/';
 var c4CollectionURL = 'http://localhost:3334/api/v1/nodes';
+var c4CollectionURLBase = 'http://localhost:3334/api/v1';
 
 
 const store = require('electron-settings');
@@ -47,7 +49,7 @@ var newProjectPUMLFlag = document.getElementById('np-puml-flag');
 //   newADRBtn.focus()
 // })
 
-searchCol.addEventListener('keyup', () => searchNode(searchCol.value))
+searchCol.addEventListener('keyup', () => searchRouter(searchCol.value))
 
 var previewZoomVal = 1
 var previewFileExt = ".puml"
@@ -98,7 +100,7 @@ previewReload.addEventListener('click',function(){
 var myPreferences = {}
 myPreferences.workDir = "none";
 myPreferences.pumlServerURL = 'http://localhost:8088/svg/';
-myPreferences.c4CollectionURL = 'http://localhost:3334/api/v1/nodes';
+myPreferences.c4CollectionURLBase = 'http://localhost:3334/api/v1';
 
 window.tree = {}
 
@@ -149,7 +151,7 @@ function getPrefs(){
     myPreferences = {}
     myPreferences.workDir = "none";
     myPreferences.pumlServerURL = 'http://localhost:8088/svg/';
-    myPreferences.c4CollectionURL = 'http://localhost:3334/api/v1/nodes';
+    myPreferences.c4CollectionURLBase = 'http://localhost:3334/api/v1';
     setPrefs(myPreferences);
   }
   if(myPreferences.workDir != "none"  || typeof myPreferences.workDir != "undefined"){
@@ -161,8 +163,8 @@ function getPrefs(){
   if( myPreferences.pumlServerURL != "" || typeof  myPreferences.pumlServerURL != "undefined"){
     pumlServerURL = myPreferences.pumlServerURL;
   } 
-  if( myPreferences.c4CollectionURL != "" || typeof  myPreferences.c4CollectionURL != "undefined"){
-    c4CollectionURL = myPreferences.c4CollectionURL;
+  if( myPreferences.c4CollectionURLBase != "" || typeof  myPreferences.c4CollectionURLBase != "undefined"){
+    c4CollectionURLBase = myPreferences.c4CollectionURLBase;
   }
   console.log("getPrefs >>>>", myPreferences, store.file());
   return myPreferences;
@@ -253,11 +255,102 @@ function svgZoom(action){
 //     return allScripts;
 // }
 
-// function deduplicateResults(rawResults){
-//     rawResults = rawResults.filter((elem, index, self) => self.findIndex(
-//         (t) => {return (t.name === elem.name && t.tags === elem.tags)}) === index)
-//     return rawResults;
-// }
+function deduplicateNodeResults(rawResults){
+    rawResults = rawResults.filter((elem, index, self) => self.findIndex(
+        (t) => {return (t.Id === elem.Id && t.Label === elem.Label)}) === index)
+    return rawResults;
+}
+
+function deduplicateRelResults(rawResults){
+    rawResults = rawResults.filter((elem, index, self) => self.findIndex(
+        (t) => {return (t.Id === elem.Id && t.Type === elem.Type)}) === index)
+    return rawResults;
+}
+
+function mergeBoundaries(Rels, Nodes){
+    let boundRel = Rels.filter(obj => {
+        return obj.Type === "BOUNDARY"
+    })
+
+    console.log("boundRels>>>>>>>", boundRel, Nodes.length)
+    
+    var srdObj = {}
+
+    for (var i=0; i<boundRel.length; i++){
+
+        var bRel = boundRel[i];
+        // remove Type=BOUNDARY rels
+        Rels = Rels.filter(function(vRelStr, index, arr){ 
+            var relStr = JSON.stringify(bRel);
+            var vvRelStr = JSON.stringify(vRelStr);
+            console.log("Is the same rel", relStr, vvRelStr);
+            
+            if(relStr!==vvRelStr){
+                return bRel
+            }
+        });
+
+        // change type to %_Boundary
+        // var boundaryNode = Nodes.filter((obj, index, self) => {
+
+        //     return obj.Id === bRel.EndId && obj.Props.alias == bRel.Props.to
+        // })
+
+        // boundaryNode[0].Labels[0] = boundaryNode[0].Labels[0] + "_Boundary";
+    
+       
+
+        var boundaryNodeIndex = Nodes.findIndex((t) => {
+            return t.Id === bRel.EndId && t.Props.alias == bRel.Props.to
+        })
+
+        console.log("NODE TO RENAME Position>>> ", boundaryNodeIndex)
+        if(typeof Nodes[boundaryNodeIndex] != "undefined"){
+            if(Nodes[boundaryNodeIndex].Labels[0].indexOf("_Boundary")<0){
+                Nodes[boundaryNodeIndex].Labels[0]=Nodes[boundaryNodeIndex].Labels[0]+"_Boundary";
+            }
+        }
+
+
+        // Nodes = Nodes.filter((obj, index, self) => self.findIndex(
+        //     (t) => { obj.Labels[0] = obj.Labels[0]+"_Boundary"; return (obj.Id === bRel.EndId && obj.Props.alias == bRel.Props.to)}) === index)
+
+        
+        console.log("RelBoundary3 >>>. ",bRel,bRel.EndId, Array.isArray(srdObj[bRel.EndId]))
+    
+        if(!Array.isArray(srdObj[bRel.EndId])) {
+            srdObj[bRel.EndId.toString()] = []
+        }
+
+
+        var resNode = Nodes.filter(obj => {
+            return obj.Id === bRel.StartId && obj.Props.alias == bRel.Props.from
+        })
+
+        srdObj[bRel.EndId.toString()].push(resNode)
+
+        Nodes = Nodes.filter(function(value, index, arr){ 
+            var nodeStr = JSON.stringify(resNode[0]);
+            var valueStr = JSON.stringify(value);
+            console.log("Is the same Node", resNode[0], value, (nodeStr==valueStr));
+            
+            if(nodeStr!==valueStr){
+                return resNode
+            }
+        });
+
+    }
+
+    console.log("boundRelsEXIT>>>>>>>", srdObj, Nodes.length)
+    var retObj = {
+        "Boundary":srdObj,
+        "Nodes": Nodes,
+        "Rels": Rels,
+    }
+
+    return retObj;
+
+}
 
 function restoreTitle(){
     document.getElementById('pasteInfo').style.background='rgb(41, 41, 41)'
@@ -333,108 +426,121 @@ function errorTitle(text){
 //     return dedupResults;
 // }
 
-function searchNode(toSearch){
-    if(searchCol.value.length < 3){
+function searchRouter(toSearch){
+    var qTypeArr = toSearch.split(':');
+    if (qTypeArr.length <= 1){
+        searchNode(toSearch);
+    }else{
+        switch (qTypeArr[0]) {
+            case 'git':
+                searchGitAttr(qTypeArr[1]);
+                break;
+        
+            default:
+                searchNode(toSearch);
+                break;
+        }
+    }
+}
+
+function searchGitAttr(toSearch){
+    if(toSearch.length < 3){
         return;
     }
-    console.log("ONCHANGE!!!");
+    var srvUrl = c4CollectionURLBase+'/repo'
+    console.log("GIT-ONCHANGE!!!", srvUrl);
     var qString = { qstring: toSearch };
     request({ 
         followAllRedirects: true,
         headers: {
         'X-Requested-With': 'XMLHttpRequest' },
         method: 'GET',
-        url: c4CollectionURL, qs: qString}, callback);
+        url: srvUrl, qs: qString}, callback);
+    
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var resBody = JSON.parse(body);
+                searchColResults.innerHTML=""
+                console.log('Success: \n',resBody);
+                
+                var ddNode = resBody["_node"]
+                var ddNodeTo = resBody["_nodeto"]
+                var ddRel = resBody["_rel"]
+
+                var allNodes = ddNode.concat(ddNodeTo)
+
+
+                if(ddNode !== null && ddNode.length >0){
+                    ddNode = deduplicateNodeResults(allNodes)
+                }
+                // if(ddNodeTo !== null && ddNodeTo.length >0){
+                //     ddNodeTo = deduplicateNodeResults(resBody["_nodeto"])
+                // }
+                if(ddRel !== null && ddRel.length >0){
+                    ddRel = deduplicateRelResults(resBody["_rel"])
+                }
+
+                var boundObj = mergeBoundaries(ddRel, ddNode)
+                
+
+                var dataObj = {}
+                // dataObj.node = ddNode;
+                dataObj.node = boundObj.Nodes;
+                // dataObj.nodeto = ddNodeTo;
+                dataObj.rel = boundObj.Rels;
+                dataObj.boundNodes = boundObj.Boundary;
+
+                // console.log('Deduped: \n',ddNode, ddNodeTo, ddRel);
+                console.log('Deduped: \n',dataObj);
+
+                var entityString = JSON.stringify(dataObj);
+                var uid = uuidv4()
+                updateResults(entityString, "git"+uid, "repository", resBody["_node"][0].Props.git, "")
+                updateEventlistner("git"+uid)
+
+                if(ddNode === null && ddNode.length < 1){
+                    searchColResults.append("No results found")
+                }
+    
+            } else {
+                console.log("Error1: \n",body, response);
+            }
+            return body
+        };
+
+}
+
+function searchNode(toSearch){
+    if(toSearch.length < 3){
+        return;
+    }
+    var srvUrl = c4CollectionURLBase+'/nodes'
+    console.log("ONCHANGE!!!", srvUrl);
+    var qString = { qstring: toSearch };
+    request({ 
+        followAllRedirects: true,
+        headers: {
+        'X-Requested-With': 'XMLHttpRequest' },
+        method: 'GET',
+        url: srvUrl, qs: qString}, callback);
 
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
             var resBody = JSON.parse(body);
             searchColResults.innerHTML=""
             console.log('Success: \n',resBody);
-            if(resBody !== null && resBody.length >0){
+            // if(resBody !== null || typeof resBody['_node'] != "undefined" && (resBody['_node'].hasOwnProperty('length') && resBody['_node'].length >0)){
+            if(resBody !== null && typeof resBody['_node'] != "undefined" && resBody['_node']!=null){
+                resBody = resBody['_node']
                 for (let i = 0; i < resBody.length; i++) {
                     var elemType = resBody[i].Labels[0];
                     var elemName = resBody[i].Props.label;
                     var elemAlias = resBody[i].Props.alias;
                     var elemDescr = resBody[i].Props.descr;
-
-
-                    // <button type="button" class="list-group-item list-group-item-action zeropm" aria-current="true">
-					// 				<div class="me-auto">
-					// 				   <div class="card text-dark bg-warning me-auto">
-					// 					   <div class="card-header">Header</div>
-					// 					   <div class="card-body">
-					// 						 <h5 class="card-title">Warning card title</h5>
-					// 						 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-					// 					   </div>
-					// 					 </div>
-					// 			</button>
                     
                     var entityString = JSON.stringify(resBody[i]);
                     
-                    var button = document.createElement('button')
-                    button.setAttribute('type','button');
-                    button.setAttribute('aria-data',entityString)
-                    button.setAttribute('aria-current','true')
-                    button.classList.add("list-group-item")
-                    button.classList.add("list-group-item-action")
-                    button.classList.add("zeropm")
-                    button.setAttribute('id',elemAlias)
-
-
-                    var butDiv = document.createElement('div')
-                    butDiv.classList.add('me-auto')
-
-                    var butCard = document.createElement('div')
-                    butCard.classList.add('card')
-                    butCard.classList.add('text-dark')
-                    butCard.classList.add('bg-warning')
-                    butCard.classList.add('me-auto')
-
-                    var cardHead = document.createElement('div')
-                    cardHead.classList.add('card-header')
-                    cardHead.append(elemType + ' ['+ elemAlias + ']')
-
-                    var cardBody = document.createElement('div')
-                    cardBody.classList.add("card-body")
-
-                    var cardBodyTitle = document.createElement('h5')
-                    cardBodyTitle.classList.add('card-title')
-                    cardBodyTitle.append(elemName)
-
-                    var cardBodyText = document.createElement('p')
-                    cardBodyText.classList.add('card-text')
-                    cardBodyText.append(elemDescr)
-
-                    // butDiv.append(butCard)
-
-                    cardBody.append(cardBodyTitle)
-                    cardBody.append(cardBodyText)
-
-                    butCard.append(cardHead)
-                    butCard.append(cardBody)
-
-                    butDiv.append(butCard)
-                    button.append(butDiv)
-
-
-                    // var butDivDiv = document.createElement('div')
-                    // butDivDiv.classList.add('fw-bold')
-                    // butDivDiv.append(elemName + ' ('+ elemAlias + ')')
-
-                    // var butSpan = document.createElement('span')
-                    // butSpan.classList.add('badge')
-                    // butSpan.classList.add('bg-primary')
-                    // butSpan.classList.add('rounded-pill')
-                    // butSpan.append(elemType)
-
-
-                    // butDiv.append(butDivDiv)
-                    // butDiv.append(elemDescr)
-                    // button.append(butDiv)
-                    // button.append(butSpan)
-                    
-                    searchColResults.append(button)
+                    updateResults(entityString, elemAlias, elemType, elemName, elemDescr)
 
                     updateEventlistner(elemAlias)
                 }
@@ -443,10 +549,58 @@ function searchNode(toSearch){
             }
 
         } else {
-            console.log("Error: \n",body);
+            console.log("Error2: \n",body, response);
         }
         return body
     };
+}
+
+function updateResults(entityString, elemAlias, elemType, elemName, elemDescr){
+    var button = document.createElement('button')
+    button.setAttribute('type','button');
+    button.setAttribute('aria-data',entityString)
+    button.setAttribute('aria-current','true')
+    button.classList.add("list-group-item")
+    button.classList.add("list-group-item-action")
+    button.classList.add("zeropm")
+    button.setAttribute('id',elemAlias)
+
+
+    var butDiv = document.createElement('div')
+    butDiv.classList.add('me-auto')
+
+    var butCard = document.createElement('div')
+    butCard.classList.add('card')
+    butCard.classList.add('text-dark')
+    butCard.classList.add('bg-warning')
+    butCard.classList.add('me-auto')
+
+    var cardHead = document.createElement('div')
+    cardHead.classList.add('card-header')
+    cardHead.append(elemType + ' ['+ elemAlias + ']')
+
+    var cardBody = document.createElement('div')
+    cardBody.classList.add("card-body")
+
+    var cardBodyTitle = document.createElement('h5')
+    cardBodyTitle.classList.add('card-title')
+    cardBodyTitle.append(elemName)
+
+    var cardBodyText = document.createElement('p')
+    cardBodyText.classList.add('card-text')
+    cardBodyText.append(elemDescr)
+
+    cardBody.append(cardBodyTitle)
+    cardBody.append(cardBodyText)
+
+    butCard.append(cardHead)
+    butCard.append(cardBody)
+
+    butDiv.append(butCard)
+    button.append(butDiv)
+
+    searchColResults.append(button)
+
 }
 
 function showInput(){
@@ -556,34 +710,127 @@ function updateEventlistner(elemAliasId){
     var elemId = document.getElementById(elemAliasId);
     elemId.addEventListener('click',function(){
         console.log("Clicked >>>>>", this.getAttribute('aria-data'))
-        buildPumlElement(this.getAttribute('aria-data'))
+        proceedMultipleElements(this.getAttribute('aria-data'))
     })
 
 }
 
 /* -- draw element */
 
-function buildPumlElement(objString){
+function proceedMultipleElements(objString){
+    var finalString = "";
     var obj = JSON.parse(objString)
-    console.log("OBJECT >>>> ", obj, obj.Props)
-    var elemType = obj.Labels[0]
-    var elemAlias = obj.Props.alias
-    var elemLabel = obj.Props.label
-    var elemTechn = obj.Props.techn
-    var elemDescr = obj.Props.descr
+    console.log("Entry", obj, obj.node);
+    if (typeof obj.node == "undefined"){
+        console.log("Single");
+        finalString = buildPumlElement(obj, "Node");
+        addToEditor(finalString)
+    } else {
+        console.log("Multi", obj.node.length);
+        finalString = "' Nodes \n";
 
-    var elemArr = []
-    elemArr = pshToArr(elemArr,elemAlias)
-    elemArr = pshToArr(elemArr,elemLabel)
-    elemArr = pshToArr(elemArr,elemTechn)
-    elemArr = pshToArr(elemArr,elemDescr)
-    console.log("Array >>>>", elemArr)
+        for (let i = 0; i < obj.node.length; i++) {
+            const elem = obj.node[i];
+            console.log("NodeTo >>>>>>>", elem)
+            elemString = buildPumlElement(elem, "Node");
+            if(Array.isArray(obj.boundNodes[elem.Id.toString()])){
+                //this is boundary element
+                elemString = elemString + "{\n";
 
+                var bArr = obj.boundNodes[elem.Id.toString()]
+                console.log("BOUNDED ELEMENT >>>",bArr[0], "Parent", elem);
+                for (let c = 0; c < bArr.length; c++) {
+                    var bnodes = bArr[c];
+                    elemString = elemString + "\t" + buildPumlElement(bnodes[0], "Node") + "\n";
+                }
 
-    var pumlString = elemType + "(" + elemArr.join() + ")"
-    // window.editor.trigger('keyboard', 'type', {text: ""+pumlString});
+                elemString = elemString + "}";
+            }
+            finalString = finalString + elemString+"\n";
+            addToEditor(finalString)
+        }
+
+        finalString = finalString + "\n\n' Rels \n";
+        for (let i = 0; i < obj.rel.length; i++) {
+            const elem = obj.rel[i];
+            console.log("REL >>>>>>>", elem)
+            elemString = buildPumlElement(elem, "Rel");
+            finalString = finalString + elemString+"\n";
+            addToEditor(finalString)
+        }
+
+        
+    }
+
+    
+}
+
+function addToEditor(finalString){
+    console.log("FINAL STRING >>>>>>>>>", finalString);
     var selection = window.editor.getSelection()
-    window.editor.executeEdits('', [{ range: selection, text: pumlString.toString() }])
+    window.editor.executeEdits('', [{ range: selection, text: finalString.toString() }])
+}
+
+function buildPumlElement(obj, type){
+    var elemArr = []
+
+    if(type == "Node"){
+        var pumlString = ""
+        console.log("OBJECT >>>> ", obj, obj.Props)
+        var elemType = obj.Labels[0]
+        var elemAlias = obj.Props.alias
+        var elemLabel = obj.Props.label
+        var elemTechn = obj.Props.techn
+        var elemDescr = obj.Props.descr
+    
+        // var elemArr = []
+        elemArr = pshToArr(elemArr,elemAlias)
+        elemArr = pshToArr(elemArr,elemLabel)
+        elemArr = pshToArr(elemArr,elemTechn)
+        elemArr = pshToArr(elemArr,elemDescr)
+        console.log("Array >>>>", elemArr)
+
+        pumlString = elemType + "(" + elemArr.join() + ")"
+    }else{
+        
+        var pumlString = ""
+        console.log("REL >>>> ", obj, obj.Props)
+        var elemType = obj.Type
+ 
+        elemArr = pshToArr(elemArr,obj.Props.from)
+        elemArr = pshToArr(elemArr,obj.Props.to)
+        elemArr = pshToArr(elemArr,obj.Props.label)
+
+        if(obj.Props.techn != "Undefined" && typeof obj.Props.techn != "undefined"){
+            elemArr = pshToArr(elemArr,obj.Props.techn)
+        }
+
+        if(obj.Props.descr != "Undefined" && typeof obj.Props.descr != "undefined"){
+            elemArr = pshToArr(elemArr,obj.Props.descr)
+        }
+        
+        console.log("Array >>>>", elemArr)
+        pumlString = elemType + "(" + elemArr.join() + ")"
+    }
+    
+    // switch (type) {
+    //     case "Nodes":
+            
+    //         // break;
+
+    //     case "Rel":
+    //         // Rel_Back(email_system, backend_api, "Sends e-mails using", "sync, SMTP")
+            
+            
+    //         // break;
+    // }
+    // var obj = JSON.parse(objString)
+    return pumlString.toString();
+    
+    
+   
+
+    
 }
 
 function pshToArr(arr,objProp){

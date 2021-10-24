@@ -140,10 +140,10 @@ func RunCUDQuery(obj map[string]interface{}, boundaryAlias string, rmFlag bool, 
 					(b)
 				WHERE a.alias = '` + node.From + `' AND b.alias = '` + node.To + `'
 				CREATE (a)-[r:` + node.GType + `]->(b)
-				SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' SET r.origin = '` + origin + `' SET r.git = '` + repo + `'
+				SET r.to = '` + node.To + `' SET r.from = '` + node.From + `' SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' SET r.origin = '` + origin + `' SET r.git = '` + repo + `'
 				RETURN type(r)`
 				} else { //update
-					query = `MATCH (a {alias: '` + node.From + `'})-[r:` + node.GType + `]->(b {alias: '` + node.To + `'}) SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' RETURN type(r)`
+					query = `MATCH (a {alias: '` + node.From + `'})-[r:` + node.GType + `]->(b {alias: '` + node.To + `'}) SET r.to = '` + node.To + `' SET r.from = '` + node.From + `' SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' RETURN type(r)`
 				}
 			}
 
@@ -161,10 +161,10 @@ func RunCUDQuery(obj map[string]interface{}, boundaryAlias string, rmFlag bool, 
 					(b)
 				WHERE a.alias = '` + node.From + `' AND b.alias = '` + node.To + `'
 				CREATE (a)-[r:` + node.GType + `]->(b)
-				SET r.index = '` + node.Index + `'SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' SET r.origin = '` + origin + `' SET r.git = '` + repo + `'
+				SET r.to = '` + node.To + `' SET r.from = '` + node.From + `' SET r.index = '` + node.Index + `'SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' SET r.origin = '` + origin + `' SET r.git = '` + repo + `'
 				RETURN type(r)`
 				} else { //update
-					query = `MATCH (a {alias: '` + node.From + `'})-[r:` + node.GType + `]->(b {alias: '` + node.To + `'}) SET r.index = '` + node.Index + `' SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' RETURN type(r)`
+					query = `MATCH (a {alias: '` + node.From + `'})-[r:` + node.GType + `]->(b {alias: '` + node.To + `'}) SET r.to = '` + node.To + `' SET r.from = '` + node.From + `' SET r.index = '` + node.Index + `' SET r.label = '` + node.Label + `' SET r.techn = '` + node.Techn + `' SET r.descr = '` + node.Descr + `' RETURN type(r)`
 				}
 			}
 		}
@@ -192,7 +192,7 @@ func RunCUDQuery(obj map[string]interface{}, boundaryAlias string, rmFlag bool, 
 				(a:` + node.GType + `),
 				(b)
 			WHERE a.alias = '` + node.Alias + `' AND b.alias = '` + boundaryAlias + `'
-			CREATE (a)-[r:BOUNDARY]->(b) SET r.origin = '` + origin + `' SET r.git = '` + repo + `'
+			CREATE (a)-[r:BOUNDARY]->(b) SET r.to = '` + boundaryAlias + `' SET r.from = '` + node.Alias + `' SET r.origin = '` + origin + `' SET r.git = '` + repo + `'
 			RETURN type(r)`
 			boundRel, _, err := RunQuery(relBound, nil)
 			if err != nil {

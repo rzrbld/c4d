@@ -7,19 +7,37 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func GetAllNodesWithFilter(qstring string) interface{} {
+type MyResponseObj struct {
+	Node   []interface{} `json:"_node"`
+	Rel    []interface{} `json:"_rel"`
+	NodeTo []interface{} `json:"_nodeto"`
+}
+
+func GetAllNodesWithFilter(qstring string) MyResponseObj {
 	allNodesQuery := `MATCH (a) WHERE a.deleted=false AND (a.alias=~ '(?i).*` + qstring + `.*' OR a.label=~'(?i).*` + qstring + `.*') RETURN a `
 	allNodes, err := RunQuery(allNodesQuery, nil, "Node")
 	if err != nil {
 		log.Errorln("Error while query: ", allNodesQuery, "Error: ", err)
 	}
 
-	log.Debugln("Query result:", allNodes, len(allNodes))
+	log.Debugln("Query result:", allNodes, len(allNodes.Node), len(allNodes.Rel), len(allNodes.NodeTo))
 
 	return allNodes
 }
 
-func GetAllNodesAndRelations() interface{} {
+func GetAllNodesAndRelsByGit(qstring string) MyResponseObj {
+	allNodesQuery := `MATCH (n)-[r]->(m) WHERE n.git=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
+	allNodes, err := RunQuery(allNodesQuery, nil, "NodeRel")
+	if err != nil {
+		log.Errorln("Error while query: ", allNodesQuery, "Error: ", err)
+	}
+
+	log.Debugln("Query result:", allNodes, len(allNodes.Node), len(allNodes.Rel), len(allNodes.NodeTo))
+
+	return allNodes
+}
+
+func GetAllNodesAndRelations() MyResponseObj {
 
 	allNodesQuery := `MATCH (n)-[r]->(m) RETURN n,r,m`
 	allNodes, err := RunQuery(allNodesQuery, nil, "NodeRel")
@@ -27,18 +45,18 @@ func GetAllNodesAndRelations() interface{} {
 		log.Errorln("Error while query: ", allNodesQuery, "Error: ", err)
 	}
 
-	log.Debugln("Query result:", allNodes, len(allNodes))
+	log.Debugln("Query result:", allNodes, len(allNodes.Node), len(allNodes.Rel), len(allNodes.NodeTo))
 
 	return allNodes
 }
 
-func RunQuery(query string, obj map[string]interface{}, respType string) ([]interface{}, error) {
+func RunQuery(query string, obj map[string]interface{}, respType string) (MyResponseObj, error) {
 	log.Debugln("query string;", query, " object:", obj)
 
 	uri := cnf.Neo4jURI
 	username := cnf.Neo4jUser
 	password := cnf.Neo4jPassword
-	var response []interface{}
+	var response MyResponseObj
 
 	driver, err := neo4j.NewDriver(uri, neo4j.BasicAuth(username, password, ""))
 	if err != nil {
@@ -81,14 +99,14 @@ func RunQuery(query string, obj map[string]interface{}, respType string) ([]inte
 		// Values[2] //Node
 		if respType == "Node" {
 			node = result.Record().Values[0].(dbtype.Node)
-			response = append(response, node)
+			response.Node = append(response.Node, node)
 		} else {
 			node = result.Record().Values[0].(dbtype.Node)
 			rel = result.Record().Values[1].(dbtype.Relationship)
 			node2 = result.Record().Values[2].(dbtype.Node)
-			response = append(response, node)
-			response = append(response, rel)
-			response = append(response, node2)
+			response.Node = append(response.Node, node)
+			response.Rel = append(response.Rel, rel)
+			response.NodeTo = append(response.NodeTo, node2)
 		}
 
 	}

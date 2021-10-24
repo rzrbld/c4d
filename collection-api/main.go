@@ -47,6 +47,13 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 			ctx.JSON(allNodes)
 		})
 
+		v1.Get("/repo", func(ctx iris.Context) {
+			qstring := ctx.URLParam("qstring")
+			log.Debugln("/nodes route hit")
+			allNodes := gr.GetAllNodesAndRelsByGit(qstring)
+			ctx.JSON(allNodes)
+		})
+
 		v1.Get("/node_rel", func(ctx iris.Context) {
 			log.Debugln("/n-n-r route hit")
 			allNodes := gr.GetAllNodesAndRelations()

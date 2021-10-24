@@ -179,6 +179,7 @@
     "plantuml-encoder": "^1.4.0",
     "pretty-data": "^0.40.0",
     "request": "^2.88.2",
-    "split.js": "^1.6.4"
+    "split.js": "^1.6.4",
+    "uuid": "^8.3.2"
   }
 }

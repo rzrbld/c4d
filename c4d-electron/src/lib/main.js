@@ -31,7 +31,7 @@ function createWindow () {
   win.loadFile('index.html')
 
   // dev only
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   win.webContents.on('did-finish-load', function() {
     win.show();
