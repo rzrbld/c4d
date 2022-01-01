@@ -291,14 +291,6 @@ function mergeBoundaries(Rels, Nodes){
         });
 
         // change type to %_Boundary
-        // var boundaryNode = Nodes.filter((obj, index, self) => {
-
-        //     return obj.Id === bRel.EndId && obj.Props.alias == bRel.Props.to
-        // })
-
-        // boundaryNode[0].Labels[0] = boundaryNode[0].Labels[0] + "_Boundary";
-    
-       
 
         var boundaryNodeIndex = Nodes.findIndex((t) => {
             return t.Id === bRel.EndId && t.Props.alias == bRel.Props.to
@@ -310,11 +302,6 @@ function mergeBoundaries(Rels, Nodes){
                 Nodes[boundaryNodeIndex].Labels[0]=Nodes[boundaryNodeIndex].Labels[0]+"_Boundary";
             }
         }
-
-
-        // Nodes = Nodes.filter((obj, index, self) => self.findIndex(
-        //     (t) => { obj.Labels[0] = obj.Labels[0]+"_Boundary"; return (obj.Id === bRel.EndId && obj.Props.alias == bRel.Props.to)}) === index)
-
         
         console.log("RelBoundary3 >>>. ",bRel,bRel.EndId, Array.isArray(srdObj[bRel.EndId]))
     
@@ -600,6 +587,9 @@ function updateResults(entityString, elemAlias, elemType, elemName, elemDescr){
     button.append(butDiv)
 
     searchColResults.append(button)
+    var butBr = document.createElement('br')
+    searchColResults.append(butBr)
+
 
 }
 

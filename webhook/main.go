@@ -60,7 +60,7 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 			currCommitDir := repository.GitClone(event.Repository.Clone_url, event.After)
 			prevCommitDir := currCommitDir
 
-			if event.Before != "0000000000000000000000000000000000000000" {
+			if event.Before != "0000000000000000000000000000000000000000" && event.After != event.Before {
 				prevCommitDir = repository.GitClone(event.Repository.Clone_url, event.Before)
 			}
 
