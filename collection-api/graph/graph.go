@@ -26,7 +26,7 @@ func GetAllNodesWithFilter(qstring string) MyResponseObj {
 }
 
 func GetAllNodesAndRelsByGit(qstring string) MyResponseObj {
-	allNodesQuery := `MATCH (n)-[r]->(m) WHERE n.git=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
+	allNodesQuery := `MATCH (n)-[r]->(m) WHERE n.origin=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
 	allNodes, err := RunQuery(allNodesQuery, nil, "NodeRel")
 	if err != nil {
 		log.Errorln("Error while query: ", allNodesQuery, "Error: ", err)

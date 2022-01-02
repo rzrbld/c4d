@@ -1,0 +1,49 @@
+h1 {
+    font-size: 1.5em;
+  }
+  
+  #search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  #location {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  
+  #unit {
+    min-width: 30px;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  
+  #check-weather-button {
+    margin-top: 0.5rem;
+  }
+  
+  .results-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--vscode-input-background);
+    padding: 0 1rem 1rem 1rem;
+    margin: 0.1rem 0;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0px;
+    color:#ffffff
+  }
+
+  vscode-tag, vscode-button {
+      margin-right: 0.3rem !important;
+  }
+  
+  #icon {
+    font-size: 1em;
+    padding: 0;
+    margin: 0;
+    width: 4rem;
+  }

@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=c4d
-Comment=Simple c4 editor.
-Exec=c4d %U
-Icon=${SNAP}/meta/gui/icon.png
-Type=Application
-StartupNotify=true
-
