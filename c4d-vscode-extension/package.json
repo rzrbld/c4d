@@ -2,21 +2,32 @@
   "name": "c4dcollection",
   "displayName": "C4DCollection",
   "description": "PlantUML C4 Collection for Visual Studio Code.",
-  "version": "0.0.1",
+  "publisher": "rzrbld",
+  "version": "0.5.0",
+  "license": "MIT",
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.50.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages"
+  ],
+  "keywords": [
+      "c4",
+      "c4 model",
+      "architecture",
+      "dsl",
+      "plantuml",
+      "adr",
+      "architecture decision records"
   ],
   "activationEvents": [
-    "onCommand:c4dcollection.helloWorld"
+    "onCommand:c4dcollection.searchPanel"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "c4dcollection.helloWorld",
+        "command": "c4dcollection.searchPanel",
         "title": "C4D-Collection"
       }
     ],

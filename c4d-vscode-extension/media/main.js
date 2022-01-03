@@ -49,7 +49,6 @@ function handleSearchChange() {
   // }
   vscode.postMessage({
     command: "search",
-    text: "Hey there partner! 🤠",
     payload: searchValue
   });
 }

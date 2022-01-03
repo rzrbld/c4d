@@ -22,7 +22,7 @@ export class C4DPanel {
   
 
   /**
-   * The HelloWorldPanel class private constructor (called only from the render method).
+   * The searchPanelPanel class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
