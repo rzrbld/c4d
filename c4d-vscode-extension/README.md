@@ -1,5 +1,9 @@
 # c4d Extension
 
+## Example workspace
+
+![screenshot1](https://raw.githubusercontent.com/rzrbld/c4d/main/c4d-vscode-extension/screenshot/example_workspace.png)
+
 ## Run The Sample
 
 ```bash
