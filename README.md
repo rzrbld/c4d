@@ -1,7 +1,7 @@
 # c4d PoC in progress
 git webhook listener, c4 parser, collection api, vscode extension for modelling puml c4 and build collection of elements 
 
-# how to run (by now is difficult)
+# how to run
  - run docker compose `docker-compose -f docker-compose.yml up`
  - goto gogs and setup repo with webhook on commit 
  - commit puml-c4 file 
