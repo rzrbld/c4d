@@ -1,18 +1,28 @@
 version: '3'
 services:
-  puml-server:
-    image: plantuml/plantuml-server:jetty
-    ports:
-      - "8088:8080"
   neo4j:
     image: neo4j:latest
     environment:
-      ANEO4J_AUTH: "neo4j/test"
+      NEO4J_AUTH: "neo4j/test"
     ports:
       - "7474:7474"
       - "7687:7687"
   gogs:
     image: gogs/gogs
     ports:
-      - "8080:3000"
+      - "3000:3000"
       - "2222:2222"
+  webhook:
+    build: webhook/.
+    environment:
+      SRV_HOST_PORT: ":3333"
+      NEO4J_URI: "bolt://neo4j:7687"
+    ports:
+      - "3333:3333"
+  collection:
+    build: collection-api/.
+    environment:
+      SRV_HOST_PORT: ":3334"
+      NEO4J_URI: "bolt://neo4j:7687"
+    ports:
+      - "3334:3334"
