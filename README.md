@@ -17,14 +17,14 @@ git webhook listener, c4 parser, collection api, vscode extension for modelling 
 ```
 http://collection:3334/api/v1/nodes
 http://collection:3334/api/v1/repo
-http://collection:3334/api/v1/node_rel
+http://collection:3334/api/v1/neighbor
 
 ```
 ## gogs external url
 ```
 set to http://gogs:3000/
 ```
-on host get docker ip address
+on host get gogs container ip address
 ```
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c4d_gogs_1
 
