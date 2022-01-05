@@ -3,8 +3,12 @@ import { C4DPanel } from "./panels/C4DPanel";
 
 export function activate(context: ExtensionContext) {
   // Create the searchPanel command
-  const helloCommand = commands.registerCommand("c4dcollection.searchPanel", () => {
+  const searchCommand = commands.registerCommand("c4dcollection.searchPanel", () => {
     C4DPanel.render(context.extensionUri);
+  });
+
+  const pumlC4InitCommand = commands.registerCommand("c4dcollection.initC4PUML", () => {
+    C4DPanel.initC4PUML(context.extensionUri);
   });
 
   workspace.onDidChangeConfiguration(event => {
@@ -13,5 +17,5 @@ export function activate(context: ExtensionContext) {
   });
 
   // Add command to the extension context
-  context.subscriptions.push(helloCommand);
+  context.subscriptions.push(searchCommand);
 }

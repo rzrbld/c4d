@@ -3,10 +3,10 @@
   "displayName": "C4DCollection",
   "description": "PlantUML C4 Collection for Visual Studio Code.",
   "publisher": "rzrbld",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.50.0"
+    "vscode": "^1.60.0"
   },
   "categories": [
     "Programming Languages"
@@ -21,14 +21,19 @@
       "architecture decision records"
   ],
   "activationEvents": [
-    "onCommand:c4dcollection.searchPanel"
+    "onCommand:c4dcollection.searchPanel",
+    "onCommand:c4dcollection.initC4PUML"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "c4dcollection.searchPanel",
-        "title": "C4D-Collection"
+        "title": "C4D: Collection"
+      },
+      {
+        "command": "c4dcollection.initC4PUML",
+        "title": "C4D: Init puml C4 file"
       }
     ],
     "configuration": {

@@ -71,8 +71,8 @@ function setVSCodeMessageListener() {
         renderResults(resultsPayload);
         
         break;
-      case "origin-results":
-        console.log("origin-results", resultsPayload);
+      case "context-results":
+        console.log("context-results", resultsPayload);
         // renderResults(resultsPayload);
         prepareOriginResults(resultsPayload);
         break;
@@ -108,9 +108,6 @@ function prepareOriginResults(payload){
     console.log('Deduped: \n',dataObj);
 
     var entityString = JSON.stringify(dataObj);
-    // var uid = uuidv4();
-    // updateResults(entityString, "git"+uid, "repository", resBody["_node"][0].Props.origin, "");
-    // updateEventlistner("git"+uid);
     pasteToEditor(entityString);
 
 
@@ -368,13 +365,24 @@ function updateEventlistner(elemAliasId){
     originId.addEventListener('click',function(){
         console.log("Clicked >>>>>", this.getAttribute('aria-data'));
         let elemData = this.getAttribute('aria-data');
-        // let finalElem = proceedMultipleElements(elemData);
         vscode.postMessage({
           command: "searchOrigin",
           payload: elemData
         });
     });
   }
+
+  var neighborId = document.getElementById(elemAliasId+"_neighbor");
+  if(neighborId){
+    neighborId.addEventListener('click',function(){
+        console.log("Clicked >>>>>", this.getAttribute('aria-data'));
+        let elemData = this.getAttribute('aria-data');
+        vscode.postMessage({
+          command: "searchNeighbor",
+          payload: elemData
+        });
+    });
+  }  
 }
 
 function newUpdateResults(entityString, elemAlias, elemType, elemName, elemDescr){
@@ -407,6 +415,13 @@ function newUpdateResults(entityString, elemAlias, elemType, elemName, elemDescr
     originButton.setAttribute('aria-data',originVal.Props.origin);
   }
 
+  var neighborButton = document.createElement('vscode-button');
+  neighborButton.append("Neighbor");
+  neighborButton.setAttribute('id',elemAlias+"_neighbor");
+  var entityObj = JSON.parse(entityString);
+  var neighborStr = JSON.stringify({"Id":entityObj.Id,"alias":elemAlias,"type":elemType});
+  neighborButton.setAttribute('aria-data',neighborStr);
+
   var cardBody = document.createElement('div');
   cardBody.classList.add("card-body");
 
@@ -427,6 +442,7 @@ function newUpdateResults(entityString, elemAlias, elemType, elemName, elemDescr
   butCard.append(divider);
   butCard.append(nodeButton);
   butCard.append(originButton);
+  butCard.append(neighborButton);
   
 
   card.append(butCard);

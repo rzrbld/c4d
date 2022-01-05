@@ -40,7 +40,7 @@ export class C4DPanel {
     this._setWebviewMessageListener(this._panel.webview);
 
     window.onDidChangeActiveTextEditor(function (editor) { //dirty hack for stealing focus
-      // C4DPanel.c4dOutput.appendLine("Current active: "+JSON.stringify(window.activeTextEditor?.document));
+      C4DPanel.c4dOutput.appendLine("Constructor set activeTextEd engaged");
       if(editor){
         C4DPanel.curretActiveTextEd = editor;
       }
@@ -196,13 +196,19 @@ export class C4DPanel {
             C4DPanel.c4dOutput.appendLine("Paste Engaged!"+payload);
             const editor = C4DPanel.curretActiveTextEd; //dirty hack for stealing focus
             if(editor){
-              this.enterText(payload, editor);
+              C4DPanel.enterText(payload, editor);
             }
             return;
           case "searchOrigin":
             C4DPanel.c4dOutput.appendLine("SearchOrigin Engaged! Query: "+payload);
             C4DPanel.c4dOutput.appendLine("Seach in :" + C4DPanel.c4dConfig.get("c4dcollection.collectionAPIURL"));
             this._doOriginSearch(payload);
+
+            return;
+          case "searchNeighbor":
+            C4DPanel.c4dOutput.appendLine("SearchNeighbor Engaged! Query: "+payload);
+            C4DPanel.c4dOutput.appendLine("Seach in :" + C4DPanel.c4dConfig.get("c4dcollection.collectionAPIURL"));
+            this._doNeighborSearch(payload);
 
             return;
           // Add more switch case statements here as more webview message commands
@@ -214,7 +220,7 @@ export class C4DPanel {
     );
   }
 
-  private enterText(text: string, editor: TextEditor) {
+  private static enterText(text: string, editor: TextEditor) {
     C4DPanel.c4dOutput.appendLine("Saved Active Document"+JSON.stringify(C4DPanel.curretActiveTextEd));
     window.showTextDocument(editor.document.uri, { preview: false, viewColumn: editor.viewColumn, });
     var snippet = new SnippetString(text+'\n');
@@ -243,9 +249,43 @@ export class C4DPanel {
     const data = await response.json(); 
     C4DPanel.c4dOutput.appendLine("Origin search results: "+JSON.stringify(data));
     this._panel.webview.postMessage({
-      command: "origin-results",
+      command: "context-results",
       payload: data,
     });
+  }
+
+  private async _doNeighborSearch(qs: String){
+    let qsObj = JSON.parse(qs.toString());
+    let apiURL = C4DPanel.c4dConfig.get("c4dcollection.collectionAPIURL");
+    let finalURL = apiURL+'/neighbor?nodeId='+qsObj.Id+'&nodeAlias='+qsObj.alias;
+    const response = await fetch(finalURL);
+    const data = await response.json(); 
+    C4DPanel.c4dOutput.appendLine("Origin search results: "+JSON.stringify(data));
+    this._panel.webview.postMessage({
+      command: "context-results",
+      payload: data,
+    });
+  }
+
+    public static initC4PUML(extensionUri: Uri){
+    let payload = `@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+' LAYOUT_TOP_DOWN()
+' LAYOUT_AS_SKETCH()
+LAYOUT_WITH_LEGEND()
+
+    
+@enduml
+    `;
+    C4DPanel.c4dOutput.appendLine("Paste Engaged!");
+    const editor = window.activeTextEditor; 
+    if(editor){
+      this.enterText(payload, editor);
+    }
   }
 
 }

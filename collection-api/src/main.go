@@ -25,7 +25,7 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 	fmt.Println("\033[33m" + `
 	Collection api
 
-	Version    : 1.1
+	Version    : 1.2
 	Authors    : rzrbld
 	License    : MIT
 	` + "\033[00;00m")
@@ -43,21 +43,23 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 		v1.Get("/nodes", func(ctx iris.Context) {
 			qstring := ctx.URLParam("qstring")
 			log.Debugln("/nodes route hit")
-			allNodes := gr.GetAllNodesWithFilter(qstring)
-			ctx.JSON(allNodes)
+			results := gr.GetAllNodesWithFilter(qstring)
+			ctx.JSON(results)
 		})
 
 		v1.Get("/repo", func(ctx iris.Context) {
 			qstring := ctx.URLParam("qstring")
-			log.Debugln("/nodes route hit")
-			allNodes := gr.GetAllNodesAndRelsByGit(qstring)
-			ctx.JSON(allNodes)
+			log.Debugln("/repo route hit")
+			results := gr.GetAllNodesAndRelsByGit(qstring)
+			ctx.JSON(results)
 		})
 
-		v1.Get("/node_rel", func(ctx iris.Context) {
-			log.Debugln("/n-n-r route hit")
-			allNodes := gr.GetAllNodesAndRelations()
-			ctx.JSON(allNodes)
+		v1.Get("/neighbor", func(ctx iris.Context) {
+			nodeId := ctx.URLParam("nodeId")
+			nodeAlias := ctx.URLParam("nodeAlias")
+			log.Debugln("/neighbor route hit")
+			results := gr.GetNeighborNodesAndRelations(nodeId, nodeAlias)
+			ctx.JSON(results)
 		})
 	}
 

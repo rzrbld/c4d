@@ -26,28 +26,28 @@ func GetAllNodesWithFilter(qstring string) MyResponseObj {
 }
 
 func GetAllNodesAndRelsByGit(qstring string) MyResponseObj {
-	allNodesQuery := `MATCH (n)-[r]->(m) WHERE n.origin=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
-	allNodes, err := RunQuery(allNodesQuery, nil, "NodeRel")
+	originQuery := `MATCH (n)-[r]->(m) WHERE n.origin=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
+	results, err := RunQuery(originQuery, nil, "NodeRel")
 	if err != nil {
-		log.Errorln("Error while query: ", allNodesQuery, "Error: ", err)
+		log.Errorln("Error while query: ", originQuery, "Error: ", err)
 	}
 
-	log.Debugln("Query result:", allNodes, len(allNodes.Node), len(allNodes.Rel), len(allNodes.NodeTo))
+	log.Debugln("Query result:", results, len(results.Node), len(results.Rel), len(results.NodeTo))
 
-	return allNodes
+	return results
 }
 
-func GetAllNodesAndRelations() MyResponseObj {
+func GetNeighborNodesAndRelations(nodeIdInt string, nodeAlias string) MyResponseObj {
 
-	allNodesQuery := `MATCH (n)-[r]->(m) RETURN n,r,m`
-	allNodes, err := RunQuery(allNodesQuery, nil, "NodeRel")
+	neighborQuery := `MATCH (n)-[r]-(m) WHERE n.deleted=false AND ID(n)=`+nodeIdInt+` AND n.alias="`+nodeAlias+`" RETURN n,r,m`
+	results, err := RunQuery(neighborQuery, nil, "NodeRel")
 	if err != nil {
-		log.Errorln("Error while query: ", allNodesQuery, "Error: ", err)
+		log.Errorln("Error while query: ", neighborQuery, "Error: ", err)
 	}
 
-	log.Debugln("Query result:", allNodes, len(allNodes.Node), len(allNodes.Rel), len(allNodes.NodeTo))
+	log.Debugln("Query result:", results, len(results.Node), len(results.Rel), len(results.NodeTo))
 
-	return allNodes
+	return results
 }
 
 func RunQuery(query string, obj map[string]interface{}, respType string) (MyResponseObj, error) {
