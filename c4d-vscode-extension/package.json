@@ -5,6 +5,7 @@
   "publisher": "rzrbld",
   "version": "0.6.0",
   "license": "MIT",
+  "repository": "https://github.com/rzrbld/c4d/tree/main/c4d-vscode-extension",
   "engines": {
     "vscode": "^1.60.0"
   },
