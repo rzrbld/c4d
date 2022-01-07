@@ -61,6 +61,13 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 			results := gr.GetNeighborNodesAndRelations(nodeId, nodeAlias)
 			ctx.JSON(results)
 		})
+
+		v1.Post("/validate", func(ctx iris.Context) {
+			fileContent := ctx.FormValue("fileContent")
+			log.Debugln("/validate route hit")
+			results := gr.ValidateHandler(fileContent)
+			ctx.JSON(results)
+		})
 	}
 
 	app.Run(iris.Addr(cnf.SvcHostPort))

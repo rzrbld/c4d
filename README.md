@@ -28,7 +28,7 @@
 
  - create repository and setup webhook on push
      
-    ![step_3_gogs_webhook](https://raw.githubusercontent.com/rzrbld/c4d/main/images/step_3_gogs_webhook.png) 
+    ![step_3_gogs_webhook](https://raw.githubusercontent.com/rzrbld/c4d/main/images/step_3_gogs_webhook.png)
 
  - set webhook endpoint to: 
 

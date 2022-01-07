@@ -1,9 +1,14 @@
 package graph
 
 import (
+	"strings"
+
+	"github.com/mitchellh/mapstructure"
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j/dbtype"
 	cnf "github.com/rzrbld/collection-api/config"
+	pc42obj "github.com/rzrbld/puml-c4-to-object-go"
+	pc4types "github.com/rzrbld/puml-c4-to-object-go/types"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -39,7 +44,7 @@ func GetAllNodesAndRelsByGit(qstring string) MyResponseObj {
 
 func GetNeighborNodesAndRelations(nodeIdInt string, nodeAlias string) MyResponseObj {
 
-	neighborQuery := `MATCH (n)-[r]-(m) WHERE n.deleted=false AND ID(n)=`+nodeIdInt+` AND n.alias="`+nodeAlias+`" RETURN n,r,m`
+	neighborQuery := `MATCH (n)-[r]-(m) WHERE n.deleted=false AND ID(n)=` + nodeIdInt + ` AND n.alias="` + nodeAlias + `" RETURN n,r,m`
 	results, err := RunQuery(neighborQuery, nil, "NodeRel")
 	if err != nil {
 		log.Errorln("Error while query: ", neighborQuery, "Error: ", err)
@@ -48,6 +53,53 @@ func GetNeighborNodesAndRelations(nodeIdInt string, nodeAlias string) MyResponse
 	log.Debugln("Query result:", results, len(results.Node), len(results.Rel), len(results.NodeTo))
 
 	return results
+}
+
+type ValidateResponseType struct {
+	Alias   string        `json:"alias"`
+	IsExist bool          `json:"exist"`
+	RawObj  []interface{} `json:"object"`
+}
+
+func ValidateHandler(fileContent string) map[int]ValidateResponseType {
+	log.Debugln("validate", fileContent)
+	result := make(map[int]ValidateResponseType)
+	var stringsSlice = strings.Split(strings.ReplaceAll(fileContent, "\r\n", "\n"), "\n")
+
+	for index, stringContent := range stringsSlice {
+
+		var fileObj = &pc4types.EncodedObj{}
+		fileObj = pc42obj.Parse(stringContent)
+
+		if len(fileObj.Nodes) > 0 {
+			var elem = fileObj.Nodes[0]
+			var node pc4types.GenericC4Type
+			err := mapstructure.Decode(elem.Object, &node)
+			if err != nil {
+				log.Errorln("Kind of error. ", err)
+			}
+			searchNodeQuery := `MATCH (a) WHERE a.deleted=false AND (a.alias= '` + node.Alias + `') RETURN a `
+			Node, err := RunQuery(searchNodeQuery, nil, "Node")
+			log.Debugln("validate query result:", Node, Node.Node)
+			log.Debugln("validate query error:", err)
+			nodeExist := false
+			if len(Node.Node) > 0 {
+				nodeExist = true
+			}
+			log.Debugln("node exist flag:", len(Node.Node))
+
+			var nodeResult ValidateResponseType
+			nodeResult.Alias = node.Alias
+			nodeResult.IsExist = nodeExist
+			nodeResult.RawObj = Node.Node
+
+			log.Debugln("nodeResult content:", nodeResult, index)
+
+			result[index] = nodeResult
+		}
+	}
+
+	return result
 }
 
 func RunQuery(query string, obj map[string]interface{}, respType string) (MyResponseObj, error) {
