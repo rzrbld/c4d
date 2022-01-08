@@ -59,6 +59,7 @@ type ValidateResponseType struct {
 	Alias   string        `json:"alias"`
 	IsExist bool          `json:"exist"`
 	RawObj  []interface{} `json:"object"`
+	IsRel   bool          `json:"relation"`
 }
 
 func ValidateHandler(fileContent string) map[int]ValidateResponseType {
@@ -92,10 +93,39 @@ func ValidateHandler(fileContent string) map[int]ValidateResponseType {
 			nodeResult.Alias = node.Alias
 			nodeResult.IsExist = nodeExist
 			nodeResult.RawObj = Node.Node
+			nodeResult.IsRel = false
 
 			log.Debugln("nodeResult content:", nodeResult, index)
 
 			result[index] = nodeResult
+		}
+
+		if len(fileObj.Rels) > 0 {
+			var elem = fileObj.Rels[0]
+			var rel pc4types.GenericC4Type
+			err := mapstructure.Decode(elem.Object, &rel)
+			if err != nil {
+				log.Errorln("Kind of error. ", err)
+			}
+			searchNodeQuery := `MATCH (a {alias: '` + rel.From + `'})-[r:` + rel.GType + `]->(b {alias: '` + rel.To + `'})  RETURN r`
+			Rel, err := RunQuery(searchNodeQuery, nil, "Rel")
+			log.Debugln("validate query result:", Rel, Rel.Rel)
+			log.Debugln("validate query error:", err)
+			relExist := false
+			if len(Rel.Rel) > 0 {
+				relExist = true
+			}
+			log.Debugln("node exist flag:", len(Rel.Rel))
+
+			var relResult ValidateResponseType
+			relResult.Alias = rel.Alias
+			relResult.IsExist = relExist
+			relResult.RawObj = Rel.Rel
+			relResult.IsRel = true
+
+			log.Debugln("relResult content:", relResult, index)
+
+			result[index] = relResult
 		}
 	}
 
@@ -149,18 +179,23 @@ func RunQuery(query string, obj map[string]interface{}, respType string) (MyResp
 		// Values[0] //Node
 		// Values[1] //Relationship
 		// Values[2] //Node
-		if respType == "Node" {
+		switch respType {
+		case "Node":
 			node = result.Record().Values[0].(dbtype.Node)
 			response.Node = append(response.Node, node)
-		} else {
+		case "NodeRel":
 			node = result.Record().Values[0].(dbtype.Node)
 			rel = result.Record().Values[1].(dbtype.Relationship)
 			node2 = result.Record().Values[2].(dbtype.Node)
 			response.Node = append(response.Node, node)
 			response.Rel = append(response.Rel, rel)
 			response.NodeTo = append(response.NodeTo, node2)
+		case "Rel":
+			rel = result.Record().Values[0].(dbtype.Relationship)
+			response.Rel = append(response.Rel, rel)
+		default:
+			log.Warnln("unknown query type:", respType)
 		}
-
 	}
 
 	return response, nil
