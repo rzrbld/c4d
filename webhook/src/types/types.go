@@ -86,7 +86,27 @@ type Event struct {
 	Repository Repotype `json:"repository"`
 }
 
+type GogsEvent struct {
+	After      string       `json:"after"`
+	Before     string       `json:"before"`
+	Repository GogsRepotype `json:"repository"`
+}
+
+type GitlabEvent struct {
+	After      string         `json:"after"`
+	Before     string         `json:"before"`
+	Repository GitlabRepotype `json:"repository"`
+}
+
 type Repotype struct {
+	Clone_url string `json:"clone_url"`
+}
+
+type GogsRepotype struct {
+	Clone_url string `json:"clone_url"`
+}
+
+type GitlabRepotype struct {
 	Clone_url string `json:"clone_url"`
 }
 

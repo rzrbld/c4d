@@ -8,12 +8,12 @@ import (
 	"github.com/iris-contrib/middleware/cors"
 	iris "github.com/kataras/iris/v12"
 
+	c4dtypes "github.com/rzrbld/puml-c4-to-object-go/types"
 	cnf "github.com/rzrbld/webhook-catcher/config"
 	"github.com/rzrbld/webhook-catcher/graph"
 	lr "github.com/rzrbld/webhook-catcher/localrepo"
 	"github.com/rzrbld/webhook-catcher/repository"
 	"github.com/rzrbld/webhook-catcher/types"
-	c4dtypes "github.com/rzrbld/puml-c4-to-object-go/types"
 )
 
 func main() {
@@ -58,11 +58,15 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 				return
 			}
 
-			currCommitDir := repository.GitClone(event.Repository.Clone_url, event.After)
+			repoUrl := event.Repository.Clone_url
+			beforeCommit := event.Before
+			afterCommit := event.After
+
+			currCommitDir := repository.GitClone(repoUrl, afterCommit)
 			prevCommitDir := currCommitDir
 
-			if event.Before != "0000000000000000000000000000000000000000" && event.After != event.Before {
-				prevCommitDir = repository.GitClone(event.Repository.Clone_url, event.Before)
+			if beforeCommit != "0000000000000000000000000000000000000000" && afterCommit != beforeCommit {
+				prevCommitDir = repository.GitClone(repoUrl, beforeCommit)
 			}
 
 			patch := lr.GetPatch(prevCommitDir, currCommitDir)
@@ -90,11 +94,11 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 
 			log.Infoln("Create or update nodes: ", allNodes, ", relations:", allRels, ". Remove nodes: ", allRmNodes, ", relations:", allRmRels)
 
-			graph.FroeachObjectsToGraph(allRmNodes, event.Repository.Clone_url, true)
-			graph.FroeachObjectsToGraph(allRmRels, event.Repository.Clone_url, true)
+			graph.FroeachObjectsToGraph(allRmNodes, repoUrl, true)
+			graph.FroeachObjectsToGraph(allRmRels, repoUrl, true)
 
-			graph.FroeachObjectsToGraph(allNodes, event.Repository.Clone_url, false)
-			graph.FroeachObjectsToGraph(allRels, event.Repository.Clone_url, false)
+			graph.FroeachObjectsToGraph(allNodes, repoUrl, false)
+			graph.FroeachObjectsToGraph(allRels, repoUrl, false)
 
 		})
 
