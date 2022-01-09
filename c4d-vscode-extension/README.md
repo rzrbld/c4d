@@ -13,7 +13,7 @@ code --install-extension c4dcollection-0.6.0.vsix
 
 ```
 
-## Run The Sample
+## Run develop
 
 ```bash
 # Navigate into extension directory
