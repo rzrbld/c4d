@@ -3,7 +3,7 @@
   "displayName": "C4DCollection",
   "description": "PlantUML C4 Collection for Visual Studio Code.",
   "publisher": "rzrbld",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "license": "MIT",
   "repository": "https://github.com/rzrbld/c4d/tree/main/c4d-vscode-extension",
   "engines": {

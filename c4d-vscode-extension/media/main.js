@@ -230,9 +230,14 @@ function clearSearchResults(){
   searchResults.innerHTML="";
 }
 
-function rmComma(string){
-  string = string.substring(1);
-  string = string.slice(0, -1);
+function rmQuotes(string){
+  if(string.charAt(0) === '"' || string.charAt(0) === "'" ){
+    string = string.substring(1);
+  }
+  if(string.charAt(string.length - 1) === '"' || string.charAt(string.length - 1) === "'"){
+    string = string.slice(0, -1);
+  }
+  
   return string;
 }
 
@@ -427,11 +432,11 @@ function newUpdateResults(entityString, elemAlias, elemType, elemName, elemDescr
 
   var cardBodyTitle = document.createElement('h3');
   cardBodyTitle.classList.add('card-title');
-  cardBodyTitle.append(rmComma(elemName));
+  cardBodyTitle.append(rmQuotes(elemName));
 
   var cardBodyText = document.createElement('p');
   cardBodyText.classList.add('card-text');
-  cardBodyText.append(rmComma(elemDescr));
+  cardBodyText.append(rmQuotes(elemDescr));
 
   cardBody.append(cardBodyTitle);
   cardBody.append(cardBodyText);
