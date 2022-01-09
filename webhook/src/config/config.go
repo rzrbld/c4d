@@ -14,6 +14,7 @@ var (
 	Neo4jPassword = getEnv("NEO4J_PASSWORD", "test")
 	GitUsername   = getEnv("GIT_BASIC_USER", "")
 	GitPassword   = getEnv("GIT_BASIC_PASSWORD", "")
+	GitServer     = getEnv("GIT_SERVER", "GOGS") //GOGS or GITLAB
 )
 
 func getEnv(key, fallback string) string {

@@ -31,7 +31,7 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 	fmt.Println("\033[33m" + `
 	Catcher for gogs webhooks
 
-	Version    : 1.1
+	Version    : 1.2
 	Authors    : rzrbld
 	License    : MIT
 	` + "\033[00;00m")
@@ -49,18 +49,37 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 	v1 := app.Party("/webhook", crs).AllowMethods(iris.MethodOptions)
 	{
 		v1.Post("/event", func(ctx iris.Context) {
-			var event types.Event
+			repoUrl := ""
+			beforeCommit := ""
+			afterCommit := ""
 
-			err := ctx.ReadJSON(&event)
-			if err != nil {
-				log.Errorln("Error parse gogs event json:", err)
-				// ctx.StopWithError(iris.StatusBadRequest, err)
-				return
+			switch cnf.GitServer {
+			case "GOGS":
+				var event types.GogsEvent
+
+				err := ctx.ReadJSON(&event)
+				if err != nil {
+					log.Errorln("Error parse gogs event json:", err)
+					// ctx.StopWithError(iris.StatusBadRequest, err)
+					return
+				}
+
+				repoUrl = event.Repository.Clone_url
+				beforeCommit = event.Before
+				afterCommit = event.After
+			case "GITLAB":
+				var event types.GitlabEvent
+
+				err := ctx.ReadJSON(&event)
+				if err != nil {
+					log.Errorln("Error parse gogs event json:", err)
+					return
+				}
+
+				repoUrl = event.Repository.Git_http_url
+				beforeCommit = event.Before
+				afterCommit = event.After
 			}
-
-			repoUrl := event.Repository.Clone_url
-			beforeCommit := event.Before
-			afterCommit := event.After
 
 			currCommitDir := repository.GitClone(repoUrl, afterCommit)
 			prevCommitDir := currCommitDir

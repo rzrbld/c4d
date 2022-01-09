@@ -107,7 +107,7 @@ type GogsRepotype struct {
 }
 
 type GitlabRepotype struct {
-	Clone_url string `json:"clone_url"`
+	Git_http_url string `json:"git_http_url"`
 }
 
 type Item struct {
