@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"github.com/iris-contrib/middleware/cors"
 	iris "github.com/kataras/iris/v12"
@@ -25,7 +26,7 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 	fmt.Println("\033[33m" + `
 	Collection api
 
-	Version    : 1.2
+	Version    : 1.4
 	Authors    : rzrbld
 	License    : MIT
 	` + "\033[00;00m")
@@ -63,7 +64,13 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 		})
 
 		v1.Post("/validate", func(ctx iris.Context) {
-			fileContent := ctx.FormValue("fileContent")
+			rawBodyAsBytes, err := ioutil.ReadAll(ctx.Request().Body)
+			if err != nil { /* handle the error */
+				ctx.Writef("%v", err)
+			}
+			fileContent := string(rawBodyAsBytes)
+
+			// fileContent := ctx.FormValue("fileContent")
 			log.Debugln("/validate route hit")
 			results := gr.ValidateHandler(fileContent)
 			ctx.JSON(results)

@@ -18,6 +18,13 @@ type MyResponseObj struct {
 	NodeTo []interface{} `json:"_nodeto"`
 }
 
+type ValidateResponseType struct {
+	Alias   string        `json:"alias"`
+	IsExist bool          `json:"exist"`
+	RawObj  []interface{} `json:"object"`
+	IsRel   bool          `json:"relation"`
+}
+
 func GetAllNodesWithFilter(qstring string) MyResponseObj {
 	allNodesQuery := `MATCH (a) WHERE a.deleted=false AND (a.alias=~ '(?i).*` + qstring + `.*' OR a.label=~'(?i).*` + qstring + `.*') RETURN a `
 	allNodes, err := RunQuery(allNodesQuery, nil, "Node")
@@ -55,11 +62,35 @@ func GetNeighborNodesAndRelations(nodeIdInt string, nodeAlias string) MyResponse
 	return results
 }
 
-type ValidateResponseType struct {
-	Alias   string        `json:"alias"`
-	IsExist bool          `json:"exist"`
-	RawObj  []interface{} `json:"object"`
-	IsRel   bool          `json:"relation"`
+func validateObj(query string, objType string, alias string) ValidateResponseType {
+
+	searchNodeQuery := query
+	Node, err := RunQuery(searchNodeQuery, nil, objType)
+	var nodeResult ValidateResponseType
+	log.Debugln("validate query result:", Node, Node.Node)
+	log.Debugln("validate query error:", err)
+	nodeExist := false
+	if len(Node.Node) > 0 {
+		nodeExist = true
+		nodeResult.RawObj = Node.Node
+	}
+	if len(Node.Rel) > 0 {
+		nodeExist = true
+		nodeResult.RawObj = Node.Rel
+	}
+	log.Debugln("node exist flag:", len(Node.Node))
+
+	nodeResult.Alias = alias
+	nodeResult.IsExist = nodeExist
+
+	nodeResult.IsRel = true
+	if objType == "Node" {
+		nodeResult.IsRel = false
+	}
+
+	log.Debugln("nodeResult content:", nodeResult)
+
+	return nodeResult
 }
 
 func ValidateHandler(fileContent string) map[int]ValidateResponseType {
@@ -79,25 +110,8 @@ func ValidateHandler(fileContent string) map[int]ValidateResponseType {
 			if err != nil {
 				log.Errorln("Kind of error. ", err)
 			}
-			searchNodeQuery := `MATCH (a) WHERE a.deleted=false AND (a.alias= '` + node.Alias + `') RETURN a `
-			Node, err := RunQuery(searchNodeQuery, nil, "Node")
-			log.Debugln("validate query result:", Node, Node.Node)
-			log.Debugln("validate query error:", err)
-			nodeExist := false
-			if len(Node.Node) > 0 {
-				nodeExist = true
-			}
-			log.Debugln("node exist flag:", len(Node.Node))
-
-			var nodeResult ValidateResponseType
-			nodeResult.Alias = node.Alias
-			nodeResult.IsExist = nodeExist
-			nodeResult.RawObj = Node.Node
-			nodeResult.IsRel = false
-
-			log.Debugln("nodeResult content:", nodeResult, index)
-
-			result[index] = nodeResult
+			qString := `MATCH (a) WHERE a.deleted=false AND (a.alias= '` + node.Alias + `') RETURN a `
+			result[index] = validateObj(qString, "Node", node.Alias)
 		}
 
 		if len(fileObj.Rels) > 0 {
@@ -107,25 +121,8 @@ func ValidateHandler(fileContent string) map[int]ValidateResponseType {
 			if err != nil {
 				log.Errorln("Kind of error. ", err)
 			}
-			searchNodeQuery := `MATCH (a {alias: '` + rel.From + `'})-[r:` + rel.GType + `]->(b {alias: '` + rel.To + `'})  RETURN r`
-			Rel, err := RunQuery(searchNodeQuery, nil, "Rel")
-			log.Debugln("validate query result:", Rel, Rel.Rel)
-			log.Debugln("validate query error:", err)
-			relExist := false
-			if len(Rel.Rel) > 0 {
-				relExist = true
-			}
-			log.Debugln("node exist flag:", len(Rel.Rel))
-
-			var relResult ValidateResponseType
-			relResult.Alias = rel.Alias
-			relResult.IsExist = relExist
-			relResult.RawObj = Rel.Rel
-			relResult.IsRel = true
-
-			log.Debugln("relResult content:", relResult, index)
-
-			result[index] = relResult
+			qString := `MATCH (a {alias: '` + rel.From + `'})-[r:` + rel.GType + `]->(b {alias: '` + rel.To + `'})  RETURN r`
+			result[index] = validateObj(qString, "Rel", rel.GType)
 		}
 	}
 
@@ -153,22 +150,12 @@ func RunQuery(query string, obj map[string]interface{}, respType string) (MyResp
 	if err != nil {
 		panic(err)
 	}
-	// records, err := result.Collect()
-	// if err != nil {
-	// 	panic(err)
-	// }
 
 	for result.Next() {
 
-		// log.Debugln("Query return number of values: ", len(result.Record().Values), result.Record().Values)
-		// log.Debugln("Query return number of keys:", len(result.Record().Keys), result.Record().Keys)
-		// if len(result.Record().Values) == 2 {
-		// 	org := result.Record().Values[1]
-		// }
-
 		recId := result.Record().Values[0]
 		log.Debugln("Record: ", recId)
-		// node, err := result.Collect()
+
 		if err != nil {
 			log.Errorln("Error transform to Node type")
 		}

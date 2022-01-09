@@ -23,11 +23,21 @@
   ],
   "activationEvents": [
     "onCommand:c4dcollection.searchPanel",
-    "onCommand:c4dcollection.initC4PUML"
+    "onCommand:c4dcollection.initC4PUML",
+    "onCommand:c4dcollection.enableValidationCodeLens",
+    "onCommand:c4dcollection.disableCodeLens"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
+      {
+        "title": "C4D: Validate",
+        "command": "c4dcollection.enableValidationCodeLens"
+      },
+      {
+        "title": "C4D: Disable validate",
+        "command": "c4dcollection.disableCodeLens"
+      },
       {
         "command": "c4dcollection.searchPanel",
         "title": "C4D: Collection"
@@ -49,6 +59,11 @@
           "type": "number",
           "default": 2,
           "description": "Search fileld treshold length. Until search contain less chars - nothing happened."
+        },
+        "c4dcollection.enableValidationCodeLens": {
+          "type": "boolean",
+          "default": false,
+          "description": "Experimantal validation."
         }
       }
     }
