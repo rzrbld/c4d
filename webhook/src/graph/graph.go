@@ -5,10 +5,10 @@ import (
 
 	"github.com/mitchellh/mapstructure"
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
+	c4dtypes "github.com/rzrbld/puml-c4-to-object-go/types"
 	cnf "github.com/rzrbld/webhook-catcher/config"
 	"github.com/rzrbld/webhook-catcher/types"
 	log "github.com/sirupsen/logrus"
-	c4dtypes "github.com/rzrbld/puml-c4-to-object-go/types"
 )
 
 func FroeachObjectsToGraph(objMap map[string][]*c4dtypes.ParserGenericType, repoURI string, removeFlag bool) {
@@ -61,7 +61,7 @@ func RunCUDQuery(obj map[string]interface{}, boundaryAlias string, rmFlag bool, 
 
 			}
 
-		case "Person", "Person_Ext", "System", "System_Ext", "SystemDb", "SystemQueue", "SystemDb_Ext", "SystemQueue_Ext":
+		case "Person", "Person_Ext", "System", "System_Ext", "SystemDb", "SystemQueue", "SystemDb_Ext", "SystemQueue_Ext", "Enterprise":
 			if rmFlag {
 				if checkR != "none" && origin == nodeOrigin {
 					query = `MATCH (a:` + node.GType + ` {alias: $Alias}) SET a.deleted=true RETURN '' + id(a)`
