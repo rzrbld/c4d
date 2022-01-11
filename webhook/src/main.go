@@ -31,7 +31,7 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 	fmt.Println("\033[33m" + `
 	Catcher for gogs webhooks
 
-	Version    : 1.2
+	Version    : 1.3
 	Authors    : rzrbld
 	License    : MIT
 	` + "\033[00;00m")
@@ -60,7 +60,6 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 				err := ctx.ReadJSON(&event)
 				if err != nil {
 					log.Errorln("Error parse gogs event json:", err)
-					// ctx.StopWithError(iris.StatusBadRequest, err)
 					return
 				}
 
@@ -113,11 +112,11 @@ _/ ___\ /   |  |_  / __ |/ __ \   __\/  _ \ /    \\__  \\   __\/  _ \_  __ \
 
 			log.Infoln("Create or update nodes: ", allNodes, ", relations:", allRels, ". Remove nodes: ", allRmNodes, ", relations:", allRmRels)
 
-			graph.FroeachObjectsToGraph(allRmNodes, repoUrl, true)
-			graph.FroeachObjectsToGraph(allRmRels, repoUrl, true)
+			graph.FroeachObjectsToGraph(allRmNodes, repoUrl, true, false)
+			graph.FroeachObjectsToGraph(allRmRels, repoUrl, true, true)
 
-			graph.FroeachObjectsToGraph(allNodes, repoUrl, false)
-			graph.FroeachObjectsToGraph(allRels, repoUrl, false)
+			graph.FroeachObjectsToGraph(allNodes, repoUrl, false, false)
+			graph.FroeachObjectsToGraph(allRels, repoUrl, false, true)
 
 		})
 

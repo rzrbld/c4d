@@ -38,7 +38,10 @@ func GetAllNodesWithFilter(qstring string) MyResponseObj {
 }
 
 func GetAllNodesAndRelsByGit(qstring string) MyResponseObj {
-	originQuery := `MATCH (n)-[r]->(m) WHERE n.origin=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
+	// originQuery := `MATCH (n)-[r]->(m) WHERE n.origin=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
+	// MATCH (m)-[r:ORIGIN]-(n:OriginGit) WHERE n.uri="http://gogs:3000/root/c4d-test5.git/test1.puml" AND m.deleted=false AND n.deleted=false CALL{ WITH m MATCH (m)-[b]->(a) WHERE TYPE(b)<>"ORIGIN" RETURN b,a} RETURN m,b,a
+
+	originQuery := `MATCH (m)-[r:ORIGIN]-(n:OriginGit) WHERE n.uri="` + qstring + `" AND m.deleted=false AND n.deleted=false CALL{ WITH m MATCH (m)-[b]->(a) WHERE TYPE(b)<>"ORIGIN" RETURN b,a} RETURN m,b,a`
 	results, err := RunQuery(originQuery, nil, "NodeRel")
 	if err != nil {
 		log.Errorln("Error while query: ", originQuery, "Error: ", err)
@@ -50,8 +53,7 @@ func GetAllNodesAndRelsByGit(qstring string) MyResponseObj {
 }
 
 func GetNeighborNodesAndRelations(nodeIdInt string, nodeAlias string) MyResponseObj {
-
-	neighborQuery := `MATCH (n)-[r]-(m) WHERE n.deleted=false AND ID(n)=` + nodeIdInt + ` AND n.alias="` + nodeAlias + `" RETURN n,r,m`
+	neighborQuery := `MATCH (n)-[r]-(m) WHERE n.deleted=false AND m.deleted=false AND ID(n)=` + nodeIdInt + ` AND n.alias="` + nodeAlias + `" AND TYPE(r)<>"ORIGIN" RETURN n,r,m`
 	results, err := RunQuery(neighborQuery, nil, "NodeRel")
 	if err != nil {
 		log.Errorln("Error while query: ", neighborQuery, "Error: ", err)
