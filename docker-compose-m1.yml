@@ -1,0 +1,28 @@
+version: '3'
+services:
+  neo4j:
+    image: neo4j/neo4j-arm64-experimental:4.4.0
+    environment:
+      NEO4J_AUTH: "neo4j/test"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+  gogs:
+    image: gogs/gogs:latest
+    ports:
+      - "3000:3000"
+      - "2222:2222"
+  webhook:
+    build: webhook/.
+    environment:
+      SRV_HOST_PORT: ":3333"
+      NEO4J_URI: "bolt://neo4j:7687"
+    ports:
+      - "3333:3333"
+  collection:
+    build: collection-api/.
+    environment:
+      SRV_HOST_PORT: ":3334"
+      NEO4J_URI: "bolt://neo4j:7687"
+    ports:
+      - "3334:3334"
