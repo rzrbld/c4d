@@ -40,8 +40,8 @@ func GetAllNodesWithFilter(qstring string) MyResponseObj {
 func GetAllNodesAndRelsByGit(qstring string) MyResponseObj {
 	// originQuery := `MATCH (n)-[r]->(m) WHERE n.origin=~'(?i).*` + qstring + `.*' AND n.deleted=false RETURN n,r,m `
 	// MATCH (m)-[r:ORIGIN]-(n:OriginGit) WHERE n.uri="http://gogs:3000/root/c4d-test5.git/test1.puml" AND m.deleted=false AND n.deleted=false CALL{ WITH m MATCH (m)-[b]->(a) WHERE TYPE(b)<>"ORIGIN" RETURN b,a} RETURN m,b,a
-
-	originQuery := `MATCH (m)-[r:ORIGIN]-(n:OriginGit) WHERE n.uri="` + qstring + `" AND m.deleted=false AND n.deleted=false CALL{ WITH m MATCH (m)-[b]->(a) WHERE TYPE(b)<>"ORIGIN" RETURN b,a} RETURN m,b,a`
+	// MATCH (m)-[r:ORIGIN]-(n:OriginGit) WHERE n.uri="http://gogs:3000/root/c4d-test7.git/test2.puml" AND m.deleted=false AND n.deleted=false CALL{ WITH m MATCH (m)-[b]->(a) WHERE TYPE(b)<>"ORIGIN" AND a.origin="http://gogs:3000/root/c4d-test7.git/test2.puml" RETURN b,a} RETURN m,b,a
+	originQuery := `MATCH (m)-[r:ORIGIN]-(n:OriginGit) WHERE n.uri="` + qstring + `" AND m.deleted=false AND n.deleted=false CALL{ WITH m MATCH (m)-[b]->(a) WHERE TYPE(b)<>"ORIGIN" AND a.origin="` + qstring + `" RETURN b,a} RETURN m,b,a`
 	results, err := RunQuery(originQuery, nil, "NodeRel")
 	if err != nil {
 		log.Errorln("Error while query: ", originQuery, "Error: ", err)
