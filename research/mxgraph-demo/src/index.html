@@ -110,7 +110,7 @@
 			EditorUi.prototype.init = function()
 			{
 				editorUiInit.apply(this, arguments);
-				this.actions.get('export').setEnabled(false);
+				this.actions.get('export').setEnabled(true);
 
 				// Updates action states which require a backend
 				if (Editor.useLocalStorage)
@@ -119,6 +119,7 @@
 					{
 						var enabled = req.getStatus() != 404;
 						this.actions.get('open').setEnabled(enabled || Graph.fileSupport);
+						this.actions.get('open2').setEnabled(enabled || Graph.fileSupport);
 						this.actions.get('import').setEnabled(enabled || Graph.fileSupport);
 						this.actions.get('save').setEnabled(enabled);
 						this.actions.get('saveAs').setEnabled(enabled);

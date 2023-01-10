@@ -38,6 +38,38 @@ Actions.prototype.init = function()
 		
 		ui.openFile();
 	});
+
+	this.addAction('open2', function()
+	{
+		window.openNew = false;
+		window.openKey = 'open2';
+		
+		// Closes dialog after open
+		window.openFile = new OpenFile(mxUtils.bind(this, function()
+		{
+			ui.hideDialog();
+		}));
+		
+		window.openFile.setConsumer(mxUtils.bind(this, function(xml, filename)
+		{
+			try
+			{
+				var doc = mxUtils.parseXml(xml);
+				editor.graph.setSelectionCells(editor.graph.importGraphModel(doc.documentElement));
+			}
+			catch (e)
+			{
+				mxUtils.alert(mxResources.get('invalidOrMissingFile') + ': ' + e.message);
+			}
+		}));
+
+		// Removes openFile if dialog is closed
+		ui.showDialog(new OpenDialog(this).container, 320, 220, true, true, function()
+		{
+			window.openFile = null;
+		});
+	}).isEnabled = isGraphEnabled;
+
 	this.addAction('import...', function()
 	{
 		window.openNew = false;

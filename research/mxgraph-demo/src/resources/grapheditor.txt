@@ -209,6 +209,7 @@ north=North
 numberedList=Numbered List
 opacity=Opacity
 open=Open
+open2=Open
 openArrow=Open Arrow
 openFile=Open File
 openLink=Open Link
