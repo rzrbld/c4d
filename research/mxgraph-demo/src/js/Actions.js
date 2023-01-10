@@ -54,7 +54,50 @@ Actions.prototype.init = function()
 		{
 			try
 			{
-				var doc = mxUtils.parseXml(xml);
+				// fix bug when remote user see broken shema - if edges delivered before nodes, 
+				// code below is reappend edges to the end of the file
+				var parser = new DOMParser();
+				var serializer = new XMLSerializer();
+
+				var xmlDoc = parser.parseFromString(xml,"text/xml");
+
+				var CellsArr = xmlDoc.getElementsByTagName("mxCell")
+
+				console.log("X length >>> ", CellsArr.length)
+				console.log("X arr >>> ", CellsArr)
+				var edges = []
+				var nodes = [] //actually not used
+				var defaultNodes = [] //actually not used
+
+				// sort edges and nodes
+				for (i = 0; i < CellsArr.length; i++) {
+					console.log("i is >>> ",i, CellsArr.length)
+					if(CellsArr[i].getAttribute('edge')=="1"){
+						console.log("this is edge")
+						edges.push(CellsArr[i])
+					} else {
+						console.log("this is node")
+						if(CellsArr[i].getAttribute('id').length < 3){
+							defaultNodes.push(CellsArr[i])
+						}else{
+							nodes.push(CellsArr[i])
+						}
+					}
+				}
+
+				// remove and reappend edges to the end of the file
+				for (g = 0; g < edges.length; g++){
+					xmlDoc.documentElement.getElementsByTagName('root')[0].removeChild(edges[g])
+					xmlDoc.documentElement.getElementsByTagName('root')[0].appendChild(edges[g])
+				}
+
+				var xmlStr = serializer.serializeToString(xmlDoc);
+				console.log("Edge string >>> ", xmlStr)
+
+				console.log("TXT >>> ", edges, nodes, defaultNodes)
+
+
+				var doc = mxUtils.parseXml(xmlStr);
 				editor.graph.setSelectionCells(editor.graph.importGraphModel(doc.documentElement));
 			}
 			catch (e)

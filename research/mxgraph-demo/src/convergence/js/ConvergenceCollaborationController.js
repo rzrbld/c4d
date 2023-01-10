@@ -101,7 +101,7 @@ class ConvergenceEditorController {
         };
 
         setTimeout(() => editor.graph.view.refresh(), 0);
-        console.log("_modelAdapter >>> ", editor.graph, this._model.root())
+        // console.log("_modelAdapter >>> ", editor.graph, this._model.root())
         this._modelAdapter = new MxGraphAdapter(editor.graph, this._model.root());
         this._pointerManager = new PointerManager(editor.graph, this._activity, this._activityColorManager);
         this._selectionManager = new SelectionManager(editor.graph, this._activity, this._activityColorManager, this._modelAdapter);
