@@ -728,7 +728,7 @@ BaseFormatPanel.prototype.createStepper = function(input, update, step, height, 
 	
 	var up = document.createElement('div');
 	up.style.borderBottom = '1px solid rgb(192, 192, 192)';
-	up.style.position = 'relative';
+	up.style.position = 'static';
 	up.style.height = height + 'px';
 	up.style.width = '10px';
 	up.className = 'geBtnUp';
@@ -1679,7 +1679,7 @@ ArrangePanel.prototype.addAlign = function(div)
 	div.appendChild(this.createTitle(mxResources.get('align')));
 	
 	var stylePanel = document.createElement('div');
-	stylePanel.style.position = 'relative';
+	stylePanel.style.position = 'static';
 	stylePanel.style.paddingLeft = '0px';
 	stylePanel.style.borderWidth = '0px';
 	stylePanel.className = 'geToolbarContainer';
@@ -1889,7 +1889,7 @@ ArrangePanel.prototype.addGeometry = function(container)
 	div.style.paddingBottom = '8px';
 	
 	var span = document.createElement('div');
-	span.style.position = 'absolute';
+	span.style.position = 'static';
 	span.style.width = '50px';
 	span.style.marginTop = '0px';
 	span.style.fontWeight = 'bold';
@@ -1909,7 +1909,7 @@ ArrangePanel.prototype.addGeometry = function(container)
 	var autosizeBtn = document.createElement('div');
 	autosizeBtn.className = 'geSprite geSprite-fit';
 	autosizeBtn.setAttribute('title', mxResources.get('autosize') + ' (' + this.editorUi.actions.get('autosize').shortcut + ')');
-	autosizeBtn.style.position = 'relative';
+	autosizeBtn.style.position = 'static';
 	autosizeBtn.style.cursor = 'pointer';
 	autosizeBtn.style.marginTop = '-3px';
 	autosizeBtn.style.border = '0px';
@@ -2431,7 +2431,7 @@ TextFormatPanel.prototype.addFont = function(container)
 	var stylePanel = this.createPanel();
 	stylePanel.style.paddingTop = '2px';
 	stylePanel.style.paddingBottom = '2px';
-	stylePanel.style.position = 'relative';
+	stylePanel.style.position = 'static';
 	stylePanel.style.marginLeft = '-2px';
 	stylePanel.style.borderWidth = '0px';
 	stylePanel.className = 'geToolbarContainer';
@@ -3019,7 +3019,7 @@ TextFormatPanel.prototype.addFont = function(container)
 	
 	var spacingPanel = this.createPanel();
 	spacingPanel.style.paddingTop = '10px';
-	spacingPanel.style.paddingBottom = '28px';
+	spacingPanel.style.paddingBottom = '0px';
 	spacingPanel.style.fontWeight = 'normal';
 	
 	var span = document.createElement('div');
@@ -4194,7 +4194,7 @@ StyleFormatPanel.prototype.addStroke = function(container)
 	var stylePanel = colorPanel.cloneNode(false);
 	stylePanel.style.fontWeight = 'normal';
 	stylePanel.style.whiteSpace = 'nowrap';
-	stylePanel.style.position = 'relative';
+	stylePanel.style.position = 'static';
 	stylePanel.style.paddingLeft = '16px'
 	stylePanel.style.marginBottom = '2px';
 	stylePanel.style.marginTop = '2px';
@@ -4543,7 +4543,7 @@ StyleFormatPanel.prototype.addStroke = function(container)
 	
 	var perimeterPanel = colorPanel.cloneNode(false);
 	perimeterPanel.style.fontWeight = 'normal';
-	perimeterPanel.style.position = 'relative';
+	perimeterPanel.style.position = 'static';
 	perimeterPanel.style.paddingLeft = '16px'
 	perimeterPanel.style.marginBottom = '2px';
 	perimeterPanel.style.marginTop = '6px';

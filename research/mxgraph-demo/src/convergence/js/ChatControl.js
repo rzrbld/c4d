@@ -28,7 +28,6 @@ class ChatControl extends UiComponent {
       colorManager: this._options.colorManager,
       onClose: () => this._toggle()
     });
-    console.log("THIS EL IS >>>", this._el)
     this._el.append(this._chatWindow._el);
 
     this._options.room.events()
