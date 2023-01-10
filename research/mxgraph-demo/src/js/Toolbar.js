@@ -61,9 +61,9 @@ Toolbar.prototype.init = function()
 	
 	if (sw >= 700)
 	{
-		var formatMenu = this.addMenu('', mxResources.get('view') + ' (' + mxResources.get('panTooltip') + ')', true, 'viewPanels', null, true);
-		this.addDropDownArrow(formatMenu, 'geSprite-formatpanel', 38, 50, -4, -3, 36, -8);
-		this.addSeparator();
+		// var formatMenu = this.addMenu('', mxResources.get('view') + ' (' + mxResources.get('panTooltip') + ')', true, 'viewPanels', null, true);
+		// this.addDropDownArrow(formatMenu, 'geSprite-formatpanel', 38, 50, -4, -3, 36, -8);
+		// this.addSeparator();
 	}
 	
 	var viewMenu = this.addMenu('', mxResources.get('zoom') + ' (Alt+Mousewheel)', true, 'viewZoom', null, true);
@@ -169,8 +169,8 @@ Toolbar.prototype.init = function()
 
 	this.addSeparator();
 
-	var insertMenu = this.addMenu('', mxResources.get('insert') + ' (' + mxResources.get('doubleClickTooltip') + ')', true, 'insert', null, true);
-	this.addDropDownArrow(insertMenu, 'geSprite-plus', 38, 48, -4, -3, 36, -8);
+	// var insertMenu = this.addMenu('', mxResources.get('insert') + ' (' + mxResources.get('doubleClickTooltip') + ')', true, 'insert', null, true);
+	// this.addDropDownArrow(insertMenu, 'geSprite-plus', 38, 48, -4, -3, 36, -8);
 };
 
 /**
@@ -409,38 +409,38 @@ Toolbar.prototype.createTextToolbar = function()
 	this.addSeparator();
 	
 	// FIXME: Uses geButton here and geLabel in main menu
-	var insertMenu = this.addMenuFunction('', mxResources.get('insert'), true, mxUtils.bind(this, function(menu)
-	{
-		menu.addItem(mxResources.get('insertLink'), null, mxUtils.bind(this, function()
-		{
-			this.editorUi.actions.get('link').funct();
-		}));
+	// var insertMenu = this.addMenuFunction('', mxResources.get('insert'), true, mxUtils.bind(this, function(menu)
+	// {
+	// 	menu.addItem(mxResources.get('insertLink'), null, mxUtils.bind(this, function()
+	// 	{
+	// 		this.editorUi.actions.get('link').funct();
+	// 	}));
 		
-		menu.addItem(mxResources.get('insertImage'), null, mxUtils.bind(this, function()
-		{
-			this.editorUi.actions.get('image').funct();
-		}));
+	// 	menu.addItem(mxResources.get('insertImage'), null, mxUtils.bind(this, function()
+	// 	{
+	// 		this.editorUi.actions.get('image').funct();
+	// 	}));
 		
-		menu.addItem(mxResources.get('insertHorizontalRule'), null, mxUtils.bind(this, function()
-		{
-			document.execCommand('inserthorizontalrule', false, null);
-		}));
-	}));
+	// 	menu.addItem(mxResources.get('insertHorizontalRule'), null, mxUtils.bind(this, function()
+	// 	{
+	// 		document.execCommand('inserthorizontalrule', false, null);
+	// 	}));
+	// }));
 	
-	insertMenu.style.whiteSpace = 'nowrap';
-	insertMenu.style.overflow = 'hidden';
-	insertMenu.style.position = 'relative';
-	insertMenu.innerHTML = '<div class="geSprite geSprite-plus" style="margin-left:-4px;margin-top:-3px;"></div>' +
-		this.dropdownImageHtml;
-	insertMenu.style.width = (mxClient.IS_QUIRKS) ? '36px' : '16px';
+	// insertMenu.style.whiteSpace = 'nowrap';
+	// insertMenu.style.overflow = 'hidden';
+	// insertMenu.style.position = 'relative';
+	// insertMenu.innerHTML = '<div class="geSprite geSprite-plus" style="margin-left:-4px;margin-top:-3px;"></div>' +
+	// 	this.dropdownImageHtml;
+	// insertMenu.style.width = (mxClient.IS_QUIRKS) ? '36px' : '16px';
 	
 	// Fix for item size in kennedy theme
-	if (EditorUi.compactUi)
-	{
-		insertMenu.getElementsByTagName('img')[0].style.left = '24px';
-		insertMenu.getElementsByTagName('img')[0].style.top = '5px';
-		insertMenu.style.width = (mxClient.IS_QUIRKS) ? '50px' : '30px';
-	}
+	// if (EditorUi.compactUi)
+	// {
+	// 	insertMenu.getElementsByTagName('img')[0].style.left = '24px';
+	// 	insertMenu.getElementsByTagName('img')[0].style.top = '5px';
+	// 	insertMenu.style.width = (mxClient.IS_QUIRKS) ? '50px' : '30px';
+	// }
 	
 	this.addSeparator();
 	

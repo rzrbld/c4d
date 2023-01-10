@@ -17,6 +17,10 @@
     overflow: auto;
 }
 
+#presence {
+    z-index: 999;
+}
+
 .presence-pane .presence-title {
     font-size: 12px;
     padding: 8px;

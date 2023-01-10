@@ -977,7 +977,7 @@ Graph.prototype.defaultScrollbars = !mxClient.IS_IOS;
 /**
  * Specifies if the page should be visible for new files. Default is true.
  */
-Graph.prototype.defaultPageVisible = true;
+Graph.prototype.defaultPageVisible = window.KkeConfig.PAGE_VIEW_DEFAULT;
 
 /**
  * Specifies if the app should run in chromeless mode. Default is false.

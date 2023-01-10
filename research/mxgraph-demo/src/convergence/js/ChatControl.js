@@ -17,7 +17,7 @@ class ChatControl extends UiComponent {
     this._badge.css("visibility", "hidden");
     this._el.append(this._badge);
 
-    this._chatIcon = $("<i>", {class: "chat-icon fa fa-comments", "aria-hidden": true});
+    this._chatIcon = $("<i>", {class: "chat-icon fa fa-2x fa-comments", "aria-hidden": true});
     this._chatIcon.on("click", () => this._toggle());
     this._el.append(this._chatIcon);
 

@@ -1,7 +1,10 @@
 .share-controls {
     display: inline-block;
-    float: right;
-    margin-right: 10px;
+    position: absolute;
+    right: 265px;
+    top: 10px;
+    z-index: 100000;
+    background-color: red;
 }
 
 .share-controls i {

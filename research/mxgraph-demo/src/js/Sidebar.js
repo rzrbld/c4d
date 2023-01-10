@@ -85,29 +85,34 @@ Sidebar.prototype.init = function()
 {
 	var dir = STENCIL_PATH;
 	
-	this.addSearchPalette(true);
+	this.addSearchPalette(false);
 	this.addGeneralPalette(true);
-	this.addMiscPalette(false);
-	this.addAdvancedPalette(false);
-	this.addBasicPalette(dir);
-	this.addStencilPalette('kubernetes', mxResources.get('kubernetes'), dir + '/kubernetes.xml',
-		';whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#ff00ff;Width=8;Height=4;');
-	this.addStencilPalette('c4', mxResources.get('c4'), 'shapes/mxC4.js',
-		';whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#ff00ff;Width=8;Height=4;');
-	this.addStencilPalette('arrows', mxResources.get('arrows'), dir + '/arrows.xml',
-		';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
-	this.addUmlPalette(false);
-	this.addBpmnPalette(dir, false);
-	this.addStencilPalette('flowchart', 'Flowchart', dir + '/flowchart.xml',
-		';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
-	this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
-		['Earth_globe', 'Empty_Folder', 'Full_Folder', 'Gear', 'Lock', 'Software', 'Virus', 'Email',
-		 'Database', 'Router_Icon', 'iPad', 'iMac', 'Laptop', 'MacBook', 'Monitor_Tower', 'Printer',
-		 'Server_Tower', 'Workstation', 'Firewall_02', 'Wireless_Router_N', 'Credit_Card',
-		 'Piggy_Bank', 'Graph', 'Safe', 'Shopping_Cart', 'Suit1', 'Suit2', 'Suit3', 'Pilot1',
-		 'Worker1', 'Soldier1', 'Doctor1', 'Tech1', 'Security1', 'Telesales1'], null,
-		 {'Wireless_Router_N': 'wireless router switch wap wifi access point wlan',
-		  'Router_Icon': 'router switch'});
+
+	if(window.KkeConfig.SIDEBAR_DEFAULT_SET){
+		this.addMiscPalette(false);
+		this.addAdvancedPalette(false);
+		this.addBasicPalette(dir);
+	}
+	if(window.KkeConfig.SIDEBAR_K8S){
+		this.addStencilPalette('kubernetes', mxResources.get('kubernetes'), dir + '/kubernetes.xml',
+			';whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#ff00ff;Width=8;Height=4;');
+	}
+	if(window.KkeConfig.SIDEBAR_DEFAULT_SET){
+		this.addStencilPalette('arrows', mxResources.get('arrows'), dir + '/arrows.xml',
+			';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
+		this.addUmlPalette(false);
+		this.addBpmnPalette(dir, false);
+		this.addStencilPalette('flowchart', 'Flowchart', dir + '/flowchart.xml',
+			';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
+		this.addImagePalette('clipart', mxResources.get('clipart'), dir + '/clipart/', '_128x128.png',
+			['Earth_globe', 'Empty_Folder', 'Full_Folder', 'Gear', 'Lock', 'Software', 'Virus', 'Email',
+			'Database', 'Router_Icon', 'iPad', 'iMac', 'Laptop', 'MacBook', 'Monitor_Tower', 'Printer',
+			'Server_Tower', 'Workstation', 'Firewall_02', 'Wireless_Router_N', 'Credit_Card',
+			'Piggy_Bank', 'Graph', 'Safe', 'Shopping_Cart', 'Suit1', 'Suit2', 'Suit3', 'Pilot1',
+			'Worker1', 'Soldier1', 'Doctor1', 'Tech1', 'Security1', 'Telesales1'], null,
+			{'Wireless_Router_N': 'wireless router switch wap wifi access point wlan',
+			'Router_Icon': 'router switch'});
+	}
 };
 
 /**
@@ -970,7 +975,9 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 	 	this.createEdgeTemplateEntry('endArrow=classic;html=1;', 50, 50, '', 'Directional Connector', null, lineTags + 'directional directed')
 	];
 	
-	this.addPaletteFunctions('general', mxResources.get('general'), (expand != null) ? expand : true, fns);
+	if(window.KkeConfig.SIDEBAR_GENERAL){
+		this.addPaletteFunctions('general', mxResources.get('general'), (expand != null) ? expand : true, fns);
+	}
 
 
 	// C4 begin
@@ -981,7 +988,7 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 		var dt = 'c4 ';
 		var pts = 'points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];';
 
-	this.addPaletteFunctions('c4', 'C4', false,
+	this.addPaletteFunctions('c4', 'C4', true,
 	[
 		this.addEntry(dt + 'person', mxUtils.bind(this, function()
 		   {

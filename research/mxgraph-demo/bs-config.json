@@ -6,7 +6,8 @@
     "baseDir": "./src",
     "routes": {
       "/libs": "node_modules",
-      "/mxgraph.config.js": "mxgraph.config.js"
+      "/mxgraph.config.js": "mxgraph.config.js",
+      "/c4ke.config.js": "c4ke.config.js"
     }
   }
 }

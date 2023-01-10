@@ -2,7 +2,7 @@
     display: inline-block;
     position: absolute;
     right: 265px;
-    bottom: 5px;
+    top: 30px;
     z-index: 100000;
 }
 
@@ -42,6 +42,7 @@
 
 .chat-icon {
     padding: 2px;
+    color: #004E98;
 }
 
 .chat-icon-open {
