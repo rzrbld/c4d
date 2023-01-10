@@ -974,7 +974,7 @@ EditorUi.prototype.toolbarHeight = 34;
 /**
  * Specifies the height of the footer. Default is 28.
  */
-EditorUi.prototype.presenceHeight =200;
+EditorUi.prototype.presenceHeight =90;
 
 /**
  * Specifies the height of the footer. Default is 28.
@@ -2903,7 +2903,8 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	
 	if (this.toolbar != null)
 	{
-		this.toolbarContainer.style.top = this.menubarHeight + 'px';
+		// this.toolbarContainer.style.top = this.menubarHeight + 'px';
+		this.toolbarContainer.style.bottom = this.menubarHeight + 'px';
 		this.toolbarContainer.style.height = this.toolbarHeight + 'px';
 		tmp += this.toolbarHeight;
 	}
@@ -2931,14 +2932,14 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	this.formatContainer.style.width = fw + 'px';
 	this.formatContainer.style.display = (this.format != null) ? '' : 'none';
 
-	this.presenceContainer.style.top = 65 + 'px';
+	this.presenceContainer.style.top = 0 + 'px';
 	this.presenceContainer.style.width = 200 + 'px';
 	this.presenceContainer.style.height = this.presenceHeight + 'px';
 	
 	// this.diagramContainer.style.left = (this.hsplit.parentNode != null) ? (effHsplitPosition + this.splitSize) + 'px' : '0px';
 	this.diagramContainer.style.left = '0px';
 	// this.diagramContainer.style.top = this.sidebarContainer.style.top;
-	this.diagramContainer.style.top = tmp + 'px';
+	this.diagramContainer.style.top = 0 + 'px';
 	this.footerContainer.style.height = this.footerHeight + 'px';
 	this.hsplit.style.top = tmp + 'px';;
 	this.hsplit.style.bottom = (this.footerHeight + off) + 'px';
@@ -2952,7 +2953,7 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	if (quirks)
 	{
 		this.menubarContainer.style.width = w + 'px';
-		this.toolbarContainer.style.width = this.menubarContainer.style.width;
+		// this.toolbarContainer.style.width = 900 + 'px';
 		var sidebarHeight = Math.max(0, h - this.footerHeight - this.menubarHeight - this.toolbarHeight);
 		this.sidebarContainer.style.height = (sidebarHeight - sidebarFooterHeight) + 'px';
 		this.formatContainer.style.height = sidebarHeight + 'px';
@@ -3027,8 +3028,8 @@ EditorUi.prototype.createDivs = function()
 	this.menubarContainer.style.top = '0px';
 	this.menubarContainer.style.left = '0px';
 	this.menubarContainer.style.right = '0px';
-	this.toolbarContainer.style.left = '0px';
-	this.toolbarContainer.style.right = '0px';
+	this.toolbarContainer.style.left = '50%';
+	// this.toolbarContainer.style.right = '0px';
 	this.sidebarContainer.style.left = '20px';
 	this.sidebarContainer.style.zIndex = '999'
 	this.formatContainer.style.right = '20px';
@@ -3103,12 +3104,12 @@ EditorUi.prototype.createUi = function()
 		this.container.appendChild(this.sidebarContainer);
 	}
 
-  // Creates the format sidebar
-//   this.container.appendChild(this.presenceContainer);
-document.body.appendChild(this.presenceContainer);
+  	// Creates the format sidebar
+	// this.container.appendChild(this.presenceContainer);
+	document.body.appendChild(this.presenceContainer);
 
 
-  // Creates the format sidebar
+  	// Creates the format sidebar
 	this.format = (this.editor.chromeless || !this.formatEnabled) ? null : this.createFormat(this.formatContainer);
 	
 	if (this.format != null)

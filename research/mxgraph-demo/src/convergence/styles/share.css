@@ -1,14 +1,17 @@
 .share-controls {
     display: inline-block;
     position: absolute;
-    right: 265px;
-    top: 10px;
-    z-index: 100000;
-    background-color: red;
+    right: 100px;
+    bottom: 35px;
+    z-index: 99;
+    color: #84A9C0;
+}
+
+.share-controls:hover{
+    color: #627E90;
 }
 
 .share-controls i {
-    font-size: 16px;
     margin-top: 4px;
     margin-left: 2px;
 }

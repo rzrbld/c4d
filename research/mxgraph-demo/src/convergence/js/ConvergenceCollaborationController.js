@@ -120,6 +120,8 @@ class ConvergenceEditorController {
         });
 
         document.body.appendChild(this._chatControl.getElement());
+        // ui.toolbarContainer.appendChild(this._chatControl.getElement());
+
 
         this._overview = new Overview({
           graph: editor.graph,
@@ -129,7 +131,8 @@ class ConvergenceEditorController {
         overviewContainer.appendChild(this._overview.getElement());
 
         const shareControls = new ShareControls({id: this._modelId});
-        ui.toolbarContainer.appendChild(shareControls.getElement());
+        // ui.toolbarContainer.appendChild(shareControls.getElement());
+        document.body.appendChild(shareControls.getElement());
       });
   }
 

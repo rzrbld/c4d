@@ -15,16 +15,45 @@ class PresenceList extends UiComponent {
 
   _init() {
     const participants = this._options.activity.participants().sort((a, b) => a.local ? -1 : 1);
+    var i=1
     participants.forEach((participant) => {
       this._addSession(participant);
+      i++
     });
+    console.log("Number of participants is: ",i)
 
     this._options.activity.on("session_joined", (e) => {
       this._addSession(e.participant);
+      console.log('participant', e.participant.user.displayName)
+      Toastify({
+        text: e.participant.user.displayName+" joined!",
+        duration: 3000,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
     });
 
     this._options.activity.on("session_left", (e) => {
       this._removeSession(e.sessionId);
+      console.log('participant left', e.user.displayName)
+      Toastify({
+        text: e.user.displayName+" left!",
+        duration: 3000,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
     });
   }
 

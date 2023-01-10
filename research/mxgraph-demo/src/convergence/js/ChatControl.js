@@ -17,7 +17,7 @@ class ChatControl extends UiComponent {
     this._badge.css("visibility", "hidden");
     this._el.append(this._badge);
 
-    this._chatIcon = $("<i>", {class: "chat-icon fa fa-2x fa-comments", "aria-hidden": true});
+    this._chatIcon = $("<i>", {class: "chat-icon fa fa-3x fa-comment", "aria-hidden": true});
     this._chatIcon.on("click", () => this._toggle());
     this._el.append(this._chatIcon);
 
@@ -28,7 +28,7 @@ class ChatControl extends UiComponent {
       colorManager: this._options.colorManager,
       onClose: () => this._toggle()
     });
-
+    console.log("THIS EL IS >>>", this._el)
     this._el.append(this._chatWindow._el);
 
     this._options.room.events()
@@ -38,6 +38,19 @@ class ChatControl extends UiComponent {
           this._unread++;
           this._badge.text(this._unread);
           this._badge.css("visibility", "visible");
+
+          Toastify({
+            text: "New message recieved",
+            duration: 5000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function(){} // Callback after click
+          }).showToast();
         }
       });
   }
@@ -168,7 +181,7 @@ class ChatMessage extends UiComponent {
 
     const header = $('<div>', {class: "chat-header"});
     header.append($('<span>', {class: "chat-user"}).text(this._options.username));
-    header.append($('<span>', {class: "chat-time"}).text(timestamp.format("h:mm a")));
+    header.append($('<span>', {class: "chat-time"}).text(timestamp.format("HH:mm")));
     this._el.append(header);
 
     this._el.append($('<span>', {class: "chat-text"}).text(this._options.message));
