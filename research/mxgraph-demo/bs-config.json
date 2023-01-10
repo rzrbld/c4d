@@ -1,0 +1,12 @@
+{
+  "port": 4000,
+  "ghostMode": false,
+  "files": ["./src/**/*"],
+  "server": {
+    "baseDir": "./src",
+    "routes": {
+      "/libs": "node_modules",
+      "/mxgraph.config.js": "mxgraph.config.js"
+    }
+  }
+}
