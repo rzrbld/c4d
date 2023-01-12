@@ -166,7 +166,7 @@ Actions.prototype.init = function()
 				}
 
 				var xmlStr = serializer.serializeToString(xmlDoc);
-				
+
 				var doc = mxUtils.parseXml(xml);
 				editor.graph.setSelectionCells(editor.graph.importGraphModel(doc.documentElement));
 			}

@@ -5507,12 +5507,52 @@ if (typeof mxVertexHandler != 'undefined')
 			this.firstClickState = me.getState();
 			this.firstClickSource = me.getSource();
 		};
+
+		Graph.prototype.updateCell = function(cell, label, mdl)
+		{
+
+		if (cell !== null) {
+			cell.value = label;
+			// cell.value.setAttribute('label', label);
+
+			
+
+			mdl.beginUpdate();  
+			// var graph = ui.editor.graph;
+
+			console.log("MODEL >>>>", mdl)
+			try
+			{
+			//this.cellUpdated(cell);
+			mdl.setValue(cell, cell.value);
+			mdl.fireEvent(new mxEventObject(mxEvent.LABEL_CHANGED,
+				'cell', cell, 'ignoreChildren', false));
+			}
+			finally
+			{
+			//   this.model.endUpdate();
+			mdl.endUpdate();
+			// this.setEnabled(true);
+			}
+
+			return cell;
+		} else return null;
+		};
 		
 		/**
 		 * Overrides double click handling to add the tolerance and inserting text.
 		 */
 		Graph.prototype.dblClick = function(evt, cell)
 		{
+			console.log("Clicked!", evt, cell, this.model)
+			if(typeof(cell) !== 'undefined'){
+				modal.style.display = "block";
+				addToModal(cell, this.model)
+			}
+			// this.graph.container.focus();
+			// this.setEnabled(false);
+
+
 			if (this.isEnabled())
 			{
 				var pt = mxUtils.convertPoint(this.container, mxEvent.getClientX(evt), mxEvent.getClientY(evt));
@@ -5536,7 +5576,7 @@ if (typeof mxVertexHandler != 'undefined')
 								if (state != null || (mxClient.IS_VML && src == this.view.getCanvas()) ||
 									(mxClient.IS_SVG && src == this.view.getCanvas().ownerSVGElement))
 								{
-									cell = this.addText(pt.x, pt.y, state);
+									// cell = this.addText(pt.x, pt.y, state);
 								}
 							}
 						}

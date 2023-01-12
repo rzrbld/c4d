@@ -959,7 +959,7 @@ EditorUi.prototype.menubarHeight = 30;
 /**
  * Specifies the width of the format panel should be enabled. Default is true.
  */
-EditorUi.prototype.formatEnabled = true;
+EditorUi.prototype.formatEnabled = false;
 
 /**
  * Specifies the width of the format panel. Default is 240.
@@ -2119,6 +2119,7 @@ EditorUi.prototype.toggleFormatPanel = function(forceHide)
 {
 	this.formatWidth = (forceHide || this.formatWidth > 0) ? 0 : 240;
 	this.formatContainer.style.display = (forceHide || this.formatWidth > 0) ? '' : 'none';
+	this.formatContainer.parent.style.display = (forceHide || this.formatWidth > 0) ? '' : 'none';
 	this.refresh();
 	this.format.refresh();
 	this.fireEvent(new mxEventObject('formatWidthChanged'));
