@@ -19,9 +19,6 @@ var xmlDoc = parser.parseFromString(mxGraphStr,"text/xml");
 
 var x = xmlDoc.getElementsByTagName("mxCell")
 
-// var edges = []
-// var nodes = []
-// var defaultNodes = []
 var xCellStyle = {
     edges: {
         params: {},
@@ -64,8 +61,9 @@ for (i = 0; i < x.length; i++) {
             var root = xCellStyle['nodes']
             if(Shape.indexOf("_Boundary") > -1){
                 root = xCellStyle['boundaries']
+                xCellStyle['boundaries']['boundaries'].push(x[i].getAttribute('id'))
             }
-
+            
             root['raw'].push(x[i])
             // nodes.push(x[i])
             var rawPosition = root['raw'].length -1
@@ -74,51 +72,49 @@ for (i = 0; i < x.length; i++) {
                                                                     y: x[i].getElementsByTagName('mxGeometry')[0].getAttribute('y'),
                                                                     width: x[i].getElementsByTagName('mxGeometry')[0].getAttribute('width'),
                                                                     height: x[i].getElementsByTagName('mxGeometry')[0].getAttribute('height'),
-                                                                    rawposition: rawPosition
+                                                                    rawposition: rawPosition,
+                                                                    area: (Number(x[i].getElementsByTagName('mxGeometry')[0].getAttribute('width')) * Number(x[i].getElementsByTagName('mxGeometry')[0].getAttribute('height')))
                                                                     }
         }
     }
 }
 
-console.log(">>>>", xCellStyle)
+
+console.log("ALL B params >>> ",xCellStyle.boundaries.params)
 
 
-// @startuml
-// !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
-// ' uncomment the following line and comment the first to use locally
-// ' !include C4_Component.puml
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        /* next line works with strings and numbers, 
+         * and you may want to customize it to your needs
+         */
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
 
-// LAYOUT_WITH_LEGEND()
+// xCellStyle.boundaries.params
+var arrayOfBoundProps = []
+var bIDs = xCellStyle.boundaries.boundaries
 
-// title Component diagram for Internet Banking System - API Application
-
-// Container(spa, "Single Page Application", "javascript and angular", "Provides all the internet banking functionality to customers via their web browser.")
-// Container(ma, "Mobile App", "Xamarin", "Provides a limited subset ot the internet banking functionality to customers via their mobile mobile device.")
-// ContainerDb(db, "Database", "Relational Database Schema", "Stores user registration information, hashed authentication credentials, access logs, etc.")
-// System_Ext(mbs, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
-
-// Container_Boundary(api, "API Application") {
-//     Component(sign, "Sign In Controller", "MVC Rest Controlle", "Allows users to sign in to the internet banking system")
-//     Component(accounts, "Accounts Summary Controller", "MVC Rest Controller", "Provides customers with a summary of their bank accounts")
-//     Component(security, "Security Component", "Spring Bean", "Provides functionality related to singing in, changing passwords, etc.")
-//     Component(mbsfacade, "Mainframe Banking System Facade", "Spring Bean", "A facade onto the mainframe banking system.")
-
-//     Rel(sign, security, "Uses")
-//     Rel(accounts, mbsfacade, "Uses")
-//     Rel(security, db, "Read & write to", "JDBC")
-//     Rel(mbsfacade, mbs, "Uses", "XML/HTTPS")
-// }
-
-// Rel(spa, sign, "Uses", "JSON/HTTPS")
-// Rel(spa, accounts, "Uses", "JSON/HTTPS")
-
-// Rel(ma, sign, "Uses", "JSON/HTTPS")
-// Rel(ma, accounts, "Uses", "JSON/HTTPS")
-// @enduml
+for (let ib = 0; ib < bIDs.length; ib++) {
+    const bID = xCellStyle.boundaries.boundaries[ib];
+    console.log(xCellStyle.boundaries.boundaries[ib])
+    xCellStyle.boundaries.params[bID].bid=bID
+    arrayOfBoundProps.push(xCellStyle.boundaries.params[bID])
+}
 
 
-for (let b = 0; b < xCellStyle.boundaries.raw.length; b++) {
-    const bID = xCellStyle.boundaries.raw[b].getAttribute('id');
+arrayOfBoundProps.sort(dynamicSort("area"))
+alreadyBounded = []
+
+for (let b = 0; b < arrayOfBoundProps.length; b++) {
+    const bID = arrayOfBoundProps[b].bid;
 
     var bx = Number(xCellStyle.boundaries.params[bID].x)
     var by = Number(xCellStyle.boundaries.params[bID].y)
@@ -126,18 +122,24 @@ for (let b = 0; b < xCellStyle.boundaries.raw.length; b++) {
     var bh = Number(xCellStyle.boundaries.params[bID].height)    
 
     for (let b2 = 0; b2 < xCellStyle.boundaries.raw.length; b2++) {
-        const bID = xCellStyle.boundaries.raw[b2].getAttribute('id');
-        var ox = Number(xCellStyle.boundaries.params[bID].x)   
-        var oy = Number(xCellStyle.boundaries.params[bID].y)     
-        var ow = Number(xCellStyle.boundaries.params[bID].width)   
-        var oh = Number(xCellStyle.boundaries.params[bID].height)
+        const bID2 = xCellStyle.boundaries.raw[b2].getAttribute('id');
+        var ox = Number(xCellStyle.boundaries.params[bID2].x)   
+        var oy = Number(xCellStyle.boundaries.params[bID2].y)     
+        var ow = Number(xCellStyle.boundaries.params[bID2].width)   
+        var oh = Number(xCellStyle.boundaries.params[bID2].height)
 
-        if(isObjectInBoundry(bx, bw, by, bw, ox, ow, oy, oh)){
-            xCellStyle.boundaries.boundaries.push(oID)
-            if(typeof( xCellStyle.boundaries.boundarieswb[bID]) === 'undefined'){
-                xCellStyle.boundaries.boundarieswb[bID] = []
+        console.log("Boundry in Boundry >>>", bID2, bID)
+
+        if(typeof( xCellStyle.boundaries.boundarieswb[bID]) === 'undefined'){
+            xCellStyle.boundaries.boundarieswb[bID] = []
+        }
+
+        if(bID2 != bID){
+            if(isObjectInBoundry(bx, bw, by, bh, ox, ow, oy, oh)){
+                
+
+                xCellStyle.boundaries.boundarieswb[bID].push(bID2)
             }
-            xCellStyle.boundaries.boundarieswb[bID].push(oID)
         }
         
     }
@@ -150,32 +152,32 @@ for (let b = 0; b < xCellStyle.boundaries.raw.length; b++) {
         var ow = Number(xCellStyle.nodes.params[oID].width)   
         var oh = Number(xCellStyle.nodes.params[oID].height)   
 
-        if(isObjectInBoundry(bx, bw, by, bw, ox, ow, oy, oh)){
-            xCellStyle.boundaries.objects.push(oID)
-            if(typeof( xCellStyle.boundaries.objectswb[bID]) === 'undefined'){
-                xCellStyle.boundaries.objectswb[bID] = []
-            }
-            xCellStyle.boundaries.objectswb[bID].push(oID)
+        if(typeof( xCellStyle.boundaries.objectswb[bID]) === 'undefined'){
+            xCellStyle.boundaries.objectswb[bID] = []
         }
 
-        console.log("Node: ",oID," is indide of boundry:", bID, " >>> ", isObjectInBoundry(bx, bw, by, bw, ox, ow, oy, oh))
+        if(!alreadyBounded.includes(oID)){
+            if(isObjectInBoundry(bx, bw, by, bh, ox, ow, oy, oh)){
+                xCellStyle.boundaries.objects.push(oID)
+                alreadyBounded.push(oID)
+
+                xCellStyle.boundaries.objectswb[bID].push(oID)
+            }
+        }
+
+        console.log("✅     Node: ",oID," is indide of boundry:", bID, " >>> ", isObjectInBoundry(bx, bw, by, bh, ox, ow, oy, oh),
+            bx, bw, by, bh, ox, ow, oy, oh
+        )
     }
 
 }
 
 console.log(">>>>", xCellStyle)
 
-
-// nodes = xCellStyle.nodes.raw.concat(xCellStyle.edges.raw)
-
-// console.log(getPumlStringByType(xCellStyle.nodes.raw), xCellStyle)
-
-
-
 function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
     var c4Doc = ""
     for (let index = 0; index < nodes.length; index++) {
-        console.log(nodes, nodes[index])
+        // console.log(nodes, nodes[index])
         const node = nodes[index];
         var nID = nodes[index].id
         var nValue = nodes[index].getAttribute('value')
@@ -184,14 +186,13 @@ function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
         temp.innerHTML = nValue;
 
 
-        console.log("TEMP >>>>", temp, xmlDoc)
+        // console.log("TEMP >>>>", temp, xmlDoc)
 
         var Shape = temp.getElementsByTagName('div')[0].getAttribute('id')
-        // var Count = temp.firstChild.childElementCount
 
         var c4Params = temp.firstChild.getElementsByClassName('C4Param')
 
-        console.log("C4Params >>> ", c4Params)
+        // console.log("C4Params >>> ", c4Params)
 
         var inputs = []
         var values = []
@@ -277,7 +278,7 @@ function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
                     console.log("CHECK NODES >>> ", bNodes)
                     for (let n = 0; n < bNodes.length; n++) {
                         const nelem = bNodes[n];
-                        console.log("NODE >>>", nelem, xCellStyle.nodes.raw[xCellStyle.nodes.params[nelem].rawposition])
+                        // console.log("NODE >>>", nelem, xCellStyle.nodes.raw[xCellStyle.nodes.params[nelem].rawposition])
                         NodesStr += "\t"+getPumlStringByType([xCellStyle.nodes.raw[xCellStyle.nodes.params[nelem].rawposition]], xCellStyle, false)
                         
                         console.log(">>>", xCellStyle)
@@ -291,15 +292,7 @@ function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
                         }
  
                     }
-
-                    // var bEdges = xCellStyle.boundaries.edges[nID]
-                    // console.log("CHECK NODES >>> ", bEdges)
-                    // for (let n = 0; n < bEdges.length; n++) {
-                    //     const nelem = bEdges[n];
-                    //     console.log("EDGE >>>", nelem, xCellStyle.nodes.raw[xCellStyle.nodes.params[nelem].rawposition])
-                    //     str += getPumlStringByType([xCellStyle.nodes.raw[xCellStyle.nodes.params[nelem].rawposition]], xCellStyle, false)
                         
-                    // }
             str += NodesStr
             str += EdgesStr
             str += `}`
@@ -319,29 +312,22 @@ function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
     return c4Doc;
 }
 
-// for (let i = 0; i < xCellStyle.boundaries.raw.length; i++) {
-//     var bDoc = ""
-//     var str = ""
-
-
-// }
-
 
 function isObjectInBoundry(bx, bw, by, bh, ox, ow, oy, oh){
 
 
-
+    // -80 700 160 700     -50 240 460 120
     var inBoundary = false
     var xresult = false
     var yresult = false
 
     console.log("dimensions: ",bx, bw, by, bw, ox, ow, oy, oh)
-
+    // -80 < -50 && -50 < 620 | -80 < 190 && 190 < 620
     if(bx < ox && ox < bx+bw && bx < ox+ow && ox+ow < bx+bw){
         xresult = true
     }
-
-    if(by < oy && oy < by+bh && by < oy+oh && ox+ow < by+bh){
+    // 160 < 460 && 460 < 860 | 160 < 580 && 580 < 860
+    if(by < oy && oy < by+bh && by < oy+oh && oy+oh < by+bh){
         yresult = true
     }
 
