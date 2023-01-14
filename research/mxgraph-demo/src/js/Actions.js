@@ -39,7 +39,25 @@ Actions.prototype.init = function()
 		ui.openFile();
 	});
 
-	this.addAction('open2', function()
+	this.addAction('importpuml...', function()
+	{
+		ui.openFile();
+	});
+
+	this.addAction('exportpuml...', function()
+	{
+		var mxGraphStr = mxUtils.getXml(ui.editor.getGraphXml()) 
+
+
+		// export puml
+		var pumlStr = xCellToPuml(mxGraphStr)
+		downloadFile('export.puml',pumlStr)
+		// end export puml
+
+		// ui.openFile();
+	});
+
+	this.addAction('open2...', function()
 	{
 		window.openNew = false;
 		window.openKey = 'open2';
@@ -128,7 +146,7 @@ Actions.prototype.init = function()
 		{
 			try
 			{
-								// fix bug when remote user see broken shema - if edges delivered before nodes, 
+				// fix bug when remote user see broken shema - if edges delivered before nodes, 
 				// code below is reappend edges to the end of the file
 				var parser = new DOMParser();
 				var serializer = new XMLSerializer();

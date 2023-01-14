@@ -121,6 +121,8 @@
 						this.actions.get('open').setEnabled(enabled || Graph.fileSupport);
 						this.actions.get('open2').setEnabled(enabled || Graph.fileSupport);
 						this.actions.get('import').setEnabled(enabled || Graph.fileSupport);
+						this.actions.get('importpuml').setEnabled(enabled);
+						this.actions.get('exportpuml').setEnabled(enabled);
 						this.actions.get('save').setEnabled(enabled);
 						this.actions.get('saveAs').setEnabled(enabled);
 						this.actions.get('export').setEnabled(enabled);
@@ -158,146 +160,23 @@
 			});
 		})();
 	</script>
-	<!-- The Modal -->
-<div id="myModal" class="modal">
 
-	<!-- Modal content -->
-	<div class="modal-content">
-	  <span class="close" id="closeModal">&times;</span>
-	  <p><b>Edit attributes:</b></p>
-	  <!-- <div id="shapeID" style="padding: 10px; font-weight: bold; font-size: 16px;"></div> -->
-	  <div id="modalContent"></div>
-	  <div><button id="ModalSaveButton">Save</button></div>
-	</div>
-  
-  </div>
-
-  <script>
-	// Get the modal
-var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-// var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementById("closeModal");
-
-// When the user clicks on the button, open the modal
-// btn.onclick = function() {
-//   modal.style.display = "block";
-// }
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-
-function saveEditModalData(cell, newdata ,mdl){
-	console.log("save triggered >>> ", cell, newdata ,mdl)
-	Graph.prototype.updateCell(cell, newdata, mdl);
-	modal.style.display = "none";
-}
-
-
-function addToModal(cell, mdl){
-	console.log("cell >>>", cell.value)
-	var modalC = document.getElementById("modalContent");
-	var modalSaveBtn = document.getElementById("ModalSaveButton");
-	// var rootIDTitle = document.getElementById("shapeID")
-
-	// modalC.innerHTML = cell.value;
-
-	var parser = new DOMParser();
-	var htmlVal = parser.parseFromString(cell.value,"text/html");
-
-	console.log("htmlVal >>>", htmlVal)
-
-
-	var c4Params = htmlVal.getElementsByClassName('C4Param')
-
-	var inputs = []
-	var placeholders = []
-
-	modalC.innerHTML = ""
-
-	innerForm=""
-
-	// var rootID = htmlVal.firstChild.getAttribute("id")
-	// rootIDTitle.innerHTML = rootID
-
-	// console.log('root id >>>', rootID)
-
-	for (let i = 0; i < c4Params.length; i++) {
-		const param = c4Params[i];
-
-		inputs.push(c4Params[i].getAttribute('id'))
-		placeholders.push(c4Params[i].innerHTML)
-
-		console.log(c4Params[i].getAttribute('id'),c4Params[i].innerHTML)
-
-		innerForm += `
-		<div style='width: 100%; height: 30px; text-align: left; vertical-align: middle;'>
-		<div style='float: left; width:50%;'>`+c4Params[i].getAttribute('id')+`:</div>
-		<div style='float: right; width:50%;'><input type='text' id='input_`+c4Params[i].getAttribute('id')+`' value='`+c4Params[i].innerHTML+`'/></div>
+	<!-- Edit Modal -->
+	<div id="EditModal" class="modal">
+		<div class="modal-content">
+			<span class="close" id="closeEditModal">&times;</span>
+			<p><b>Edit attributes:</b></p>
+			<!-- <div id="shapeID" style="padding: 10px; font-weight: bold; font-size: 16px;"></div> -->
+			<form onsubmit="event.preventDefault();">
+				<div id="EditModalContent"></div>
+				<input type="submit" value="Save" id="EditModalSaveButton">
+			</form>
 		</div>
-		`
+	</div>
 
-		// innerForm += "<div><span style='width: 150px;'>"+c4Params[i].getAttribute('id')+"</span><span><input type='text' id='"+c4Params[i].getAttribute('id')+"' value='"+c4Params[i].innerHTML+"'/></span>"
-	}
+	<script type="text/javascript" src="./js/c_ModalEdit.js"></script>
+	<script type="text/javascript" src="./js/c_ExportPuml.js"></script>
+	<script type="text/javascript" src="./js/c_Utils.js"></script>
 
-
-	modalC.innerHTML = innerForm
-
-
-	modalSaveBtn.onclick = function() { 
-
-		console.log("FORM inputs >>>", modalC.getElementsByTagName('input'))
-
-		var formInputs = modalC.getElementsByTagName('input')
-
-		var newValues = []
-
-		for (let g = 0; g < formInputs.length; g++) {
-			const element = formInputs[g];
-			newValues[g] = formInputs[g].value
-			console.log(formInputs[g].value, formInputs[g].getAttribute('id'))
-		}
-
-		console.log("new values arr >>>", newValues)
-
-		for (let i = 0; i < inputs.length; i++) {
-			const input = inputs[i];
-
-			console.log(htmlVal.getElementById(input), newValues[i])
-
-			htmlVal.getElementById(input).innerText = newValues[i];
-
-			console.log(htmlVal.getElementById(input))
-		}
-		
-		
-		var serializer = new XMLSerializer()
-		var htmlStr = serializer.serializeToString(htmlVal.getElementsByTagName('body')[0].firstElementChild);
-
-		console.log("inputContainer >>> ", htmlStr)
-
-
-		saveEditModalData(cell, htmlStr ,mdl); 
-	}
-
-	document.getElementById(inputs[0]).focus({focusVisible: true});
-
-	console.log(inputs,placeholders)
-}
-
-  </script>
 </body>
 </html>
