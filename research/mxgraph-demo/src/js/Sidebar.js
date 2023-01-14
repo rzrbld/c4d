@@ -1135,7 +1135,7 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 
 
 
-		this.addEntry(dt + 'sync relationship tech description', mxUtils.bind(this, function()
+		this.addEntry(dt + 'relationship tech description', mxUtils.bind(this, function()
 		   {
 			var sb = this;
 			var edge = new mxCell('', 
@@ -1154,43 +1154,43 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 		})),	
 		
 		
-		this.addEntry(dt + 'async relationship tech description', mxUtils.bind(this, function()
-		   {
-			var sb = this;
-			var edge = new mxCell('', 
-					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=8 4;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
-			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-			edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
-			edge.geometry.relative = true;
-			edge.edge = true;
+		// this.addEntry(dt + 'async relationship tech description', mxUtils.bind(this, function()
+		//    {
+		// 	var sb = this;
+		// 	var edge = new mxCell('', 
+		// 			new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=8 4;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+		// 	edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
+		// 	edge.geometry.relative = true;
+		// 	edge.edge = true;
 
-			var htmlVal = `<div id="C4_Rel">
-			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
-			<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. async JSON/HTTP]</div>
-			</div>`;
-			edge.setValue(htmlVal)
-			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
-		})),	
+		// 	var htmlVal = `<div id="C4_Rel">
+		// 	<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
+		// 	<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. async JSON/HTTP]</div>
+		// 	</div>`;
+		// 	edge.setValue(htmlVal)
+		// 	   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
+		// })),	
 		
-		this.addEntry(dt + 'sync/async relationship tech description', mxUtils.bind(this, function()
-		   {
-			var sb = this;
-			var edge = new mxCell('', 
-					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=1 3;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
-			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-			edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
-			edge.geometry.relative = true;
-			edge.edge = true;
+		// this.addEntry(dt + 'sync/async relationship tech description', mxUtils.bind(this, function()
+		//    {
+		// 	var sb = this;
+		// 	var edge = new mxCell('', 
+		// 			new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=1 3;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+		// 	edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
+		// 	edge.geometry.relative = true;
+		// 	edge.edge = true;
 
-			var htmlVal = `<div id="C4_Rel">
-			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
-			<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. sync/async JSON/HTTP]</div>
-			</div>`;
-			edge.setValue(htmlVal)
-			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
-		})),	
+		// 	var htmlVal = `<div id="C4_Rel">
+		// 	<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
+		// 	<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. sync/async JSON/HTTP]</div>
+		// 	</div>`;
+		// 	edge.setValue(htmlVal)
+		// 	   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
+		// })),	
 
-		this.addEntry(dt + 'bidirectional sync relationship tech description', mxUtils.bind(this, function()
+		this.addEntry(dt + 'bidirectional relationship tech description', mxUtils.bind(this, function()
 		{
 			var sb = this;
 			var edge = new mxCell('', 
@@ -1209,43 +1209,43 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 				return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
 		})),
 
-		this.addEntry(dt + 'bidirectional async relationship tech description', mxUtils.bind(this, function()
-		{
-			var sb = this;
-			var edge = new mxCell('', 
-					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=8 4;startArrow=blockThin;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
-			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-			edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
-			edge.geometry.relative = true;
-			edge.edge = true;
+		// this.addEntry(dt + 'bidirectional async relationship tech description', mxUtils.bind(this, function()
+		// {
+		// 	var sb = this;
+		// 	var edge = new mxCell('', 
+		// 			new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=8 4;startArrow=blockThin;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+		// 	edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
+		// 	edge.geometry.relative = true;
+		// 	edge.edge = true;
 
-			var htmlVal = `<div id="C4_BiRel">
-			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
-			<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. async JSON/HTTP]</div>
-			</div>`;
-			edge.setValue(htmlVal)
+		// 	var htmlVal = `<div id="C4_BiRel">
+		// 	<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
+		// 	<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. async JSON/HTTP]</div>
+		// 	</div>`;
+		// 	edge.setValue(htmlVal)
 			
-				return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
-		})),
+		// 		return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
+		// })),
 
-		this.addEntry(dt + 'bidirectional sync/async relationship tech description', mxUtils.bind(this, function()
-		{
-			var sb = this;
-			var edge = new mxCell('', 
-					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=1 3;startArrow=blockThin;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
-			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-			edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
-			edge.geometry.relative = true;
-			edge.edge = true;
+		// this.addEntry(dt + 'bidirectional sync/async relationship tech description', mxUtils.bind(this, function()
+		// {
+		// 	var sb = this;
+		// 	var edge = new mxCell('', 
+		// 			new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;dashed=1;dashPattern=1 3;startArrow=blockThin;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+		// 	edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
+		// 	edge.geometry.relative = true;
+		// 	edge.edge = true;
 
-			var htmlVal = `<div id="C4_BiRel">
-			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
-			<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. sync/async JSON/HTTP]</div>
-			</div>`;
-			edge.setValue(htmlVal)
+		// 	var htmlVal = `<div id="C4_BiRel">
+		// 	<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
+		// 	<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. sync/async JSON/HTTP]</div>
+		// 	</div>`;
+		// 	edge.setValue(htmlVal)
 			
-				return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
-		})),
+		// 		return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
+		// })),
 
 		this.addEntry(dt + 'relationship description', mxUtils.bind(this, function()
 		   {
@@ -1263,24 +1263,42 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 			edge.setValue(htmlVal)
 			
 			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description');
-		})),				
-		this.addEntry(dt + 'relationship', mxUtils.bind(this, function()
+		})),
+		
+		this.addEntry(dt + 'bidirectional relationship description', mxUtils.bind(this, function()
 		   {
 			var sb = this;
 			var edge = new mxCell('', 
-					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=#ffffff;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;startArrow=blockThin;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=#ffffff;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
 			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
 			edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
 			edge.geometry.relative = true;
 			edge.edge = true;
 
 			var htmlVal = `<div id="C4_Rel">
-			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">Relationship</div>
+			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Visits pages</div>
 			</div>`;
 			edge.setValue(htmlVal)
 			
-			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship');
-		})),				
+			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description');
+		})),
+		// this.addEntry(dt + 'relationship', mxUtils.bind(this, function()
+		//    {
+		// 	var sb = this;
+		// 	var edge = new mxCell('', 
+		// 			new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=#ffffff;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+		// 	edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
+		// 	edge.geometry.relative = true;
+		// 	edge.edge = true;
+
+		// 	var htmlVal = `<div id="C4_Rel">
+		// 	<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">Relationship</div>
+		// 	</div>`;
+		// 	edge.setValue(htmlVal)
+			
+		// 	   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship');
+		// })),				
 		this.addEntry(dt + 'system scope boundary', mxUtils.bind(this, function()
 		   {
 			var sb = this;
