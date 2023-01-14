@@ -90,7 +90,8 @@ function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
                     values.splice(1, 1); //pop out second value 
                 }
             case "Container_Boundary":         
-            case "System_Boundary":  
+            case "System_Boundary":
+            case "Enterprise_Boundary":   
 
             default:
                 if(checkBounadary){
@@ -126,6 +127,7 @@ function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
             switch (ComponentName) {
                 case "Container_Boundary":         
                 case "System_Boundary":  
+                case "Enterprise_Boundary":
                     str += "{\n"
                     console.log("inBoundary >>", xCellStyle.boundaries.objectswb[nID])
                     console.log("BoundaryinBoundary >>", xCellStyle.boundaries.boundarieswb[nID])
@@ -210,7 +212,6 @@ function xCellToPuml(mxGraphStr){
 
 // initalize parsers and serializers
 var parser = new DOMParser();
-var serializer = new XMLSerializer();
 
 // get text from c4ke and make it xml again
 var xmlDoc = parser.parseFromString(mxGraphStr,"text/xml");

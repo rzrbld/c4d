@@ -15,7 +15,7 @@ class PresenceList extends UiComponent {
 
   _init() {
     const participants = this._options.activity.participants().sort((a, b) => a.local ? -1 : 1);
-    var i=1
+    var i=0
     participants.forEach((participant) => {
       this._addSession(participant);
       i++

@@ -41,7 +41,50 @@ Actions.prototype.init = function()
 
 	this.addAction('importpuml...', function()
 	{
-		ui.openFile();
+		// if(window.KkeConfig.SIDEBAR_K8S){
+			window.openNew = false;
+			window.openKey = 'importpuml';
+			
+			// Closes dialog after open
+			window.openFile = new OpenFile(mxUtils.bind(this, function()
+			{
+				ui.hideDialog();
+			}));
+			
+			window.openFile.setConsumer(mxUtils.bind(this, function(puml, filename)
+			{
+				try
+				{
+					var posting = $.post( window.KkeConfig.PLANTUML_ENCODER, { text: puml } );
+					posting.done(function( svgUrl ) {
+						console.log(svgUrl)
+						$.get( svgUrl, function( svgData ) {
+							var serializer = new XMLSerializer();
+							var svgStr = serializer.serializeToString(svgData);
+							console.log(svgStr)
+							var xcellStr = pumlToXCell(svgStr,puml)
+							console.log(xcellStr)
+							var doc = mxUtils.parseXml(xcellStr);
+							editor.graph.setSelectionCells(editor.graph.importGraphModel(doc.documentElement));
+						});
+					});
+
+					
+				}
+				catch (e)
+				{
+					mxUtils.alert(mxResources.get('invalidOrMissingFile') + ': ' + e.message);
+				}
+			}));
+	
+			// Removes openFile if dialog is closed
+			ui.showDialog(new OpenDialog(this).container, 320, 220, true, true, function()
+			{
+				window.openFile = null;
+			});
+
+
+
 	});
 
 	this.addAction('exportpuml...', function()
@@ -185,7 +228,7 @@ Actions.prototype.init = function()
 
 				var xmlStr = serializer.serializeToString(xmlDoc);
 
-				var doc = mxUtils.parseXml(xml);
+				var doc = mxUtils.parseXml(xmlStr);
 				editor.graph.setSelectionCells(editor.graph.importGraphModel(doc.documentElement));
 			}
 			catch (e)

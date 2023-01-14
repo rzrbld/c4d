@@ -1298,7 +1298,18 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 		// 	edge.setValue(htmlVal)
 			
 		// 	   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship');
-		// })),				
+		// })),	
+		this.addEntry(dt + 'enterprise scope boundary', mxUtils.bind(this, function()
+		   {
+			var sb = this;
+			var bg = new mxCell('', 
+					new mxGeometry(0, 0, w * 2.4, h * 2.1), 'editable=0;rounded=1;fontSize=11;whiteSpace=wrap;html=1;dashed=1;arcSize=20;fillColor=none;strokeColor=#666666;fontColor=#333333;labelBackgroundColor=none;align=left;verticalAlign=bottom;labelBorderColor=none;spacingTop=0;spacing=10;dashPattern=8 4;metaEdit=1;rotatable=0;perimeter=rectanglePerimeter;noLabel=0;labelPadding=0;allowArrows=0;connectable=0;expand=0;recursiveResize=0;pointerEvents=0;absoluteArcSize=1;' + pts);
+			bg.vertex = true;
+
+			var htmlVal = `<div id="C4_Enterprise_Boundary"><div style="text-align: left; font-weight: bold; font-size: 17px;" id="C4Name" class="C4Param">Enterprise name</div><div style="text-align: left; font-size: 12px;" id="C4Application" class="C4Param">[Enterprise]</div></div>`;
+			bg.setValue(htmlVal)
+			   return sb.createVertexTemplateFromCells([bg], bg.geometry.width, bg.geometry.height, 'Enterprise scope boundary');
+		})),			
 		this.addEntry(dt + 'system scope boundary', mxUtils.bind(this, function()
 		   {
 			var sb = this;
