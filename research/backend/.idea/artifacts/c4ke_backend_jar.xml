@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="c4ke-backend:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/c4ke_backend_jar</output-path>
+    <root id="archive" name="backend.jar">
+      <element id="module-output" name="backend" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mortbay/jetty/jetty/6.1.26/jetty-6.1.26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mortbay/jetty/jetty-util/6.1.26/jetty-util-6.1.26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/mxgraph-core.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/mxPdf.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
