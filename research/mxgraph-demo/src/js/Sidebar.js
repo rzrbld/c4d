@@ -1264,6 +1264,43 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 			
 			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description');
 		})),
+
+		this.addEntry(dt + 'back relationship description', mxUtils.bind(this, function()
+		   {
+			var sb = this;
+			var edge = new mxCell('', 
+					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;startArrow=blockThin;endArrow=none;html=1;fontSize=10;labelBackgroundColor=#ffffff;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+			edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
+			edge.geometry.relative = true;
+			edge.edge = true;
+
+			var htmlVal = `<div id="C4_Rel_Back">
+			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Visits pages</div>
+			</div>`;
+			edge.setValue(htmlVal)
+			
+			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Back relationship with description');
+		})),
+
+		this.addEntry(dt + 'back relationship tech description', mxUtils.bind(this, function()
+		   {
+			var sb = this;
+			var edge = new mxCell('', 
+					new mxGeometry(0, 0, w * 2.4, 0), 'editable=0;startArrow=blockThin;endArrow=none;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+			edge.geometry.setTerminalPoint(new mxPoint(w * 2.4, 0), false);
+			edge.geometry.relative = true;
+			edge.edge = true;
+
+			var htmlVal = `<div id="C4_Rel_Back">
+			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
+			<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. sync JSON/HTTP]</div>
+			</div>`;
+			edge.setValue(htmlVal)
+			   return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Back relationship with description and technology');
+		})),	
+		
 		
 		this.addEntry(dt + 'bidirectional relationship description', mxUtils.bind(this, function()
 		   {

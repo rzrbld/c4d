@@ -9,7 +9,7 @@ function c4pumlGetTemplated(str, svgDoc){
 
     var c4TextParams = str.match(/".*?"/g);    
     
-    // console.log(c4Name, c4Param, c4TextParams)
+    console.log("C4PARAM >>> ",c4Name, c4Param, c4TextParams)
 
     // Person
     // System
@@ -124,8 +124,6 @@ function c4pumlGetTemplated(str, svgDoc){
         case 'Rel':
         case 'BiRel':
         case 'Rel_Neighbor':
-        case 'Rel_Back_Neighbor':
-        case 'Rel_Back':
         case 'Rel_U':
         case 'Rel_D':
         case 'Rel_L':
@@ -142,10 +140,16 @@ function c4pumlGetTemplated(str, svgDoc){
         case 'BiRel_Down':
         case 'BiRel_Left':
         case 'BiRel_Right':
+        case 'Rel_Back_Neighbor':
+        case 'Rel_Back':
             if(c4Name.indexOf('BiRel')>-1){
                 c4Name = "BiRel"
             } else {
-                c4Name = "Rel"
+                if(c4Name.indexOf('Rel_Back')>-1){
+                    c4Name = "Rel_Back"
+                }else{
+                    c4Name = "Rel"
+                }
             }
             var uID = Date.now().toString(36) + Math.floor(Math.pow(10, 12) + Math.random() * 9*Math.pow(10, 12)).toString(36)
             console.log("REl Params", c4Param)
@@ -157,7 +161,7 @@ function c4pumlGetTemplated(str, svgDoc){
                 Name = cleanParam(c4Param[2])
             }
             if(c4Param.length > 3){
-                Tech = cleanParam(c4Param[3])
+                Tech = "["+cleanParam(c4Param[3])+"]"
             }
             var template = c4ShapesObj[c4Name].shape
             template = template.replace('%_uid_%', uID)
@@ -247,9 +251,11 @@ c4ShapesObj =
         },
         "Component_Ext":{shape: '<mxCell id="%_uid_%" value="&lt;div id=&quot;C4_Component_Ext&quot;&gt;&lt;div style=&quot;font-size: 16px; font-weight: bold;&quot; id=&quot;C4Name&quot; class=&quot;C4Param&quot;&gt;External component name&lt;/div&gt;&lt;div id=&quot;C4Technology&quot; class=&quot;C4Param&quot;&gt;[Component: e.g. Spring Service]&lt;/div&gt;&lt;br/&gt;&lt;div style=&quot;font-size: 11px; color: #cccccc;&quot; id=&quot;C4Description&quot; class=&quot;C4Param&quot;&gt;Description of external component role/responsibility.&lt;/div&gt;&lt;/div&gt;" style="editable=0;rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=rgb(193&#9;193&#9;193&#9;);fontColor=#ffffff;align=center;arcSize=6;strokeColor=rgb(164&#9;164&#9;164&#9;);metaEdit=1;resizable=0;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];" vertex="1" parent="1"><mxGeometry x="%_x_%" y="%_y_%" width="240" height="120"  as="geometry"/></mxCell>'
         },
-        "Rel":{shape: '<mxCell id="%_uid_%" value="&lt;div id=&quot;C4_Rel&quot;&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;font-size: 12px; text-align: center; font-weight: bold;&quot; id=&quot;C4Description&quot; class=&quot;C4Param&quot;&gt;%_Name_%&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;text-align: center;&quot; id=&quot;C4Technology&quot; class=&quot;C4Param&quot;&gt;[%_Tech_%]&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;/div&gt;" style="editable=0;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="%_source_%" target="%_target_%"><mxGeometry width="240" relative="1" as="geometry" /></mxCell>'
+        "Rel":{shape: '<mxCell id="%_uid_%" value="&lt;div id=&quot;C4_Rel&quot;&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;font-size: 12px; text-align: center; font-weight: bold;&quot; id=&quot;C4Description&quot; class=&quot;C4Param&quot;&gt;%_Name_%&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;text-align: center;&quot; id=&quot;C4Technology&quot; class=&quot;C4Param&quot;&gt;%_Tech_%&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;/div&gt;" style="editable=0;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="%_source_%" target="%_target_%"><mxGeometry width="240" relative="1" as="geometry" /></mxCell>'
         },
-        "BiRel":{shape: '<mxCell id="%_uid_%" value="&lt;div id=&quot;C4_BiRel&quot;&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;font-size: 12px; text-align: center; font-weight: bold;&quot; id=&quot;C4Description&quot; class=&quot;C4Param&quot;&gt;%_Name_%&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;text-align: center;&quot; id=&quot;C4Technology&quot; class=&quot;C4Param&quot;&gt;[%_Tech_%]&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;/div&gt;" style="editable=0;startArrow=blockThin;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="%_source_%" target="%_target_%"><mxGeometry width="240" relative="1" as="geometry"/></mxCell>'
+        "BiRel":{shape: '<mxCell id="%_uid_%" value="&lt;div id=&quot;C4_BiRel&quot;&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;font-size: 12px; text-align: center; font-weight: bold;&quot; id=&quot;C4Description&quot; class=&quot;C4Param&quot;&gt;%_Name_%&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;div style=&quot;text-align: center;&quot; id=&quot;C4Technology&quot; class=&quot;C4Param&quot;&gt;%_Tech_%&lt;/div&gt;&#10;&#9;&#9;&#9;&lt;/div&gt;" style="editable=0;startArrow=blockThin;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="%_source_%" target="%_target_%"><mxGeometry width="240" relative="1" as="geometry"/></mxCell>'
+        },
+        "Rel_Back":{shape: '<mxCell id="%_uid_%" value="&lt;div id=&quot;C4_Rel_Back&quot;&gt;&#xa;			&lt;div style=&quot;font-size: 12px; text-align: center; font-weight: bold;&quot; id=&quot;C4Description&quot; class=&quot;C4Param&quot;&gt;%_Name_%&lt;/div&gt;&#xa;			&lt;div style=&quot;text-align: center;&quot; id=&quot;C4Technology&quot; class=&quot;C4Param&quot;&gt;%_Tech_%&lt;/div&gt;&#xa;			&lt;/div&gt;" style="editable=0;startArrow=blockThin;endArrow=none;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="%_source_%" target="%_target_%"><mxGeometry width="240" relative="1" as="geometry"/></mxCell>'
         },
         "Enterprise_Boundary":{shape: '<mxCell id="%_uid_%" value="&lt;div id=&quot;C4_Enterprise_Boundary&quot;&gt;&lt;div style=&quot;text-align: left; font-weight: bold; font-size: 17px;&quot; id=&quot;C4Name&quot; class=&quot;C4Param&quot;&gt;%_Name_%&lt;/div&gt;&lt;div style=&quot;text-align: left; font-size: 12px;&quot; id=&quot;C4Application&quot; class=&quot;C4Param&quot;&gt;[Enterprise]&lt;/div&gt;&lt;/div&gt;" style="editable=0;rounded=1;fontSize=11;whiteSpace=wrap;html=1;dashed=1;arcSize=20;fillColor=none;strokeColor=#666666;fontColor=#333333;labelBackgroundColor=none;align=left;verticalAlign=bottom;labelBorderColor=none;spacingTop=0;spacing=10;dashPattern=8 4;metaEdit=1;rotatable=0;perimeter=rectanglePerimeter;noLabel=0;labelPadding=0;allowArrows=0;connectable=0;expand=0;recursiveResize=0;pointerEvents=0;absoluteArcSize=1;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];" vertex="1" parent="1"><mxGeometry x="%_x_%" y="%_y_%" width="%_w_%" height="%_h_%" as="geometry" /></mxCell>'
         },
@@ -277,7 +283,6 @@ tstrBody = ""
 
 for (let n = 0; n < PumlArrCln.length; n++) {
     const str = PumlArrCln[n];
-    // var uID = Date.now().toString(36) + Math.floor(Math.pow(10, 12) + Math.random() * 9*Math.pow(10, 12)).toString(36)
 
     tstrBody += c4pumlGetTemplated(str, svgDoc)
 }

@@ -64,6 +64,7 @@ function getPumlStringByType(nodes, xCellStyle, checkBounadary) {
         switch (ComponentName) {
             case "Rel":
             case "BiRel":
+            case "Rel_Back":
                 /* strict mode comment this if you need "just draw it already" */
                 // if(checkBounadary){
                 //     if(xCellStyle.boundaries.objects.includes(xCellStyle.edges.params[nID].source)){
