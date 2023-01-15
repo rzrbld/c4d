@@ -17,13 +17,11 @@ func main() {
 
 	app.Use(iris.Compression)
 
-	v1 := app.Party("/puml", crs).AllowMethods(iris.MethodOptions)
+	v1 := app.Party("/", crs).AllowMethods(iris.MethodOptions)
 	{
-		v1.Get("/enc", func(ctx iris.Context) {
-			ctx.HTML("Hello <strong>%s</strong>!", "World")
-		})
+		v1.Post("/echo", hdl.Echo)
+		v1.Post("/save", hdl.Save)
 		v1.Post("/enc", hdl.PumlEnc)
-
 	}
 
 	app.Run(iris.Addr(cnf.SvcHostPort))

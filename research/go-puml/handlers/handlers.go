@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"io"
+	"net/url"
+
 	iris "github.com/kataras/iris/v12"
 	puml "github.com/orlade/plantuml-encode/plantuml"
 	cnf "github.com/rzrbld/go-puml/config"
@@ -17,5 +20,35 @@ var PumlEnc = func(ctx iris.Context) {
 	}
 
 	ctx.Text(respStr)
+
+}
+
+var Echo = func(ctx iris.Context) {
+
+	rawData, _ := io.ReadAll(ctx.Request().Body)
+	ctx.Binary(rawData)
+}
+
+var Save = func(ctx iris.Context) {
+	filename := ctx.FormValue("filename")
+	xmlDta := ctx.FormValue("xml")
+
+	decodedXML, err := url.QueryUnescape(xmlDta)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	if filename == "" {
+		filename = "export"
+	}
+
+	log.Infoln("filename", filename)
+	log.Infoln("xml", decodedXML)
+
+	binStr := []byte(decodedXML)
+	ctx.Header("Content-Disposition", "attachment; filename=\""+filename+"\"; filename*=UTF-8''Drawing1.xml")
+
+	ctx.Binary(binStr)
 
 }

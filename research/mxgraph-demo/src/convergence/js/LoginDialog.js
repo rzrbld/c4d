@@ -3,12 +3,14 @@ class LoginDialog extends UiComponent {
   constructor() {
     super("div", "login-dialog", "login");
     this.inProgress = false;
+    // this._init()
   }
 
   _init() {
+    console.log("THIS EL >>>", this._el)
     this._el.append(`
       <div class="logo">
-       <img alt="logo" src="assets/img/cl_logo.png">
+       <img alt="logo" src="images/logo.png">
        <h1>Convergence Diagram Editor</h1>
       </div>
     `);
@@ -31,10 +33,10 @@ class LoginDialog extends UiComponent {
 
     const buttons = $('<div>', {class: "login-buttons"});
     this.loginButton = $('<button type="submit" disabled><span>Login</span></button>');
-    this.loginButton.click(this.login.bind(this));
+    this.loginButton.on('click',this.login.bind(this));
     buttons.append(this.loginButton);
     this._el.append(buttons);
-    document.body.appendChild(this.el);
+    document.body.append(this.el);
   }
 
   setFieldEnablement() {
