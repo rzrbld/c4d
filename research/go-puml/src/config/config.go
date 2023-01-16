@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	SvcHostPort = getEnv("HOST_PORT", "localhost:8084")
+	SvcHostPort = getEnv("HOST_PORT", ":8080")
 	SvcCORS     = getEnv("CORS_DOMAIN", "*")
 	SvcLogLevel = getEnv("LOG_LEVEL", "INFO")
 	SvcPUMLURL  = getEnv("PUML_URL", "http://localhost:8083/svg/")
