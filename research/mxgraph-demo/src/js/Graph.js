@@ -4664,7 +4664,27 @@ if (typeof mxVertexHandler != 'undefined')
 		mxConnectionHandler.prototype.createEdgeState = function(me)
 		{
 			var style = this.graph.createCurrentEdgeStyle();
-			var edge = this.graph.createEdge(null, null, null, null, null, style);
+
+
+
+			// var edge = this.graph.createEdge(null, null, null, null, null, style);
+			// change deafult style to rel vith tech and description [c4ke]
+
+			var edge = new mxCell('', 
+					new mxGeometry(0, 0, 1 * 2.4, 0), 'editable=0;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+			edge.geometry.setTerminalPoint(new mxPoint(1 * 2.4, 0), false);
+			edge.geometry.relative = true;
+			edge.edge = true;
+
+			var htmlVal = `<div id="C4_Rel">
+			<div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
+			<div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. sync JSON/HTTP]</div>
+			</div>`;
+			edge.setValue(htmlVal)
+
+
+
 			var state = new mxCellState(this.graph.view, edge, this.graph.getCellStyle(edge));
 			
 			for (var key in this.graph.currentEdgeStyle)
@@ -4730,8 +4750,28 @@ if (typeof mxVertexHandler != 'undefined')
 		/**
 		 * Contains the default style for edges.
 		 */
-		Graph.prototype.defaultEdgeStyle = {'edgeStyle': 'orthogonalEdgeStyle', 'rounded': '0',
+		// Graph.prototype.defaultEdgeStyle = {'edgeStyle': 'orthogonalEdgeStyle', 'rounded': '0',
+		// 	'jettySize': 'auto', 'orthogonalLoop': '1'};
+		
+		Graph.prototype.defaultEdgeStyle = {'editable':'0','endArrow':'blockThin','html':'1','fontSize':'20','edgeStyle': 'orthogonalEdgeStyle', 'rounded': '0',
 			'jettySize': 'auto', 'orthogonalLoop': '1'};
+
+			// var edgeN = new mxCell('', 
+			// 		new mxGeometry(0, 0, 1 * 2.4, 0), 'editable=0;endArrow=blockThin;html=1;fontSize=10;labelBackgroundColor=transparent;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;');
+			// 		edgeN.geometry.setTerminalPoint(new mxPoint(0, 0), true);
+			// 		edgeN.geometry.setTerminalPoint(new mxPoint(1 * 2.4, 0), false);
+			// 		edgeN.geometry.relative = true;
+			// 		edgeN.edge = true;
+
+			// var htmlVal = `<div id="C4_Rel">
+			// <div style="font-size: 12px; text-align: center; font-weight: bold;" id="C4Description" class="C4Param">e.g. Makes API calls</div>
+			// <div style="text-align: center;" id="C4Technology" class="C4Param">[e.g. sync JSON/HTTP]</div>
+			// </div>`;
+			// edgeN.setValue(htmlVal)
+			//    return sb.createEdgeTemplateFromCells([edge], edge.geometry.width, edge.geometry.height, 'Relationship with description and technology');
+
+
+		// Graph.prototype.defaultEdgeStyle = {edgeN}
 
 		/**
 		 * Returns the current edge style as a string.
