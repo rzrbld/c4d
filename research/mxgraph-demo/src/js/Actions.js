@@ -41,7 +41,6 @@ Actions.prototype.init = function()
 
 	this.addAction('importpuml...', function()
 	{
-		// if(window.KkeConfig.SIDEBAR_K8S){
 			window.openNew = false;
 			window.openKey = 'importpuml';
 			

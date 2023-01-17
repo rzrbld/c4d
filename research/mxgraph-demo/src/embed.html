@@ -41,14 +41,22 @@
 		// save a GET request. This requires that all resources be present in
 		// each properties file since only one file is loaded.
 		var mxLoadResources = false;
-		var mxBasePath = './libs/mxgraph/javascript/src';
+		// var mxBasePath = './libs/mxgraph/javascript/src';
 	</script>
-	<script type="text/javascript" src="./c4ke.config.js"></script>
+	<script type="text/javascript" src="./c4ke.view.config.js"></script>
 	<script type="text/javascript" src="sanitizer/sanitizer.min.js"></script>
 	<script type="text/javascript" src="./libs/mxgraph/javascript/mxClient.min.js"></script>
 	<script type="text/javascript" src="js/Graph.js"></script>
 	<script type="text/javascript" src="js/Editor.js"></script>
 	<script type="text/javascript" src="js/Shapes.js"></script>
+	<script>
+		const queryString = window.location.search;
+		const urlParamsEmbed = new URLSearchParams(queryString);
+		const emodel = urlParamsEmbed.get('model')
+		if(typeof(emodel) !== 'undefined'){
+			console.log(emodel);
+		}
+	</script>
 </head>
 <body class="geEditor">
 	Input:

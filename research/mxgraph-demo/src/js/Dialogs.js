@@ -334,7 +334,7 @@ var AboutDialog = function(editorUi)
 	var div = document.createElement('div');
 	div.setAttribute('align', 'center');
 	var h3 = document.createElement('h3');
-	mxUtils.write(h3, mxResources.get('about') + ' GraphEditor');
+	mxUtils.write(h3, mxResources.get('about') + ' C4ke.pw');
 	div.appendChild(h3);
 	var img = document.createElement('img');
 	img.style.border = '0px';
@@ -343,13 +343,33 @@ var AboutDialog = function(editorUi)
 	img.setAttribute('src', IMAGE_PATH + '/logo.png');
 	div.appendChild(img);
 	mxUtils.br(div);
-	mxUtils.write(div, 'Powered by mxGraph ' + mxClient.VERSION);
+	mxUtils.write(div, 'Powered by mxGraph ' + mxClient.VERSION + ', Convergence, PlantUML Server');
 	mxUtils.br(div);
+	var p_elem = document.createElement('p')
+
 	var link = document.createElement('a');
 	link.setAttribute('href', 'http://www.jgraph.com/');
 	link.setAttribute('target', '_blank');
 	mxUtils.write(link, 'www.jgraph.com');
-	div.appendChild(link);
+	p_elem.appendChild(link)
+	div.appendChild(p_elem);
+
+	var p_elem = document.createElement('p')
+	var link = document.createElement('a');
+	link.setAttribute('href', 'https://github.com/convergencelabs/mxgraph-demo');
+	link.setAttribute('target', '_blank');
+	mxUtils.write(link, 'github.com/convergencelabs');
+	p_elem.appendChild(link)
+	div.appendChild(p_elem);
+
+	var p_elem = document.createElement('p')
+	var link = document.createElement('a');
+	link.setAttribute('href', 'https://github.com/plantuml/plantuml-server');
+	link.setAttribute('target', '_blank');
+	mxUtils.write(link, 'github.com/plantuml');
+	p_elem.appendChild(link)
+	div.appendChild(p_elem);
+
 	mxUtils.br(div);
 	mxUtils.br(div);
 	var closeBtn = mxUtils.button(mxResources.get('close'), function()

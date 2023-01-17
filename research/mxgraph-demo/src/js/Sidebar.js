@@ -88,16 +88,16 @@ Sidebar.prototype.init = function()
 	this.addSearchPalette(false);
 	this.addGeneralPalette(true);
 
-	if(window.KkeConfig.SIDEBAR_DEFAULT_SET){
+	if(window.KkeViewConfig.SIDEBAR_DEFAULT_SET){
 		this.addMiscPalette(false);
 		this.addAdvancedPalette(false);
 		this.addBasicPalette(dir);
 	}
-	if(window.KkeConfig.SIDEBAR_K8S){
+	if(window.KkeViewConfig.SIDEBAR_K8S){
 		this.addStencilPalette('kubernetes', mxResources.get('kubernetes'), dir + '/kubernetes.xml',
 			';whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#ff00ff;Width=8;Height=4;');
 	}
-	if(window.KkeConfig.SIDEBAR_DEFAULT_SET){
+	if(window.KkeViewConfig.SIDEBAR_DEFAULT_SET){
 		this.addStencilPalette('arrows', mxResources.get('arrows'), dir + '/arrows.xml',
 			';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
 		this.addUmlPalette(false);
@@ -975,7 +975,7 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 	 	this.createEdgeTemplateEntry('endArrow=classic;html=1;', 50, 50, '', 'Directional Connector', null, lineTags + 'directional directed')
 	];
 	
-	if(window.KkeConfig.SIDEBAR_GENERAL){
+	if(window.KkeViewConfig.SIDEBAR_GENERAL){
 		this.addPaletteFunctions('general', mxResources.get('general'), (expand != null) ? expand : true, fns);
 	}
 
