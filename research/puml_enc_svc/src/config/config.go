@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -11,6 +12,13 @@ var (
 	SvcCORS     = getEnv("CORS_DOMAIN", "*")
 	SvcLogLevel = getEnv("LOG_LEVEL", "INFO")
 	SvcPUMLURL  = getEnv("PUML_URL", "http://localhost:8083/svg/")
+	// AES only supports key sizes of 16, 24 or 32 bytes.
+	// You either need to provide exactly that amount or you derive the key from what you type in.
+	ScHashKey  = getEnv("COOKIE_HASH_KEY", "7pO5WRJOLRKtUmSkY7l5Ifz62AHlNUga")
+	ScBlockKey = getEnv("COOKIE_BLOCK_KEY", "zwWi2xKfvl9su4s06PuqIWLop37DgzIf")
+	// ---------------
+	MetricsEnable, _ = strconv.ParseBool(getEnv("METRICS_ENABLE", "false"))
+	ProbesEnable, _  = strconv.ParseBool(getEnv("PROBES_ENABLE", "false"))
 )
 
 func getEnv(key, fallback string) string {
