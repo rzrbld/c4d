@@ -25,7 +25,7 @@ func main() {
 	 ` + "\033[m")
 
 	fmt.Println("\033[33m" + `
-	C4ke REST API 
+	C4ke ENC service API 
 	Version    : 0.1
 	Authors    : rzrbld
 	License    : EULA
@@ -35,7 +35,7 @@ func main() {
 
 	// prometheus metrics
 	if cnf.MetricsEnable {
-		m := prometheusMiddleware.New("adminio", 0.3, 1.2, 5.0)
+		m := prometheusMiddleware.New("enc_svc", 0.3, 1.2, 5.0)
 		app.Use(m.ServeHTTP)
 		app.Get("/metrics", iris.FromStd(promhttp.Handler()))
 	}
