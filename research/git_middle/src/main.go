@@ -86,6 +86,7 @@ func main() {
 	ReposActions := app.Party("/repos", crs).AllowMethods(iris.MethodOptions)
 	{
 		ReposActions.Get("/list", hdl.UserRepos)
+		ReposActions.Post("/create", hdl.NewRepo)
 	}
 
 	app.Run(iris.Addr(cnf.SvcHostPort))
