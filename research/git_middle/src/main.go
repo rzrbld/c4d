@@ -89,5 +89,11 @@ func main() {
 		ReposActions.Post("/create", hdl.NewRepo)
 	}
 
+	FileActions := app.Party("/files", crs).AllowMethods(iris.MethodOptions)
+	{
+		FileActions.Post("/commit", hdl.NewCommit)
+		FileActions.Post("/content", hdl.GetFile)
+	}
+
 	app.Run(iris.Addr(cnf.SvcHostPort))
 }
