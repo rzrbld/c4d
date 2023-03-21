@@ -5586,9 +5586,11 @@ if (typeof mxVertexHandler != 'undefined')
 		{
 			console.log("Clicked!", evt, cell, this.model)
 			if(typeof(cell) !== 'undefined'){
-				document.getElementById('EditModal').style.display = "block";
+				// showModal(document.getElementById('EditModal'))
+				
 				// EditModal.style.display = "block";
 				addToModal(cell, this.model)
+				toggleModal()
 			}
 			// this.graph.container.focus();
 			// this.setEnabled(false);

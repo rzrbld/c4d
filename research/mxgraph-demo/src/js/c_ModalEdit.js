@@ -1,3 +1,57 @@
+const trapFocus = (element, prevFocusableElement = document.activeElement) => {
+    const focusableEls = Array.from(
+      element.querySelectorAll(
+        'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), input[type="submit"]:not([disabled]), select:not([disabled])'
+      )
+    );
+    const firstFocusableEl = focusableEls[0];
+    const lastFocusableEl = focusableEls[focusableEls.length - 1];
+    let currentFocus = null;
+
+    firstFocusableEl.focus();
+    currentFocus = firstFocusableEl;
+
+    const handleFocus = e => {
+      e.preventDefault();
+      // if the focused element "lives" in your modal container then just focus it
+      if (focusableEls.includes(e.target)) {
+        currentFocus = e.target;
+      } else {
+        // you're out of the container
+        // if previously the focused element was the first element then focus the last 
+        // element - means you were using the shift key
+        if (currentFocus === firstFocusableEl) {
+          lastFocusableEl.focus();
+        } else {
+          // you previously were focused on the last element so just focus the first one
+          firstFocusableEl.focus();
+        }
+        // update the current focus var
+        currentFocus = document.activeElement;
+      }
+    };
+
+    document.addEventListener("focus", handleFocus, true);
+
+    return {
+      onClose: () => {
+        document.removeEventListener("focus", handleFocus, true);
+        prevFocusableElement.focus();
+      }
+    };
+  };
+
+const toggleModal = ((e) => {
+  const modal = document.getElementById("EditModal");
+  if (modal.style.display === "none") {
+    modal.style.display = "block";
+    trapped = trapFocus(modal);
+  } else {
+    modal.style.display = "none";
+    trapped.onClose();
+  } 
+})
+
 function initEditModal(){
     // Get the modal
     var EditModal = document.getElementById("EditModal");
@@ -7,13 +61,13 @@ function initEditModal(){
 
     // When the user clicks on <span> (x), close the modal
     closeEditModalContainer.onclick = function() {
-        EditModal.style.display = "none";
+        toggleModal()
     }
 
-    // // When the user clicks anywhere outside of the modal, close it
+    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == EditModal) {
-        EditModal.style.display = "none";
+            toggleModal()
         }
     }
 }
@@ -21,7 +75,7 @@ function initEditModal(){
 function saveEditModalData(cell, newdata ,mdl){
     console.log("save triggered >>> ", cell, newdata ,mdl)
     Graph.prototype.updateCell(cell, newdata, mdl);
-    EditModal.style.display = "none";
+    toggleModal()
 }
 
 function addToModal(cell, mdl){
