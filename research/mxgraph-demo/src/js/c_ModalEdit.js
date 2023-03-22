@@ -42,7 +42,7 @@ const trapFocus = (element, prevFocusableElement = document.activeElement) => {
   };
 
 const toggleModal = ((e) => {
-  const modal = document.getElementById("EditModal");
+  const modal = document.getElementById(e);
   if (modal.style.display === "none") {
     modal.style.display = "block";
     trapped = trapFocus(modal);
@@ -61,13 +61,13 @@ function initEditModal(){
 
     // When the user clicks on <span> (x), close the modal
     closeEditModalContainer.onclick = function() {
-        toggleModal()
+        toggleModal("EditModal")
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == EditModal) {
-            toggleModal()
+            toggleModal("EditModal")
         }
     }
 }
@@ -75,12 +75,12 @@ function initEditModal(){
 function saveEditModalData(cell, newdata ,mdl){
     console.log("save triggered >>> ", cell, newdata ,mdl)
     Graph.prototype.updateCell(cell, newdata, mdl);
-    toggleModal()
+    toggleModal("EditModal")
 }
 
 function addToModal(cell, mdl){
     console.log("cell >>>", cell.value)
-    var modalC = document.getElementById("EditModalContent");
+    var modalC = document.getElementById("modal-edit-content");
     var modalSaveBtn = document.getElementById("EditModalSaveButton");
     
     var parser = new DOMParser();

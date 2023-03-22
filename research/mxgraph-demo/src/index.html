@@ -165,12 +165,44 @@
 	<!-- Edit Modal -->
 	<div id="EditModal" class="modal" role="dialog" style="display:none;">
 		<div class="modal-content">
-			<span class="close" id="closeEditModal">&times;</span>
-			<p><b>Edit attributes:</b></p>
+			<div class="modal-close-cross">
+				<span class="close" id="closeEditModal">&times;</span>
+			</div>
+			<div class="modal-body">
+				<p><b>Edit attributes:</b></p>
+				<!-- <div id="shapeID" style="padding: 10px; font-weight: bold; font-size: 16px;"></div> -->
+				<form onsubmit="event.preventDefault();">
+					<div id="modal-edit-content"></div>
+					<div class="modal-control-container">
+						<input type="submit" value="Save" class="geBtn gePrimaryBtn" id="EditModalSaveButton">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Open Modal -->
+	<div id="OpenModal" class="modal" role="dialog" style="display:none;">
+		<div class="modal-content">
+			<span class="close" id="closeOpenModal">&times;</span>
+			<p><b>Open:</b></p>
 			<!-- <div id="shapeID" style="padding: 10px; font-weight: bold; font-size: 16px;"></div> -->
 			<form onsubmit="event.preventDefault();">
-				<div id="EditModalContent"></div>
-				<input type="submit" value="Save" id="EditModalSaveButton">
+				<div id="OpenModalContent"></div>
+				<input type="submit" value="Save" id="OpenModalSaveButton">
+			</form>
+		</div>
+	</div>
+
+	<!-- Save Modal -->
+	<div id="SaveModal" class="modal" role="dialog" style="display:none;">
+		<div class="modal-content">
+			<span class="close" id="closeSaveModal">&times;</span>
+			<p><b>Open:</b></p>
+			<!-- <div id="shapeID" style="padding: 10px; font-weight: bold; font-size: 16px;"></div> -->
+			<form onsubmit="event.preventDefault();">
+				<div id="SaveModalContent"></div>
+				<input type="submit" value="Save" class="geBtn gePrimaryBtn" id="SaveModalSaveButton">
 			</form>
 		</div>
 	</div>

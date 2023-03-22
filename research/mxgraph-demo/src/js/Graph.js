@@ -5590,7 +5590,7 @@ if (typeof mxVertexHandler != 'undefined')
 				
 				// EditModal.style.display = "block";
 				addToModal(cell, this.model)
-				toggleModal()
+				toggleModal("EditModal")
 			}
 			// this.graph.container.focus();
 			// this.setEnabled(false);
