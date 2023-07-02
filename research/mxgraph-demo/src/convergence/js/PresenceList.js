@@ -1,12 +1,29 @@
 class PresenceList extends UiComponent {
 
+
+  // <div class="dropdown" id="gePresenceContainer">
+	// 	<a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+	// 	  <!-- <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2"> -->
+	// 	  <minidenticon-svg id="myAvatar" username="laurent"></minidenticon-svg>
+	// 	</a>
+	// 	<ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+	// 	  <li><a class="dropdown-item" href="#">New project...</a></li>
+	// 	  <li><a class="dropdown-item" href="#">Settings</a></li>
+	// 	  <li><a class="dropdown-item" href="#">Profile</a></li>
+	// 	  <li><hr class="dropdown-divider"></li>
+	// 	  <li><a class="dropdown-item" href="#">Sign out</a></li>
+	// 	</ul>
+	//   </div>
+
+
+
   constructor(options) {
-    super("div", 'presence-pane');
+    super("div", 'userlist');
     this._options = options;
     this._sessions = {};
 
-    const title = $("<div class='presence-title'>Users</div>");
-    this._el.append(title);
+    // const title = $("<div class='presence-title'>Users</div>");
+    // this._el.append(title);
 
     this._sessionList = $("<div />", {class: "session-list"});
     this._el.append(this._sessionList);
@@ -89,9 +106,47 @@ class SessionItem extends UiComponent {
 
   _init() {
     const displayName = this._options.displayName || this._options.username;
-    const text = this._options.local ? displayName + " (You)" : displayName;
-    this._el.append($("<div>", {class: "session-color"}).css("background-color", this._options.color));
-    this._el.append($("<div>", {class: "session-name"}).html(text));
+    if(this._options.local){
+      var userDropdown = document.createElement('a');
+      userDropdown.className = "d-flex";
+      userDropdown.classList.add("align-items-center");
+      userDropdown.classList.add("text-white");
+      userDropdown.classList.add("text-decoration-none");
+      userDropdown.classList.add("dropdown-toggle");
+      userDropdown.id = "dropdownUser1";
+      userDropdown.setAttribute("data-bs-toggle","dropdown");
+      userDropdown.setAttribute("aria-expanded","false");
+
+      var userImg = document.createElement('minidenticon-svg');
+      userImg.setAttribute('username',displayName);
+      userDropdown.append(userImg);
+
+      var userName = document.createElement('div');
+      userName.classList.add("session-name");
+      userName.innerText = displayName;
+      userDropdown.append(userName);
+
+      var userMenu = document.createElement('ul');
+      userMenu.classList.add("dropdown-menu");
+      userMenu.classList.add("dropdown-menu-dark");
+      userMenu.classList.add("text-small");
+      userMenu.classList.add("shadow");
+      userMenu.setAttribute('aria-labelledby',"dropdownUser1");
+      userMenu.innerHTML='<li><a class="dropdown-item" href="#">New project...</a></li> <li><a class="dropdown-item" href="#">Settings</a></li> <li><a class="dropdown-item" href="#">Profile</a></li> <li><hr class="dropdown-divider"></li> <li><a class="dropdown-item" href="#">Sign out</a></li>';
+
+
+      var userContainer = document.createElement('div');
+      userContainer.classList.add("dropdown");
+
+      userContainer.append(userDropdown);
+      userContainer.append(userMenu);
+      this._el.append(userContainer);
+    } else {
+      this._el.append($("<minidenticon-svg>", {username: displayName}))
+      this._el.append($("<div>", {class: "session-name"}).html(displayName));
+    }
+   
+
   }
 
 }

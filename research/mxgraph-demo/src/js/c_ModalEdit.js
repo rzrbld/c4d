@@ -44,30 +44,42 @@ const trapFocus = (element, prevFocusableElement = document.activeElement) => {
 const toggleModal = ((e) => {
   const modal = document.getElementById(e);
   if (modal.style.display === "none") {
+    // if(e == "ADRModal"){
+      
+    // }
     modal.style.display = "block";
     trapped = trapFocus(modal);
   } else {
+    // if(e == "ADRModal"){
+    //   console.log("Value :: ",easyMDE.value())
+
+    // }
     modal.style.display = "none";
     trapped.onClose();
   } 
 })
 
-function initEditModal(){
+function initModals(){
+  initEditModal("EditModal");
+  // initEditModal("ADRModal");
+}
+
+function initEditModal(modalId){
     // Get the modal
-    var EditModal = document.getElementById("EditModal");
+    var EditModal = document.getElementById(modalId);
 
     // Get the <span> element that closes the modal
-    var closeEditModalContainer = document.getElementById("closeEditModal");
+    var closeEditModalContainer = document.getElementById("close"+modalId);
 
     // When the user clicks on <span> (x), close the modal
     closeEditModalContainer.onclick = function() {
-        toggleModal("EditModal")
+        toggleModal(modalId)
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == EditModal) {
-            toggleModal("EditModal")
+            toggleModal(modalId)
         }
     }
 }
@@ -153,4 +165,4 @@ function addToModal(cell, mdl){
     console.log(inputs)
 }
 
-window.onload = initEditModal;
+window.onload = initModals;

@@ -317,7 +317,7 @@ Sidebar.prototype.showTooltip = function(elt, cells, w, h, title, showLabel)
 					this.tooltip.style.overflow = 'visible';
 				}
 
-				this.tooltipImage.style.visibility = 'visible';
+				this.tooltipImage.style.visibility = 'hidden';
 				this.tooltip.style.width = width + 'px';
 				
 				// Adds title for entry
@@ -396,9 +396,10 @@ Sidebar.prototype.showTooltip = function(elt, cells, w, h, title, showLabel)
 				// Workaround for ignored position CSS style in IE9
 				// (changes to relative without the following line)
 				this.tooltip.style.position = 'absolute';
-				this.tooltip.style.left = left + 'px';
+				// this.tooltip.style.left = left + 'px';
+				this.tooltip.style.right = 80 + 'px';
 				this.tooltip.style.top = top + 'px';
-				this.tooltipImage.style.left = (left - 13) + 'px';
+				this.tooltipImage.style.right = 80 + 'px';
 				this.tooltipImage.style.top = (top + height / 2 - 13) + 'px';
 			});
 
@@ -990,6 +991,19 @@ Sidebar.prototype.addGeneralPalette = function(expand)
 
 	this.addPaletteFunctions('c4', 'C4', true,
 	[
+		// this.addEntry(dt + 'ADR', mxUtils.bind(this, function()
+		//    {
+		// 	var sb = this;
+		// 	var bg = new mxCell('', 
+		// 			new mxGeometry(0, 0, w * 2.6, h * 0.4), 'editable=0;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;metaEdit=1;allowArrows=0;resizable=1;rotatable=0;connectable=1;recursiveResize=0;expand=0;pointerEvents=0;' + pts);
+		// 	bg.vertex = true;
+
+		// 	var htmlVal = `<div class="C4_ADR"><div style="font-size: 16px; text-align: left; font-weight: bold;" id="C4Title" class="C4Param">[ARD] Element</div><div style="text-align: left; font-size: 12px;" id="C4Description" class="C4Param">Double click to edit</div><textarea style="display:none;" class="C4_ADR_TA"></textarea></div>`;
+		// 	bg.setValue(htmlVal)
+		// 	   return sb.createVertexTemplateFromCells([bg], bg.geometry.width, bg.geometry.height, 'Components diagram title');
+		// })),	
+
+
 		this.addEntry(dt + 'person', mxUtils.bind(this, function()
 		   {
 			var sb = this;

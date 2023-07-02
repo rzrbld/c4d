@@ -7,7 +7,7 @@ class ShareControls extends UiComponent {
   }
 
   _init() {
-    this._share = $('<span class="geButtonv" title="Get a Shareable Link"><i class="fa fa-3x fa-share-alt"></i></span>');
+    this._share = $('<span class="geButtonv" title="Get a Shareable Link"><i class="fa fa-2x fa-share-alt"></i></span>');
     this._el.append(this._share);
     this._share.on("click", () => {
       const el = document.createElement('textarea');

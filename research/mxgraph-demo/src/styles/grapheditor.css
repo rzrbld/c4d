@@ -1,3 +1,27 @@
+#MarkDownContainer {
+	-webkit-box-shadow: -6px 0px 10px 2px rgba(34, 60, 80, 0.2);
+	-moz-box-shadow: -6px 0px 10px 2px rgba(34, 60, 80, 0.2);
+	box-shadow: -6px 0px 10px 2px rgba(34, 60, 80, 0.2);
+	position: absolute;
+	opacity: 1; 
+	right:0px;
+	z-index: 9999;
+	background-color: red;
+	width: 30%;
+	height: 100%;
+}
+
+minidenticon-svg svg {
+	border-radius: 50%;
+	background-color: whitesmoke;
+	height: 38px;
+	width: 38px;
+}
+
+minidenticon-svg {
+	padding-right: 5px;
+}
+
 /* The Modal (background) */
 .modal-control-container {
 	text-align: right;
@@ -58,22 +82,22 @@
 /* Firefox */
 * {
 scrollbar-width: thin;
-scrollbar-color: #9c9bf8 #ffffff;
+scrollbar-color: #9c9bf8 ;
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-width: 4px;
+width: 2px;
 }
 
 *::-webkit-scrollbar-track {
-background: #ffffff;
+background:rgba(0, 0, 0, 0);
 }
 
 *::-webkit-scrollbar-thumb {
 background-color: #9c9bf8;
 border-radius: 0px;
-border: 1px solid #ffffff;
+/* border: 1px solid #ffffff; */
 }
 
 *::-webkit-scrollbar-track {
@@ -111,11 +135,38 @@ border: 1px solid #ffffff;
 	color:#000000;
 	text-decoration:none;
 }
-.geMenubarContainer, .geToolbarContainer, .geDiagramContainer, .geSidebarContainer, .geFooterContainer, .gePresenceContainer, .geHsplit, .geVsplit {
+.geMenubarContainer, .geToolbarContainer, .geFooterContainer, .gePresenceContainer, .geHsplit, .geVsplit {
 	overflow:hidden;
 	position:absolute;
 	cursor:default;
 }
+
+.geDiagramContainer {
+	overflow:hidden;
+	position:relative;
+	cursor:default;
+	width: 100%;
+	height: 100%;
+	margin-top:40px;
+}
+
+.geSidebarContainer {
+	right: 0px;
+}
+
+
+.geSidebarContainer, .gePresenceContainer {
+	margin-top: 45px;
+}
+
+.geMenubarContainer {
+	margin-top:40px;
+}
+
+.collab-overview-container {
+	display: none !important;
+}
+
 .gePresenceContainer {
 	right: 0px;
 }
@@ -306,11 +357,11 @@ border: 1px solid #ffffff;
 .geMenubarContainer {
 	background-color:#e5e5e5;
 	border:1px solid #B1CBE6;
-	border-radius: 10px;
+	border-radius: 3px;
 	position: absolute;
 	text-align: center;
 	margin-left: -200px;
-	top: 30px !important;
+	top: 0px !important;
 	left: 50% !important;
 	z-index: 999;
 	width: 400px;
@@ -350,7 +401,7 @@ box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
 .geToolbarContainer {
 	background:#e5e5e5;
 	border:1px solid #B1CBE6;
-	border-radius: 10px;
+	border-radius: 3px;
 	position: absolute;
 	margin-left: -272px;
 	bottom: 40px !important;
@@ -460,7 +511,7 @@ div.mxWindow .geButton {
 	position:absolute;
 	border:1px solid #B1CBE6;
 	overflow:auto;
-	border-radius: 10px;
+	border-radius: 3px;
 	-webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
 	-moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
 	box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
@@ -469,9 +520,10 @@ div.mxWindow .geButton {
 	background:transparent;
 	border-bottom:1px solid #e5e5e5;
 	padding:5px;
-	_padding:1px;
-	padding-bottom:12px;
-	overflow:hidden;
+	padding-top: 15px;
+	min-height: calc(100vh - 78px);
+	max-height: calc(100vh - 78px);
+	overflow-y:scroll;
 }
 .geSidebarContainer .geTitle {
 	display:block;
@@ -525,8 +577,7 @@ div.mxWindow .geButton {
 	position:absolute;
 	background:white;
 	overflow:hidden;
-	border:1px solid gray;
-	border-radius:8px;
+	border-radius:5px;
 	-webkit-box-shadow:0px 0px 2px 2px #d5d5d5;
 	-moz-box-shadow:0px 0px 2px 2px #d5d5d5;
 	box-shadow:0px 0px 2px 2px #d5d5d5;

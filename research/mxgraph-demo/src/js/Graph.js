@@ -5585,12 +5585,29 @@ if (typeof mxVertexHandler != 'undefined')
 		Graph.prototype.dblClick = function(evt, cell)
 		{
 			console.log("Clicked!", evt, cell, this.model)
+	
 			if(typeof(cell) !== 'undefined'){
+
+				
+
+				var parser = new DOMParser();
+   				var fakeDiv = parser.parseFromString(cell.value,"text/html");
+				adrDiv = fakeDiv.getElementsByClassName('C4_ADR')
+
+				console.log("THIS iS DIV>>>>",adrDiv)
+				if(adrDiv.length > 0) {
+					console.log("This is ADR")
+					toggleModal("ADRModal")
+				} else {
+					console.log("This is NOT ADR")
+					addToModal(cell, this.model)
+				    toggleModal("EditModal")
+				}
+
 				// showModal(document.getElementById('EditModal'))
 				
 				// EditModal.style.display = "block";
-				addToModal(cell, this.model)
-				toggleModal("EditModal")
+				
 			}
 			// this.graph.container.focus();
 			// this.setEnabled(false);

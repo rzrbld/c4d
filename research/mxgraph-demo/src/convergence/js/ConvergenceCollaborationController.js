@@ -110,7 +110,7 @@ class ConvergenceEditorController {
           activity: this._activity,
           colorManager: this._activityColorManager
         });
-        document.getElementById("presence").appendChild(this._presenceList.getElement());
+        document.getElementById("gePresenceContainer").appendChild(this._presenceList.getElement());
 
         this._chatControl = new ChatControl({
           room: this._room,
@@ -119,7 +119,8 @@ class ConvergenceEditorController {
           colorManager: this._activityColorManager
         });
 
-        document.body.appendChild(this._chatControl.getElement());
+        document.getElementById('ChatContainer').appendChild(this._chatControl.getElement());
+        // document.body.appendChild(this._chatControl.getElement());
         // ui.toolbarContainer.appendChild(this._chatControl.getElement());
 
 
@@ -132,7 +133,8 @@ class ConvergenceEditorController {
 
         const shareControls = new ShareControls({id: this._modelId});
         // ui.toolbarContainer.appendChild(shareControls.getElement());
-        document.body.appendChild(shareControls.getElement());
+        document.getElementById('ShareControl').appendChild(shareControls.getElement());
+        // document.body.appendChild(shareControls.getElement());
       });
   }
 

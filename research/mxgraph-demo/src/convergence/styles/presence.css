@@ -1,11 +1,11 @@
 .session-list {
-    padding: 3px 3px 3px 10px;
+    padding: 0px 0px 0px 2px;
 
 }
 
 .presence-pane {
     font-family: Helvetica Neue,Helvetica,Arial Unicode MS,Arial;
-    border: 1px solid #c0c0c0;
+    border: 0px solid #c0c0c0;
     background: #f5f5f5;
     font-size: 14px;
     position: absolute;
@@ -23,16 +23,16 @@
 
 .presence-pane .presence-title {
     font-size: 12px;
-    padding: 8px;
+    padding: 1px;
     color: #707070;
     font-weight: bold;
     text-align: center;
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 0px solid #c0c0c0;
 }
 
 .session-presence {
     padding: 5px 0;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 0px solid lightgray;
 }
 
 .session-color {

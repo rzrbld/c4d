@@ -10,7 +10,7 @@ EditorUi = function(editor, container, lightbox)
 	
 	this.destroyFunctions = [];
 	this.editor = editor || new Editor();
-	this.container = container || document.body;
+	this.container = container || document.getElementById('diagramContainer');
 	
 	var graph = this.editor.graph;
 	graph.lightbox = lightbox;
@@ -2927,15 +2927,16 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	}
 	
 	var fw = (this.format != null) ? this.formatWidth : 0;
-	this.sidebarContainer.style.top = 85 + 'px';
+	this.sidebarContainer.style.top = 0 + 'px';
+	this.sidebarContainer.style.bottom = 0 + 'px';
 	this.sidebarContainer.style.width = 55 + 'px';
 	this.formatContainer.style.top = tmp + this.presenceHeight + 'px';
 	this.formatContainer.style.width = fw + 'px';
 	this.formatContainer.style.display = (this.format != null) ? '' : 'none';
 
-	this.presenceContainer.style.top = 0 + 'px';
-	this.presenceContainer.style.width = 200 + 'px';
-	this.presenceContainer.style.height = this.presenceHeight + 'px';
+	// this.presenceContainer.style.top = 0 + 'px';
+	// this.presenceContainer.style.width = 200 + 'px';
+	// this.presenceContainer.style.height = this.presenceHeight + 'px';
 	
 	// this.diagramContainer.style.left = (this.hsplit.parentNode != null) ? (effHsplitPosition + this.splitSize) + 'px' : '0px';
 	this.diagramContainer.style.left = '0px';
@@ -2990,7 +2991,7 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 		}
 		
 		// this.sidebarContainer.style.bottom = (this.footerHeight + sidebarFooterHeight + off) + 'px';
-		this.sidebarContainer.style.bottom = '60px';
+		this.sidebarContainer.style.bottom = '0px';
 		this.formatContainer.style.bottom = (this.footerHeight + off) + 'px';
 		this.diagramContainer.style.bottom = (this.footerHeight + off + th) + 'px';
 	}
@@ -3018,8 +3019,9 @@ EditorUi.prototype.createDivs = function()
 	this.toolbarContainer = this.createDiv('geToolbarContainer');
 	this.sidebarContainer = this.createDiv('geSidebarContainer');
 	this.formatContainer = this.createDiv('geSidebarContainer geFormatContainer');
-	this.presenceContainer = this.createDiv('gePresenceContainer');
-	this.presenceContainer.id = "presence";
+	// this.presenceContainer = this.createDiv('gePresenceContainer');
+	this.presenceContainer = document.getElementById('gePresenceContainer');
+	// this.presenceContainer.id = "presence";
 	this.diagramContainer = this.createDiv('geDiagramContainer');
 	this.footerContainer = this.createDiv('geFooterContainer');
 	this.hsplit = this.createDiv('geHsplit');
@@ -3031,7 +3033,7 @@ EditorUi.prototype.createDivs = function()
 	this.menubarContainer.style.right = '0px';
 	this.toolbarContainer.style.left = '50%';
 	// this.toolbarContainer.style.right = '0px';
-	this.sidebarContainer.style.left = '20px';
+	// this.sidebarContainer.style.left = '20px';
 	this.sidebarContainer.style.zIndex = '999'
 	this.formatContainer.style.right = '20px';
 	this.formatContainer.style.zIndex = '99';
@@ -3107,7 +3109,7 @@ EditorUi.prototype.createUi = function()
 
   	// Creates the format sidebar
 	// this.container.appendChild(this.presenceContainer);
-	document.body.appendChild(this.presenceContainer);
+	// document.body.appendChild(this.presenceContainer);
 
 
   	// Creates the format sidebar

@@ -39,6 +39,14 @@ Actions.prototype.init = function()
 		ui.openFile();
 	});
 
+	// this.addAction('openFromRepo', function(){
+	// 	console.log('open from repo hit')
+	// })	
+	
+	// this.addAction('saveToRepo', function(){
+	// 	console.log('save to repo hit')
+	// })
+
 	this.addAction('importpuml...', function()
 	{
 			window.openNew = false;
@@ -86,10 +94,8 @@ Actions.prototype.init = function()
 
 	});
 
-	this.addAction('exportpuml...', function()
-	{
+	function exportPuml() {
 		var mxGraphStr = mxUtils.getXml(ui.editor.getGraphXml()) 
-
 
 		// export puml
 		var pumlStr = xCellToPuml(mxGraphStr)
@@ -97,6 +103,15 @@ Actions.prototype.init = function()
 		// end export puml
 
 		// ui.openFile();
+	}
+
+	window.extExportPuml = function(){
+		exportPuml()
+	}
+
+	this.addAction('exportpuml...', function()
+	{
+		exportPuml()
 	});
 
 	this.addAction('open2...', function()

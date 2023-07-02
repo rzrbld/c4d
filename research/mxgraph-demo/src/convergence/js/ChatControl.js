@@ -17,7 +17,7 @@ class ChatControl extends UiComponent {
     this._badge.css("visibility", "hidden");
     this._el.append(this._badge);
 
-    this._chatIcon = $("<i>", {class: "chat-icon fa fa-3x fa-comment", "aria-hidden": true});
+    this._chatIcon = $("<i>", {class: "chat-icon fa fa-2x fa-comment", "aria-hidden": true});
     this._chatIcon.on("click", () => this._toggle());
     this._el.append(this._chatIcon);
 
@@ -77,7 +77,7 @@ class ChatWindow extends UiComponent {
   }
 
   _init() {
-    const title = $("<div>", {class: "chat-window-title"}).text("Chat Messages");
+    const title = $("<div>", {class: "chat-window-title"}).text("Messages");
     const close = $("<i>", {class: "chat-window-close fa fa-times"});
     close.on("click", () => this._options.onClose());
     title.append(close);
