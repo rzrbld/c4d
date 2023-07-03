@@ -121,7 +121,7 @@ class SessionItem extends UiComponent {
       userImg.setAttribute('username',displayName);
       userDropdown.append(userImg);
 
-      var userName = document.createElement('div');
+      var userName  = document.createElement('div');
       userName.classList.add("session-name");
       userName.innerText = displayName;
       userDropdown.append(userName);
@@ -136,12 +136,17 @@ class SessionItem extends UiComponent {
 
 
       var userContainer = document.createElement('div');
-      userContainer.classList.add("dropdown");
+      userContainer.classList.add("dropup");
       userContainer.classList.add("absolute-dropdown");
 
       userContainer.append(userDropdown);
       userContainer.append(userMenu);
       this._el.append(userContainer);
+      this._el.addClass("absolute-you-user");
+
+      // var emptyPlaceholder = document.createElement('div');
+      // emptyPlaceholder.classList.add("placeholder-user");
+      // this._el.append(emptyPlaceholder);
     } else {
       this._el.append($("<minidenticon-svg>", {username: displayName}))
       this._el.append($("<div>", {class: "session-name"}).html(displayName));
