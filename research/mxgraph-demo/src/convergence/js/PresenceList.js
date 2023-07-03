@@ -137,6 +137,7 @@ class SessionItem extends UiComponent {
 
       var userContainer = document.createElement('div');
       userContainer.classList.add("dropdown");
+      userContainer.classList.add("absolute-dropdown");
 
       userContainer.append(userDropdown);
       userContainer.append(userMenu);

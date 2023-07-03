@@ -20,6 +20,13 @@
     z-index: 999;
     top: 0px;
 }
+.absolute-dropdown {
+    position: relative !important;
+}
+
+/* .my-dropdown {
+    z-index: 9999;
+} */
 
 .presence-pane .presence-title {
     font-size: 12px;
