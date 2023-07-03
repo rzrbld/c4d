@@ -3015,7 +3015,8 @@ EditorUi.prototype.createTabContainer = function()
  */
 EditorUi.prototype.createDivs = function()
 {
-	this.menubarContainer = this.createDiv('geMenubarContainer');
+	// this.menubarContainer = this.createDiv('geMenubarContainer');
+	this.menubarContainer = document.getElementById('geMenubarContainer');
 	this.toolbarContainer = this.createDiv('geToolbarContainer');
 	this.sidebarContainer = this.createDiv('geSidebarContainer');
 	this.formatContainer = this.createDiv('geSidebarContainer geFormatContainer');
@@ -3096,7 +3097,7 @@ EditorUi.prototype.createUi = function()
 		this.menubar.container.appendChild(this.statusContainer);
 		
 		// Inserts into DOM
-		this.container.appendChild(this.menubarContainer);
+		// this.container.appendChild(this.menubarContainer);
 	}
 
 	// Creates the sidebar

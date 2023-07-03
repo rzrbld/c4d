@@ -177,18 +177,9 @@
 	<header class="navbar navbar-dark sticky-top bg-dark navbar-expand-lg flex-md-nowrap p-0 shadow">
 		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 py-2" href="#">C4ke.pw</a>
 		<!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
+		
 		<ul class="navbar-nav">
-		  <li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-			  File
-			</a>
-			<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-			  <li><a class="dropdown-item" href="?" target="_blank">New</a></li>
-			  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Open</a></li>
-			  <li><a class="dropdown-item" href="#">Save</a></li>
-			  <li><a class="dropdown-item" href="#">Export</a></li>
-			</ul>
-		  </li>
+			<div id="geMenubarContainer"></div>
 		</ul>
 	  </header>
 
@@ -290,16 +281,13 @@
 
 	
 
-	<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white col-2 col-sm-4 col-md-4 col-lg-2" id="searchMDcontainer" style="padding-bottom: 40px; padding-top: 40px; overflow-y: scroll;">
+	<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white col-2 col-sm-4 col-md-4 col-lg-2" id="searchMDcontainer" style="padding-bottom: 40px; padding-top: 24px; overflow-y: scroll;">
 	  <div id="searchBox" style="display: block;">
-	  <!-- <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-		<svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-		<span class="fs-5 fw-semibold">List group</span>
-	  </a> -->
-	  <div style="position: absolute; z-index: 99999; margin-top: -16px; background-color: white; width: 287px;">
+
+	  <div style="background-color:white; width: 100%;">
 	  	<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
 	  </div>
-	  <div class="list-group list-group-flush border-bottom scrollarea" style="padding-top: 24px;">
+	  <div class="list-group list-group-flush border-bottom scrollarea">
 		<a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
 		  <div class="d-flex w-100 align-items-center justify-content-between">
 			<strong class="mb-1">List group item heading</strong>

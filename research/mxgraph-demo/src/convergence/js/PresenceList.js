@@ -143,10 +143,7 @@ class SessionItem extends UiComponent {
       userContainer.append(userMenu);
       this._el.append(userContainer);
       this._el.addClass("absolute-you-user");
-
-      // var emptyPlaceholder = document.createElement('div');
-      // emptyPlaceholder.classList.add("placeholder-user");
-      // this._el.append(emptyPlaceholder);
+      
     } else {
       this._el.append($("<minidenticon-svg>", {username: displayName}))
       this._el.append($("<div>", {class: "session-name"}).html(displayName));
