@@ -796,8 +796,8 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
 	left = pos.x;
 	top = pos.y;
 	
-	div.style.width = w + 'px';
-	div.style.height = h + 'px';
+	div.style.width = w +140+ 'px';
+	div.style.height = h +100+ 'px';
 	div.style.left = left + 'px';
 	div.style.top = top + 'px';
 	div.style.zIndex = this.zIndex;
@@ -813,13 +813,16 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
 	
 	if (closable)
 	{
-		var img = document.createElement('img');
+		var img = document.createElement('i');
 
-		img.setAttribute('src', Dialog.prototype.closeImage);
+		// img.setAttribute('src', Dialog.prototype.closeImage);
+		img.classList.add('fa');
+		img.classList.add('fa-times');
+		img.classList.add('geDialogClose');
 		img.setAttribute('title', mxResources.get('close'));
-		img.className = 'geDialogClose';
+		// img.className = 'geDialogClose';
 		img.style.top = (top + 14) + 'px';
-		img.style.left = (left + w + 38 - dx) + 'px';
+		img.style.left = (left + w + 100 - dx) + 'px';
 		img.style.zIndex = this.zIndex;
 		
 		mxEvent.addListener(img, 'click', mxUtils.bind(this, function()

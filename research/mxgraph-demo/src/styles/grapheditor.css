@@ -657,7 +657,8 @@ div.mxWindow .geButton {
 	line-height:1em;
 	overflow:hidden;
 	padding:30px;
-	border:1px solid #acacac;
+	border-radius: 5px;
+	border:0px solid #acacac;
 	-webkit-box-shadow:0px 0px 2px 2px #d5d5d5;
 	-moz-box-shadow:0px 0px 2px 2px #d5d5d5;
 	box-shadow:0px 0px 2px 2px #d5d5d5;
@@ -666,11 +667,15 @@ div.mxWindow .geButton {
 }
 .geDialogClose {
 	position:absolute;
-	width:9px;
-	height:9px;
-	opacity:0.5;
+	/* width:9px;
+	height:9px; */
+	opacity:0.8;
 	cursor:pointer;
-	_filter:alpha(opacity=50);
+	border-radius: 4px;
+	border: 1px solid #222;
+	padding: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
 }
 .geDialogClose:hover {
 	opacity:1;
