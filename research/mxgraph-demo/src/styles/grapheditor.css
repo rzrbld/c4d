@@ -11,6 +11,10 @@
 	height: 100%;
 }
 
+.hidden {
+	display: none !important;
+}
+
 .geMenubar > a {
 	padding-left: 20px;
 	text-decoration: none;

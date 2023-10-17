@@ -175,7 +175,7 @@
 </head>
 <body class="geEditor">
 	<header class="navbar navbar-dark sticky-top bg-dark navbar-expand-lg flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 py-2" href="#">C4ke.pw</a>
+		<a class="navbar-brand col-3 col-md-3 col-lg-2 me-0 px-3 py-2" href="#">C4ke.pw</a>
 		<!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
 		
 		<ul class="navbar-nav">
@@ -188,26 +188,129 @@
 	
 <main style="min-height: calc(100vh - 24px); max-height: calc(100vh - 24px); margin-top: -24px;">
         
-	<div class="d-flex sidebar flex-column flex-shrink-0 p-3 text-white bg-dark col-2 col-lg-2 col-md-3">
+	<div class="d-flex sidebar flex-column flex-shrink-0 p-3 text-white bg-dark col-2 col-lg-2 col-md-2">
 	  <!-- <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 		<svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
 		<span class="fs-4">Sidebar</span>
 	  </a> -->
 	  <!-- <hr> -->
+	  <div class="input-group mb-2" style="z-index: 9999;padding-top: 10px;">
+		<input type="text" class="form-control" placeholder="Search" id="search-input" aria-label="Search" aria-describedby="button-search">
+		<button class="btn btn-light" type="button" id="button-search"><i class="fas fa-search"></i></button>
+	  </div>
+	  <div id="search-results" style="box-shadow: 2px 0 0 2px rgba(204,204,204,.35); display: none; border-radius: 10px; background: #eeeeee; margin-top: 9px; width:500px; height:700px; z-index: 9888; position: absolute;">
+		<div class="container" style="color: #000;">
+			<div class="row">
+			  <div class="col" style="padding-top: 45px;">
+				<h5 style="padding-left: 60px;">Filtres</h5>
+				<hr style="border-color: #ccc;"/>
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+					<label class="form-check-label" for="flexSwitchCheckDefault">All</label>
+				  </div>
+				  <div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+					<label class="form-check-label" for="flexSwitchCheckChecked">System</label>
+				  </div>
+				  <div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Application</label>
+				  </div>
+				  <div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Container</label>
+				  </div>
+				  <div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Component</label>
+				  </div>
+				  <div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Person</label>
+				  </div>
+			  </div>
+			  <div class="col" style="padding-top: 10px; display: block; height: 650px;">
+				<h5 style="padding-left: 60px;">Results</h5>
+				<div class="list-group list-group-flush border-bottom scrollarea" style="height: 650px; overflow-y: scroll;">
+					<a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small>Wed</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Tues</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Mon</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+			  
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Wed</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Tues</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Mon</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Wed</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Tues</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+					  <div class="d-flex w-100 align-items-center justify-content-between">
+						<strong class="mb-1">List group item heading</strong>
+						<small class="text-muted">Mon</small>
+					  </div>
+					  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+					</a>
+
+			
+				  </div>
+			  </div>
+			</div>
+		</div>
+	  </div>
 	  <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 		<span>Panels</span>
 	  </h6>
 	  <ul class="nav flex-column">
 		<li class="nav-item">
-		  <a class="nav-link" id="searchLink" href="#" onclick="toggleSearch(this)">
-			<span data-feather="search"></span>
-			Search panel
-		  </a>
-		</li>
-		<li class="nav-item">
 		  <a class="nav-link" href="#"  id="markdownLink" onclick="toggleMarkdown(this)">
 			<span data-feather="file-text"></span>
-			Markdown panel
+			Markdown panel (ADR)
 		  </a>
 		</li>
 	  </ul>
@@ -281,103 +384,8 @@
 
 	
 
-	<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white col-2 col-sm-4 col-md-4 col-lg-2" id="searchMDcontainer" style="padding-bottom: 40px; padding-top: 24px; overflow-y: scroll;">
-	  <div id="searchBox" style="display: block;">
-
-	  <div style="background-color:white; width: 100%;">
-	  	<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-	  </div>
-	  <div class="list-group list-group-flush border-bottom scrollarea">
-		<a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small>Wed</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Tues</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Mon</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-  
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Wed</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Tues</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Mon</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Wed</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Tues</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Mon</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Wed</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Tues</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-		<a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-		  <div class="d-flex w-100 align-items-center justify-content-between">
-			<strong class="mb-1">List group item heading</strong>
-			<small class="text-muted">Mon</small>
-		  </div>
-		  <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-		</a>
-
-	  </div>
-	  </div>
-
-	  <div  id="mdBox" style="display: none;">
+	<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white col-0 col-lg-0 col-md-0" id="MDcontainer" style="display: none; padding-top: 24px;">
+	  <div  id="mdBox" style="display: none; overflow-y: scroll;">
 		<textarea id="my-text-area">
 # Welcome to EasyMDE!
 
@@ -390,7 +398,8 @@ Type some **markdown** here to get started.
 
 
 
-	<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white col-6 col-lg-8 col-md-6"  id="drawBox"  >
+	<!-- <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white col-5 col-lg-5 col-md-5"  id="drawBox"  > -->
+	<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white col-10 col-lg-10 col-md-10"  id="drawBox"  >
 		<div id="diagramContainer" style="min-height: calc(100vh - 42px); max-height: calc(100vh - 42px); padding-bottom: -0px;"></div>
 	</div>
 
@@ -535,17 +544,118 @@ Type some **markdown** here to get started.
 
 	<script src="./libs/bootstrap/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-    <script>
+    
+	<script type="text/javascript" src="./libs/easymde/dist/easymde.min.js"></script>
+    <link rel="stylesheet" href="./libs/easymde/dist/easymde.min.css"/>
+	<style>
+		button.table {
+			width: 20px;
+		}
+	</style>
+	<script>
+		function initSearch(){
+			$('#search-input').keyup(function(){
+				console.log('change search',$('#search-input').val());
+				
+				if($('#search-input').val() ===  ""){
+					$('#search-results').hide("fast");
+				} else {
+					$('#search-results').show("fast");
+				}
+			})
+
+			$('#search-results').click(function(event){
+				event.stopPropagation();
+			});
+
+			$(window).click(function() {
+				$('#search-results').hide("fast");
+			});
+
+			// $('#search-input').focus(function(){
+			// 	$('#search-results').show("slow");
+			// })
+			
+		}
+
+		function activateEMDE(){
+			if(window.emde_state){
+			return
+			} else {
+			const easymde = new EasyMDE({
+				element: document.getElementById('my-text-area'),
+				sideBySideFullscreen: true,
+				toolbar: ["bold", 
+						"italic", 
+						"strikethrough", 
+						"|",
+						"heading",
+						"|",
+						"unordered-list",
+						"ordered-list",
+						"|",
+						"clean-block",
+						"link",
+						"code",
+						"quote",
+						"image",
+						"table",
+						"|",
+						"side-by-side",
+						"preview",
+						]
+			});
+			window.emde_state = true
+			}
+		}
+
+
+		function clearActive(){
+			allNavs = document.getElementsByClassName("nav-link");
+			for (let i = 0; i < allNavs.length; i++) {
+				const elem = allNavs[i];
+				elem.classList.remove("active")
+			}
+		}
+
+		function toggleMarkdown(e){
+			clearActive()
+			
+			if($('#mdBox').is(":visible")){
+				e.classList.remove("active")
+				//hide
+				$('#MDcontainer').removeClass("col-4 col-lg-5 col-md-5");
+				$('#MDcontainer').addClass("col-0 col-lg-0 col-md-0");
+				$('#mdBox').hide('fast');
+				$('#MDcontainer').hide('fast');
+				$('#drawBox').removeClass("col-4 col-lg-5 col-md-5");
+				$('#drawBox').addClass("col-8 col-lg-10 col-md-10");
+			}else{
+				e.classList.add("active")
+				//show
+				$('#MDcontainer').removeClass("col-0 col-lg-0 col-md-0");
+				$('#MDcontainer').addClass("col-4 col-lg-5 col-md-5");
+				$('#mdBox').show('fast');
+				$('#MDcontainer').show('fast');
+				$('#drawBox').removeClass("col-8 col-lg-10 col-md-10");
+				$('#drawBox').addClass("col-4 col-lg-5 col-md-5");
+				activateEMDE();
+			}
+		}
+
+	</script>
+	<script>
 
         (function () {
         'use strict'
 
         feather.replace({ 'aria-hidden': 'true' })
 
-        
+        initSearch();
         })()
 
     </script>
+	
 
 	
 	<!-- <script src="./libs/tiny-markdown-editor/dist/tiny-mde.min.js"></script>
