@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-
+	"time"
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
 	cnf "github.com/rzrbld/c4ke_git_api/config"
@@ -14,6 +14,111 @@ import (
 	prometheusMiddleware "github.com/iris-contrib/middleware/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
+
+// User represents the Users Table
+type User struct {
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Mail         string    `json:"mail"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// Project represents the Projects Table
+type Project struct {
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	GitLink      string    `json:"git_link"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// Architecture represents the Architectures Table
+type Architecture struct {
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	GitLink      string    `json:"git_link"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// ADR represents the ADRs (Architectural Decision Records) Table
+type ADR struct {
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	GitLink      string    `json:"git_link"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// Group represents the Groups Table
+type Group struct {
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// GroupUserRelationship represents the Groups Users Relationship Table
+type GroupUserRelationship struct {
+	ID           string    `json:"id"`
+	UserID       string    `json:"user_id"`
+	GroupID      string    `json:"group_id"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// ProjectArchitectureRelationship represents the Projects Architectures Relationship Table
+type ProjectArchitectureRelationship struct {
+	ID           string    `json:"id"`
+	ProjectID    string    `json:"project_id"`
+	ArchitectureID string  `json:"architecture_id"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// UserProjectRelationship represents the Users Projects Relationship Table
+type UserProjectRelationship struct {
+	ID           string    `json:"id"`
+	UserID       string    `json:"user_id"`
+	ProjectID    string    `json:"project_id"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// ProjectADRRelationship represents the Projects ADR Relationship Table
+type ProjectADRRelationship struct {
+	ID           string    `json:"id"`
+	ProjectID    string    `json:"project_id"`
+	ADRID        string    `json:"adr_id"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+// ProjectGroupRelationship represents the Projects Groups Relationship Table
+type ProjectGroupRelationship struct {
+	ID           string    `json:"id"`
+	ProjectID    string    `json:"project_id"`
+	GroupID      string    `json:"group_id"`
+	Delete       bool      `json:"delete"`
+	DateCreated  time.Time `json:"date_created"`
+	DateModified time.Time `json:"date_modified"`
+}
+
+
 
 func main() {
 

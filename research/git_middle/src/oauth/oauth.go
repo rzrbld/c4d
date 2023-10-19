@@ -17,11 +17,6 @@ var (
 	sessionsManager *sessions.Sessions
 )
 
-// {"AuthURL":"https://gitlab.rzrbld.ru/oauth/authorize?client_id=2cb3ca8382eca95585514017b68a13bf4e671efc84d9b00854efc15d079b8090\u0026redirect_uri=http%3A%2F%2Flocalhost%3A8099%2Fauth%2Fcallback\u0026response_type=code\u0026state=state",
-// "AccessToken":"34c00ef69bb4dd9efa1e8a6b18a885cb1f80111124824d4a503c8dacf3a56206",
-// "RefreshToken":"a3dbf561ba5863bdc77a0d8b633f183419458269002cd69c2c51b9d2a0daa35c",
-// "ExpiresAt":"2023-01-29T21:51:40.191559+03:00"}
-
 type StoredSession struct {
 	AuthURL      string `json:"AuthURL"`
 	AccessToken  string `json:"AccessToken"`
