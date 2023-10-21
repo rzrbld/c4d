@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+<head>
+    <title>Search Service UI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        .pholder {
+            font-size: 48px;
+            font-weight: bold;
+            background: -webkit-linear-gradient(#D4145A , #FBB03B);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtext {
+            color: #ccc;
+        }
+
+        #results {
+            padding-top: 40px;
+        }
+
+        .tenPxText {
+            font-size: 10px;
+            color:#666;
+        }
+
+        .card {
+            width: 50%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .book-author {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .book-annotation {
+            font-size: 14px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-3">
+        <header>
+          <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img"><title>Bootstrap</title><path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z" fill="currentColor"></path></svg>
+              <span class="fs-4">Search example</span>
+            </a>
+          </div>
+      
+          <div class="pricing-header p-3 pb-md-3 mx-auto text-center">
+            <h1 class="display-4 fw-normal">Search</h1>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="searchInput" placeholder="Enter your search query..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-primary" type="button" id="button-addon2" onclick="search()">Search</button>
+              </div>
+          </div>
+        </header>
+      
+        <main>
+            <div id="results">
+                <h2 class="pholder">Search results goes here, just type something</h2><sub class="subtext">and push button, actually</sub>
+            </div>
+        </main>
+      
+        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+          <div class="row">
+            <div class="col-12 col-md">
+              <small class="d-block mb-3 text-muted">&copy; 2023</small>
+            </div>
+            <div class="col-6 col-md">
+              <h5>Backend powered by</h5>
+              <ul class="list-unstyled text-small">
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://opensearch.org/">OpenSearch</a></li>
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://kafka.apache.org/">Apache Kafka</a></li>
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://debezium.io/">Debezium</a></li>
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://aiven.io/">Aiven</a></li>
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://www.mysql.com/">MySQL</a></li>
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://go.dev/">Golang</a></li>
+              </ul>
+            </div>
+            <div class="col-6 col-md">
+              <h5>Frontend powered by</h5>
+              <ul class="list-unstyled text-small">
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://getbootstrap.com/">Bootstrap</a></li>
+              </ul>
+            </div>
+            <div class="col-6 col-md">
+              <h5>About</h5>
+              <ul class="list-unstyled text-small">
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://github.com/rzrbld/">My GitHub</a></li>
+              </ul>
+            </div>
+          </div>
+        </footer>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+        function search() {
+            var searchQuery = document.getElementById('searchInput').value;
+            var apiUrl = `http://localhost:3333/api/v2/search?q=${encodeURIComponent(searchQuery)}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => displayResults(data))
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function displayResults(data) {
+            var resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (data && data["hits"]["total"]["value"] > 0) {
+                var ul = document.createElement('ul');
+                ul.classList.add("list-group");
+                ul.classList.add("list-group-flush");
+
+                var results = data["hits"]["hits"]
+
+                results.forEach(item => {
+                    var li = document.createElement('li');
+                    li.classList.add("list-group-item");
+
+                    var rdiv = document.createElement('div');
+                    rdiv.classList.add('card');
+                    rdiv.classList.add('text-bg-light');
+                    rdiv.classList.add('mb-3');
+                
+
+                    var titleDiv = document.createElement('div');
+                    titleDiv.classList.add('book-title');
+                    titleDiv.innerText = item["_source"].after.Title;
+
+                    var authorDiv = document.createElement('div');
+                    authorDiv.classList.add('book-author');
+                    authorDiv.innerText = item["_source"].after.Authors;
+
+                    var GenresDiv = document.createElement('div');
+                    GenresDiv.classList.add('tenPxText');
+                    GenresDiv.innerHTML = item["_source"].after.Genres;
+
+                    var annotationDiv = document.createElement('div');
+                    annotationDiv.classList.add('book-annotation');
+                    var annotationP = document.createElement('p');
+                    annotationP.innerText=item["_source"].after.Annotation;
+
+                    annotationDiv.appendChild(annotationP)
+
+                    
+
+                    rdiv.appendChild(titleDiv)
+                    rdiv.appendChild(authorDiv)
+                    rdiv.appendChild(titleDiv)
+                    rdiv.appendChild(annotationDiv)
+                    rdiv.appendChild(GenresDiv)
+
+                    li.appendChild(rdiv)
+                    ul.appendChild(li);
+                });
+
+                resultsDiv.appendChild(ul);
+            } else {
+                resultsDiv.textContent = 'No results found.';
+            }
+        }
+    </script>
+</body>
+</html>

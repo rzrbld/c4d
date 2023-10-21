@@ -1,0 +1,26 @@
+FROM golang:1.20-alpine
+
+LABEL maintainer="rzrbld <razblade@gmail.com>"
+
+ENV GOPATH /go
+ENV CGO_ENABLED 0
+ENV GO111MODULE on
+ENV GOPROXY https://proxy.golang.org
+
+ADD src /src/
+
+RUN  cd /src/ && go build main.go
+
+FROM alpine:3.18
+
+EXPOSE 8080
+WORKDIR /mysrv/
+
+COPY --from=0 /src/main /mysrv/gosearch
+COPY --from=0 /src/templates/index.html /mysrv/templates/index.html 
+
+RUN  \
+     apk add --no-cache ca-certificates 'curl>7.61.0' 'su-exec>=0.2' && \
+     echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
+
+CMD ["/mysrv/gosearch"]
