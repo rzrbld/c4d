@@ -33,6 +33,8 @@ func main() {
 	crs := cors.New(cors.Options{
 		AllowedOrigins:   []string{cnf.MyCORS}, // allows everything, use that to change the hosts.
 		AllowCredentials: true,
+		AllowedHeaders:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "OPTIONS", "PUT", "DELETE"},
 	})
 
 	// prometheus metrics route
@@ -60,9 +62,12 @@ func main() {
 	})
 
 	//main routes
-	v2 := app.Party("/api/v2/users", crs).AllowMethods(iris.MethodOptions)
+	v1 := app.Party("/api/v1/users", crs).AllowMethods(iris.MethodOptions)
 	{
-		v2.Get("/get", hdl.DoSearch)
+		v1.Get("/", hdl.GetUsersList)
+		v1.Get("/{id:uuid}", hdl.GetUser)
+		v1.Delete("/{id:uuid}", hdl.DeleteUser)
+		v1.Put("/{id:uuid}", hdl.UpdateUser)
 	}
 
 	app.Run(iris.Addr(cnf.MyHostPort))
