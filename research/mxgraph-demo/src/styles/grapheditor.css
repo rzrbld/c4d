@@ -105,7 +105,8 @@ scrollbar-color: #9c9bf8 ;
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-width: 2px;
+width: 4px;
+height: 4px;
 }
 
 *::-webkit-scrollbar-track {
