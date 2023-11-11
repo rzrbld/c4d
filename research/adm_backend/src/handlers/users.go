@@ -71,6 +71,36 @@ var GetUser = func(ctx iris.Context) {
 	}
 }
 
+var GetUserGroups = func(ctx iris.Context) {
+	userId := ctx.Params().Get("id")
+
+	if CheckAuthBeforeRequest(ctx) {
+		var userRGs []UserRolesGroups
+		rows, err := pgClient.Query(context.Background(), "select u.id as user_id, g.id as group_id, u.name as user_name, u.mail as user_mail, g.\"name\" as group_name, gru.user_role as user_role, gru.date_created as date_added, gru.date_modified as date_modified  from users as u, groups_users_rel as gru, groups as g where u.id=$1 and gru.delete_ =false  and gru.user_id = u.id and g.id=gru.group_id", userId)
+		if err != nil {
+			log.Fatalln("Query users failed:", err)
+		}
+
+		defer rows.Close()
+
+		for rows.Next() {
+			var userRG UserRolesGroups
+			if err := rows.Scan(&userRG.User_ID, &userRG.Group_ID, &userRG.User_Name, &userRG.User_Mail, &userRG.Group_Name, &userRG.User_Role, &userRG.Date_Added, &userRG.Date_Modified); err != nil {
+				ctx.StatusCode(iris.StatusBadRequest)
+				ctx.JSON(iris.Map{"error": err.Error()})
+				return
+			}
+			userRGs = append(userRGs, userRG)
+
+		}
+
+		log.Debugln("Data", userRGs)
+		ctx.JSON(userRGs)
+	} else {
+		ctx.JSON(DefaultAuthError())
+	}
+}
+
 var DeleteUser = func(ctx iris.Context) {
 	userId := ctx.Params().Get("id")
 

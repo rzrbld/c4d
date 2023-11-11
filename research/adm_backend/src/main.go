@@ -82,6 +82,7 @@ func main() {
 	{
 		v1Users.Get("/", hdl.GetUsersList)
 		v1Users.Get("/{id:uuid}", hdl.GetUser)
+		v1Users.Get("/{id:uuid}/groups", hdl.GetUserGroups)
 		v1Users.Delete("/{id:uuid}", hdl.DeleteUser)
 		v1Users.Put("/{id:uuid}", hdl.UpdateUser)
 	}

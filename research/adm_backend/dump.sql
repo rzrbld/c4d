@@ -1,3 +1,6 @@
+-- Types
+CREATE TYPE user_roles AS ENUM ('owner', 'writer', 'reader');
+
 -- Users Table
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -56,6 +59,7 @@ CREATE TABLE groups_users_rel (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES users(id),
     group_id UUID REFERENCES groups(id),
+    user_role user_roles;
     delete_ BOOLEAN DEFAULT false,
     date_created TIMESTAMPTZ DEFAULT NOW(),
     date_modified TIMESTAMPTZ DEFAULT NOW()

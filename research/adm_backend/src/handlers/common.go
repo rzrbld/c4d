@@ -19,6 +19,18 @@ type User struct {
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
 
+// User represents the Users with Roles in Groups
+type UserRolesGroups struct {
+	User_ID       string    `json:"user_id"`
+	Group_ID      string    `json:"group_id"`
+	User_Name     string    `json:"user_name"`
+	User_Mail     string    `json:"user_mail,omitempty"`
+	Group_Name    string    `json:"group_name"`
+	User_Role     string    `json:"user_role"`
+	Date_Added    time.Time `json:"date_added,omitempty"`
+	Date_Modified time.Time `json:"date_modified,omitempty"`
+}
+
 // Project represents the Projects Table
 type Project struct {
 	ID            string    `json:"id"`
