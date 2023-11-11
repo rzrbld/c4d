@@ -36,7 +36,7 @@ type Architecture struct {
 	Name          string    `json:"name"`
 	Description   string    `json:"description,omitempty"`
 	GitLink       string    `json:"git_link,omitempty"`
-	Delete_       bool      `json:"delete_,omitempty"`
+	Delete_       bool      `json:"delete_"`
 	Date_Created  time.Time `json:"date_created,omitempty"`
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
@@ -47,7 +47,7 @@ type ADR struct {
 	Name          string    `json:"name"`
 	Description   string    `json:"description,omitempty"`
 	GitLink       string    `json:"git_link,omitempty"`
-	Delete_       bool      `json:"delete_,omitempty"`
+	Delete_       bool      `json:"delete_"`
 	Date_Created  time.Time `json:"date_created,omitempty"`
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
@@ -57,7 +57,7 @@ type Group struct {
 	ID            string    `json:"id"`
 	Name          string    `json:"name"`
 	Description   string    `json:"description,omitempty"`
-	Delete_       bool      `json:"delete_,omitempty"`
+	Delete_       bool      `json:"delete_"`
 	Date_Created  time.Time `json:"date_created,omitempty"`
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
@@ -67,7 +67,7 @@ type GroupUserRelationship struct {
 	ID            string    `json:"id"`
 	UserID        string    `json:"user_id,omitempty"`
 	GroupID       string    `json:"group_id,omitempty"`
-	Delete_       bool      `json:"delete_,omitempty"`
+	Delete_       bool      `json:"delete_"`
 	Date_Created  time.Time `json:"date_created,omitempty"`
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
@@ -77,7 +77,7 @@ type ProjectArchitectureRelationship struct {
 	ID             string    `json:"id"`
 	ProjectID      string    `json:"project_id,omitempty"`
 	ArchitectureID string    `json:"architecture_id,omitempty"`
-	Delete_        bool      `json:"delete_,omitempty"`
+	Delete_        bool      `json:"delete_"`
 	Date_Created   time.Time `json:"date_created,omitempty"`
 	Date_Modified  time.Time `json:"date_modified,omitempty"`
 }
@@ -87,7 +87,7 @@ type UserProjectRelationship struct {
 	ID            string    `json:"id"`
 	UserID        string    `json:"user_id,omitempty"`
 	ProjectID     string    `json:"project_id,omitempty"`
-	Delete_       bool      `json:"delete_,omitempty"`
+	Delete_       bool      `json:"delete_"`
 	Date_Created  time.Time `json:"date_created,omitempty"`
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
@@ -97,7 +97,7 @@ type ProjectADRRelationship struct {
 	ID            string    `json:"id"`
 	ProjectID     string    `json:"project_id,omitempty"`
 	ADRID         string    `json:"adr_id,omitempty"`
-	Delete_       bool      `json:"delete_,omitempty"`
+	Delete_       bool      `json:"delete_"`
 	Date_Created  time.Time `json:"date_created,omitempty"`
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
@@ -107,7 +107,7 @@ type ProjectGroupRelationship struct {
 	ID            string    `json:"id"`
 	ProjectID     string    `json:"project_id,omitempty"`
 	GroupID       string    `json:"group_id,omitempty"`
-	Delete_       bool      `json:"delete_,omitempty"`
+	Delete_       bool      `json:"delete_"`
 	Date_Created  time.Time `json:"date_created,omitempty"`
 	Date_Modified time.Time `json:"date_modified,omitempty"`
 }
