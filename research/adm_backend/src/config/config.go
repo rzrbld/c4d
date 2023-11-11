@@ -1,24 +1,29 @@
 package config
 
 import (
-	"os"
 	log "github.com/sirupsen/logrus"
+	"os"
 	strconv "strconv"
 )
 
 var (
-	MyHostPort          = getEnv("SRV_HOST_PORT", ":3333")
-	MyLogLevel          = getEnv("SRV_LOG_LEVEL", "INFO")
-	MyCORS              = getEnv("SRV_CORS_DOMAIN", "*")
-	OpenSearchURI       = getEnv("OPENSEARCH_URI", "https://192.168.50.67:9200")
-	OpenSearchUser      = getEnv("OPENSEARCH_USER", "admin")
-	OpenSearchPassword  = getEnv("OPENSEARCH_PASSWORD", "admin")
-	OpenSearchFields    = getEnv("OPENSEARCH_FIELDS", `["after.Title^4", "after.Annotation", "after.Authors^2", "after.Copyright", "after.Genres", "after.ISBN", "after.Publisher", "after.Series"]`)
-	OpenSearchIndex     = getEnv("OPENSEARCH_INDEX", "stroki_.stroki.catalog")
-	OpenSearchIgnoreSSL, _   = strconv.ParseBool(getEnv("OPENSEARCH_SSL_IGNORE", "true"))
-	MetricsEnable, _         = strconv.ParseBool(getEnv("SRV_METRICS_ENABLE", "false"))
-	ProbesEnable, _          = strconv.ParseBool(getEnv("SRV_PROBES_ENABLE", "false"))
-
+	MyHostPort             = getEnv("SRV_HOST_PORT", ":3333")
+	MyLogLevel             = getEnv("SRV_LOG_LEVEL", "INFO")
+	MyCORS                 = getEnv("SRV_CORS_DOMAIN", "*")
+	OpenSearchIgnoreSSL, _ = strconv.ParseBool(getEnv("OPENSEARCH_SSL_IGNORE", "true"))
+	MetricsEnable, _       = strconv.ParseBool(getEnv("SRV_METRICS_ENABLE", "false"))
+	ProbesEnable, _        = strconv.ParseBool(getEnv("SRV_PROBES_ENABLE", "false"))
+	// ScHashKey              = getEnv("SRV_COOKIE_HASH_KEY", "NRUeuq6AdskNPa7ewZuxG9TrDZC4xFat")
+	// ScBlockKey             = getEnv("SRV_COOKIE_BLOCK_KEY", "bnfYuphzxPhJMR823YNezH83fuHuddFC")
+	// ---------------
+	ScCookieName      = getEnv("SRV_COOKIE_NAME", "cakesessionid")
+	OauthEnable, _    = strconv.ParseBool(getEnv("SRV_OAUTH_ENABLE", "false"))
+	OauthProvider     = getEnv("SRV_OAUTH_PROVIDER", "openid-connect")
+	AuditLogEnable, _ = strconv.ParseBool(getEnv("SRV_AUDIT_LOG_ENABLE", "false"))
+	OauthClientId     = getEnv("SRV_OAUTH_CLIENT_ID", "login-app")
+	OauthClientSecret = getEnv("SRV_OAUTH_CLIENT_SECRET", "my-keycloak-oauth-app-secret")
+	OauthCallback     = getEnv("SRV_OAUTH_CALLBACK", "http://localhost:3333/auth/callback")
+	OauthDiscoveryURL = getEnv("SRV_OAUTH_DISCOVERY_URL", "http://192.168.50.241:8180/realms/C4keRealm/.well-known/openid-configuration")
 )
 
 func getEnv(key, fallback string) string {
@@ -56,6 +61,6 @@ func SetLogLevel(LogLevel string) {
 	log.SetLevel(selectedLogLevel)
 }
 
-func init(){
+func init() {
 	SetLogLevel(MyLogLevel)
 }
