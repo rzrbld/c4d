@@ -110,5 +110,13 @@ func main() {
 		v1Architectures.Put("/{id:uuid}", hdl.UpdateArchitecture)
 	}
 
+	v1Adrs := app.Party("/api/v1/adrs", crs).AllowMethods(iris.MethodOptions)
+	{
+		v1Adrs.Get("/", hdl.GetAdrsList)
+		v1Adrs.Get("/{id:uuid}", hdl.GetAdr)
+		v1Adrs.Delete("/{id:uuid}", hdl.DeleteAdr)
+		v1Adrs.Put("/{id:uuid}", hdl.UpdateAdr)
+	}
+
 	app.Run(iris.Addr(cnf.MyHostPort))
 }

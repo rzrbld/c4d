@@ -42,7 +42,7 @@ type Architecture struct {
 }
 
 // ADR represents the ADRs (Architectural Decision Records) Table
-type ADR struct {
+type Adr struct {
 	ID            string    `json:"id"`
 	Name          string    `json:"name"`
 	Description   string    `json:"description,omitempty"`
