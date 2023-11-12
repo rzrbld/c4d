@@ -12,24 +12,28 @@ import (
 )
 
 var CreateUser = func(ctx iris.Context) {
-	var user User
-	if err := ctx.ReadJSON(&user); err != nil {
-		ctx.StatusCode(iris.StatusBadRequest)
-		ctx.JSON(iris.Map{"error": err.Error()})
-		return
-	}
+	if CheckAuthBeforeRequest(ctx) {
+		var user User
+		if err := ctx.ReadJSON(&user); err != nil {
+			ctx.StatusCode(iris.StatusBadRequest)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
 
-	err := pgClient.QueryRow(context.Background(),
-		"INSERT INTO users (name, mail) VALUES ($1, $2) RETURNING id",
-		user.Name, user.Mail).
-		Scan(&user.ID)
-	if err != nil {
-		ctx.StatusCode(iris.StatusInternalServerError)
-		ctx.JSON(iris.Map{"error": err.Error()})
-		return
-	}
+		err := pgClient.QueryRow(context.Background(),
+			"INSERT INTO users (name, mail) VALUES ($1, $2) RETURNING id",
+			user.Name, user.Mail).
+			Scan(&user.ID)
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
 
-	ctx.JSON(user)
+		ctx.JSON(user)
+	} else {
+		ctx.JSON(DefaultAuthError())
+	}
 }
 
 var GetUsersList = func(ctx iris.Context) {

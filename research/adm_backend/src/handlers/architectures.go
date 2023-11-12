@@ -12,24 +12,28 @@ import (
 )
 
 var CreateArchitecture = func(ctx iris.Context) {
-	var architecture Architecture
-	if err := ctx.ReadJSON(&architecture); err != nil {
-		ctx.StatusCode(iris.StatusBadRequest)
-		ctx.JSON(iris.Map{"error": err.Error()})
-		return
-	}
+	if CheckAuthBeforeRequest(ctx) {
+		var architecture Architecture
+		if err := ctx.ReadJSON(&architecture); err != nil {
+			ctx.StatusCode(iris.StatusBadRequest)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
 
-	err := pgClient.QueryRow(context.Background(),
-		"INSERT INTO architectures (name, description, git_link) VALUES ($1, $2, $3) RETURNING id",
-		architecture.Name, architecture.Description, architecture.GitLink).
-		Scan(&architecture.ID)
-	if err != nil {
-		ctx.StatusCode(iris.StatusInternalServerError)
-		ctx.JSON(iris.Map{"error": err.Error()})
-		return
-	}
+		err := pgClient.QueryRow(context.Background(),
+			"INSERT INTO architectures (name, description, git_link) VALUES ($1, $2, $3) RETURNING id",
+			architecture.Name, architecture.Description, architecture.GitLink).
+			Scan(&architecture.ID)
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
 
-	ctx.JSON(architecture)
+		ctx.JSON(architecture)
+	} else {
+		ctx.JSON(DefaultAuthError())
+	}
 }
 
 var GetArchitecturesList = func(ctx iris.Context) {

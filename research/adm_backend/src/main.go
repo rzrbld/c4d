@@ -103,7 +103,7 @@ func main() {
 		v1Groups.Post("/", hdl.CreateGroup)
 		v1Groups.Get("/{id:uuid}", hdl.GetGroup)
 		v1Groups.Get("/{id:uuid}/users", hdl.GetGroupUsers)
-		v1Groups.Put("/{id:uuid}/user", hdl.AddGroupUser)
+		v1Groups.Put("/{id:uuid}/user", hdl.AddUserToGroup)
 		// v1Groups.Delete("/{id:uuid}/user", hdl.RemoveGroupUser)
 		v1Groups.Delete("/{id:uuid}", hdl.DeleteGroup)
 		v1Groups.Put("/{id:uuid}", hdl.UpdateGroup)

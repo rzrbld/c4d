@@ -12,24 +12,28 @@ import (
 )
 
 var CreateGroup = func(ctx iris.Context) {
-	var group Group
-	if err := ctx.ReadJSON(&group); err != nil {
-		ctx.StatusCode(iris.StatusBadRequest)
-		ctx.JSON(iris.Map{"error": err.Error()})
-		return
-	}
+	if CheckAuthBeforeRequest(ctx) {
+		var group Group
+		if err := ctx.ReadJSON(&group); err != nil {
+			ctx.StatusCode(iris.StatusBadRequest)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
 
-	err := pgClient.QueryRow(context.Background(),
-		"INSERT INTO groups (name, description) VALUES ($1, $2) RETURNING id",
-		group.Name, group.Description).
-		Scan(&group.ID)
-	if err != nil {
-		ctx.StatusCode(iris.StatusInternalServerError)
-		ctx.JSON(iris.Map{"error": err.Error()})
-		return
-	}
+		err := pgClient.QueryRow(context.Background(),
+			"INSERT INTO groups (name, description) VALUES ($1, $2) RETURNING id",
+			group.Name, group.Description).
+			Scan(&group.ID)
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
 
-	ctx.JSON(group)
+		ctx.JSON(group)
+	} else {
+		ctx.JSON(DefaultAuthError())
+	}
 }
 
 var GetGroupsList = func(ctx iris.Context) {
@@ -101,24 +105,31 @@ var GetGroupUsers = func(ctx iris.Context) {
 	}
 }
 
-var AddGroupUser = func(ctx iris.Context) {
-	// groupId := ctx.Params().Get("id")
+var AddUserToGroup = func(ctx iris.Context) {
+	groupId := ctx.Params().Get("id")
+	var user UserRolesGroups
 
-	// if CheckAuthBeforeRequest(ctx) {
-	// 	var group Group
-	// 	row := pgClient.QueryRow(context.Background(), "SELECT id,name,description,delete_,date_created, date_modified FROM groups WHERE id = $1", groupId)
-	// 	err := row.Scan(&group.ID, &group.Name, &group.Description, &group.Delete_, &group.Date_Created, &group.Date_Modified)
-	// 	if err != nil {
-	// 		ctx.StatusCode(iris.StatusNotFound)
-	// 		ctx.JSON(iris.Map{"error": "Group not found"})
-	// 		return
-	// 	}
+	if err := ctx.ReadJSON(&user); err != nil {
+		ctx.StatusCode(iris.StatusBadRequest)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
 
-	// 	log.Debugln("Data", group)
-	// 	ctx.JSON(group)
-	// } else {
-	// 	ctx.JSON(DefaultAuthError())
-	// }
+	if CheckAuthBeforeRequest(ctx) {
+		err := pgClient.QueryRow(context.Background(),
+			"INSERT INTO groups_users_rel (user_id, group_id, user_role) VALUES ($1, $2, $3) RETURNING id",
+			user.User_ID, groupId, user.User_Role).
+			Scan(&user.Group_ID)
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(user)
+	} else {
+		ctx.JSON(DefaultAuthError())
+	}
 }
 
 var GetGroup = func(ctx iris.Context) {
