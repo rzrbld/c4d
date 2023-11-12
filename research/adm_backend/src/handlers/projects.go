@@ -11,6 +11,27 @@ import (
 	"strconv"
 )
 
+var CreateProject = func(ctx iris.Context) {
+	var project Project
+	if err := ctx.ReadJSON(&project); err != nil {
+		ctx.StatusCode(iris.StatusBadRequest)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	err := pgClient.QueryRow(context.Background(),
+		"INSERT INTO projects (name, description, git_link) VALUES ($1, $2, $3) RETURNING id",
+		project.Name, project.Description, project.GitLink).
+		Scan(&project.ID)
+	if err != nil {
+		ctx.StatusCode(iris.StatusInternalServerError)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(project)
+}
+
 var GetProjectsList = func(ctx iris.Context) {
 
 	page, error := ValidateIntParams("page", "1", ctx)

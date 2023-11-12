@@ -91,6 +91,7 @@ func main() {
 	v1Projects := app.Party("/api/v1/projects", crs).AllowMethods(iris.MethodOptions)
 	{
 		v1Projects.Get("/", hdl.GetProjectsList)
+		v1Projects.Post("/", hdl.CreateProject)
 		v1Projects.Get("/{id:uuid}", hdl.GetProject)
 		v1Projects.Delete("/{id:uuid}", hdl.DeleteProject)
 		v1Projects.Put("/{id:uuid}", hdl.UpdateProject)
@@ -99,6 +100,7 @@ func main() {
 	v1Groups := app.Party("/api/v1/groups", crs).AllowMethods(iris.MethodOptions)
 	{
 		v1Groups.Get("/", hdl.GetGroupsList)
+		v1Groups.Post("/", hdl.CreateGroup)
 		v1Groups.Get("/{id:uuid}", hdl.GetGroup)
 		v1Groups.Get("/{id:uuid}/users", hdl.GetGroupUsers)
 		v1Groups.Put("/{id:uuid}/user", hdl.AddGroupUser)
@@ -110,6 +112,7 @@ func main() {
 	v1Architectures := app.Party("/api/v1/architectures", crs).AllowMethods(iris.MethodOptions)
 	{
 		v1Architectures.Get("/", hdl.GetArchitecturesList)
+		v1Architectures.Post("/", hdl.CreateArchitecture)
 		v1Architectures.Get("/{id:uuid}", hdl.GetArchitecture)
 		v1Architectures.Delete("/{id:uuid}", hdl.DeleteArchitecture)
 		v1Architectures.Put("/{id:uuid}", hdl.UpdateArchitecture)
@@ -118,6 +121,7 @@ func main() {
 	v1Adrs := app.Party("/api/v1/adrs", crs).AllowMethods(iris.MethodOptions)
 	{
 		v1Adrs.Get("/", hdl.GetAdrsList)
+		v1Adrs.Post("/", hdl.CreateAdr)
 		v1Adrs.Get("/{id:uuid}", hdl.GetAdr)
 		v1Adrs.Delete("/{id:uuid}", hdl.DeleteAdr)
 		v1Adrs.Put("/{id:uuid}", hdl.UpdateAdr)

@@ -11,6 +11,27 @@ import (
 	"strconv"
 )
 
+var CreateArchitecture = func(ctx iris.Context) {
+	var architecture Architecture
+	if err := ctx.ReadJSON(&architecture); err != nil {
+		ctx.StatusCode(iris.StatusBadRequest)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	err := pgClient.QueryRow(context.Background(),
+		"INSERT INTO architectures (name, description, git_link) VALUES ($1, $2, $3) RETURNING id",
+		architecture.Name, architecture.Description, architecture.GitLink).
+		Scan(&architecture.ID)
+	if err != nil {
+		ctx.StatusCode(iris.StatusInternalServerError)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(architecture)
+}
+
 var GetArchitecturesList = func(ctx iris.Context) {
 
 	page, error := ValidateIntParams("page", "1", ctx)

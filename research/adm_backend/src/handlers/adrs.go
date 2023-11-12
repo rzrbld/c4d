@@ -11,6 +11,27 @@ import (
 	"strconv"
 )
 
+var CreateAdr = func(ctx iris.Context) {
+	var adr Adr
+	if err := ctx.ReadJSON(&adr); err != nil {
+		ctx.StatusCode(iris.StatusBadRequest)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	err := pgClient.QueryRow(context.Background(),
+		"INSERT INTO adr (name, description, git_link) VALUES ($1, $2, $3) RETURNING id",
+		adr.Name, adr.Description, adr.GitLink).
+		Scan(&adr.ID)
+	if err != nil {
+		ctx.StatusCode(iris.StatusInternalServerError)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(adr)
+}
+
 var GetAdrsList = func(ctx iris.Context) {
 
 	page, error := ValidateIntParams("page", "1", ctx)

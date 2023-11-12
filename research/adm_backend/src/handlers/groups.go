@@ -11,6 +11,27 @@ import (
 	"strconv"
 )
 
+var CreateGroup = func(ctx iris.Context) {
+	var group Group
+	if err := ctx.ReadJSON(&group); err != nil {
+		ctx.StatusCode(iris.StatusBadRequest)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	err := pgClient.QueryRow(context.Background(),
+		"INSERT INTO groups (name, description) VALUES ($1, $2) RETURNING id",
+		group.Name, group.Description).
+		Scan(&group.ID)
+	if err != nil {
+		ctx.StatusCode(iris.StatusInternalServerError)
+		ctx.JSON(iris.Map{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(group)
+}
+
 var GetGroupsList = func(ctx iris.Context) {
 
 	page, error := ValidateIntParams("page", "1", ctx)
