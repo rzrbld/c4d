@@ -20,7 +20,7 @@ var CreateAdr = func(ctx iris.Context) {
 	}
 
 	err := pgClient.QueryRow(context.Background(),
-		"INSERT INTO adr (name, description, git_link) VALUES ($1, $2, $3) RETURNING id",
+		"INSERT INTO adrs (name, description, git_link) VALUES ($1, $2, $3) RETURNING id",
 		adr.Name, adr.Description, adr.GitLink).
 		Scan(&adr.ID)
 	if err != nil {
