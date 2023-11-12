@@ -81,6 +81,7 @@ func main() {
 	v1Users := app.Party("/api/v1/users", crs).AllowMethods(iris.MethodOptions)
 	{
 		v1Users.Get("/", hdl.GetUsersList)
+		v1Users.Post("/", hdl.CreateUser)
 		v1Users.Get("/{id:uuid}", hdl.GetUser)
 		v1Users.Get("/{id:uuid}/groups", hdl.GetUserGroups)
 		v1Users.Delete("/{id:uuid}", hdl.DeleteUser)
@@ -99,6 +100,9 @@ func main() {
 	{
 		v1Groups.Get("/", hdl.GetGroupsList)
 		v1Groups.Get("/{id:uuid}", hdl.GetGroup)
+		v1Groups.Get("/{id:uuid}/users", hdl.GetGroupUsers)
+		v1Groups.Put("/{id:uuid}/user", hdl.AddGroupUser)
+		// v1Groups.Delete("/{id:uuid}/user", hdl.RemoveGroupUser)
 		v1Groups.Delete("/{id:uuid}", hdl.DeleteGroup)
 		v1Groups.Put("/{id:uuid}", hdl.UpdateGroup)
 	}
