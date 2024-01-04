@@ -132,6 +132,24 @@ var AddUserToGroup = func(ctx iris.Context) {
 	}
 }
 
+var RemoveUserFromGroup = func(ctx iris.Context) {
+	groupId := ctx.Params().Get("id")
+	userId := ctx.Params().Get("uid")
+
+	if CheckAuthBeforeRequest(ctx) {
+		_, err := pgClient.Exec(context.Background(), "UPDATE groups_users_rel SET delete_=true WHERE group_id = $1 AND user_id = $2", groupId, userId)
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			ctx.JSON(iris.Map{"error": err.Error()})
+			return
+		}
+
+		ctx.JSON(iris.Map{"message": "User removerd from group successfully"})
+	} else {
+		ctx.JSON(DefaultAuthError())
+	}
+}
+
 var GetGroup = func(ctx iris.Context) {
 	groupId := ctx.Params().Get("id")
 

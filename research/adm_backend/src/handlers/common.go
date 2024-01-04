@@ -24,22 +24,48 @@ type UserRolesGroups struct {
 	User_ID       string    `json:"user_id"`
 	Group_ID      string    `json:"group_id"`
 	User_Name     string    `json:"user_name"`
-	User_Mail     string    `json:"user_mail,omitempty"`
+	User_Mail     string    `json:"user_mail"`
 	Group_Name    string    `json:"group_name"`
 	User_Role     string    `json:"user_role"`
-	Date_Added    time.Time `json:"date_added,omitempty"`
-	Date_Modified time.Time `json:"date_modified,omitempty"`
+	Date_Added    time.Time `json:"date_added"`
+	Date_Modified time.Time `json:"date_modified"`
 }
 
 // Project represents the Projects Table
 type Project struct {
 	ID            string    `json:"id"`
 	Name          string    `json:"name"`
-	Description   string    `json:"description,omitempty"`
-	GitLink       string    `json:"git_link,omitempty"`
+	Description   string    `json:"description"`
+	GitLink       string    `json:"git_link"`
 	Delete_       bool      `json:"delete_"`
-	Date_Created  time.Time `json:"date_created,omitempty"`
-	Date_Modified time.Time `json:"date_modified,omitempty"`
+	Date_Created  time.Time `json:"date_created"`
+	Date_Modified time.Time `json:"date_modified"`
+}
+
+type ProjectADR struct {
+	Project_ID          string    `json:"project_id"`
+	Project_Name        string    `json:"project_name"`
+	Project_Description string    `json:"project_desc"`
+	Project_GitLink     string    `json:"project_repo"`
+	Adr_ID              string    `json:"adr_id"`
+	Adr_Name            string    `json:"adr_name"`
+	Adr_Description     string    `json:"adr_desc"`
+	Adr_GitLink         string    `json:"adr_git_link"`
+	Date_Added          time.Time `json:"date_added"`
+	Date_Modified       time.Time `json:"date_modified"`
+}
+
+type ProjectArch struct {
+	Project_ID          string    `json:"project_id"`
+	Project_Name        string    `json:"project_name"`
+	Project_Description string    `json:"project_desc"`
+	Project_GitLink     string    `json:"project_repo"`
+	Arch_ID             string    `json:"arch_id"`
+	Arch_Name           string    `json:"arch_name"`
+	Arch_Description    string    `json:"arch_desc"`
+	Arch_GitLink        string    `json:"arch_git_link"`
+	Date_Added          time.Time `json:"date_added"`
+	Date_Modified       time.Time `json:"date_modified"`
 }
 
 // Architecture represents the Architectures Table

@@ -95,6 +95,12 @@ func main() {
 		v1Projects.Get("/{id:uuid}", hdl.GetProject)
 		v1Projects.Delete("/{id:uuid}", hdl.DeleteProject)
 		v1Projects.Put("/{id:uuid}", hdl.UpdateProject)
+		v1Projects.Get("/{id:uuid}/adrs", hdl.GetProjectADRs)
+		v1Projects.Get("/{id:uuid}/arch", hdl.GetProjectArch)
+		// v1Projects.Put("/{id:uuid}/adrs", hdl.AddADRToProject)
+		// v1Projects.Put("/{id:uuid}/arch", hdl.AddArchToProject)
+		// v1Projects.Delete("/{id:uuid}/adr/{uid:uuid}", hdl.RemoveADRFromProject)
+		// v1Projects.Delete("/{id:uuid}/arch/{uid:uuid}", hdl.RemoveArchFromProject)
 	}
 
 	v1Groups := app.Party("/api/v1/groups", crs).AllowMethods(iris.MethodOptions)
@@ -104,7 +110,7 @@ func main() {
 		v1Groups.Get("/{id:uuid}", hdl.GetGroup)
 		v1Groups.Get("/{id:uuid}/users", hdl.GetGroupUsers)
 		v1Groups.Put("/{id:uuid}/user", hdl.AddUserToGroup)
-		// v1Groups.Delete("/{id:uuid}/user", hdl.RemoveGroupUser)
+		v1Groups.Delete("/{id:uuid}/{uid:uuid}", hdl.RemoveUserFromGroup)
 		v1Groups.Delete("/{id:uuid}", hdl.DeleteGroup)
 		v1Groups.Put("/{id:uuid}", hdl.UpdateGroup)
 	}
