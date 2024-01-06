@@ -10,6 +10,7 @@ import (
 )
 
 func DefaultResHandler(ctx iris.Context, err error) iris.Map {
+	log.Debugln("DefaultResHandler is called")
 	if cnf.OauthEnable {
 		if gothUser, err := auth.CompleteUserAuth(ctx); err == nil {
 			audit.DefaultAuditLog(gothUser, ctx)
@@ -35,6 +36,7 @@ func CheckAuthBeforeRequest(ctx iris.Context) bool {
 }
 
 func BodyResHandler(ctx iris.Context, err error, body interface{}) interface{} {
+	log.Debugln("BodyResHandler is called")
 	if cnf.OauthEnable {
 		if gothUser, err := auth.CompleteUserAuth(ctx); err == nil {
 			audit.DefaultAuditLog(gothUser, ctx)
@@ -70,5 +72,6 @@ func DefaultResConstructor(err error) iris.Map {
 }
 
 func DefaultAuthError() interface{} {
+	log.Debugln("DefaultAuthError is called")
 	return iris.Map{"auth": false, "oauth": cnf.OauthEnable}
 }

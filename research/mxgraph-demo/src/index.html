@@ -47,6 +47,41 @@
 	<!-- UI config-->
 	<script type="text/javascript" src="./c4ke.config.js"></script>
 	<script type="text/javascript" src="./c4ke.view.config.js"></script>
+	<script type="text/javascript" src="./libs/jquery/dist/jquery.min.js"></script>
+
+	<script>
+		function validateAuthInResponse(data) {
+			if(KkeConfig.AUTH_ENABLE){
+				console.log("VALIDATE AUTH>>>", data)
+				if (data != null && typeof data.oauth != "undefined" && typeof data.auth != "undefined" && data.oauth != false && data.auth != true) {
+					window.location.href = KkeConfig.BACKEND_BASE_URL + '/auth/?state=' + window.location.href;
+				} else {
+					window.UserName = data.name
+				}
+			}
+		}
+
+		function getAuthStatus() {
+			return $.ajax({
+				type: "GET",
+				url: KkeConfig.BACKEND_BASE_URL+"/auth/check",
+				xhrFields: {
+					withCredentials: true
+				},
+				cache: false,
+				async: false
+			}).responseJSON;
+		}
+
+		function checkAuthStatus(){
+			var adata = getAuthStatus()
+			validateAuthInResponse(adata)
+		}
+
+		(function(){
+			checkAuthStatus();
+		})()
+	</script>
 
 
 	<script type="text/javascript" src="js/Init.js"></script>
@@ -77,7 +112,6 @@
 	<script type="text/javascript" src="./libs/@convergence/mxgraph-adapter/dist/umd/convergence-mxgraph-adapter.js"></script>
 
 	<!-- Additional UI Components -->
-	<script type="text/javascript" src="./libs/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="./libs/moment/moment.js"></script>
 	<script type="text/javascript" src="./libs/toastify-js/src/toastify.js"></script>
 
@@ -543,8 +577,8 @@ Type some **markdown** here to get started.
 	<script type="text/javascript" src="./js/c_Utils.js"></script>
 
 	<script src="./libs/bootstrap/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-    
+	<script src="./libs/feather-icons/dist/feather.min.js" crossorigin="anonymous"></script>
+
 	<script type="text/javascript" src="./libs/easymde/dist/easymde.min.js"></script>
     <link rel="stylesheet" href="./libs/easymde/dist/easymde.min.css"/>
 	<style>
@@ -552,6 +586,8 @@ Type some **markdown** here to get started.
 			width: 20px;
 		}
 	</style>
+	
+
 	<script>
 		function initSearch(){
 			$('#search-input').keyup(function(){

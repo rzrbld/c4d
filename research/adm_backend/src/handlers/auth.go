@@ -14,19 +14,21 @@ var AuthLogout = func(ctx iris.Context) {
 
 var AuthRoot = func(ctx iris.Context) {
 	// try to get the user without re-authenticating
-	if gothUser, err := auth.CompleteUserAuth(ctx); err == nil {
+	if _, err := auth.CompleteUserAuth(ctx); err == nil {
 		auth.Redirect(ctx)
-		ctx.JSON(iris.Map{"name": gothUser.Email, "auth": true, "oauth": cnf.OauthEnable})
+		// ctx.JSON(iris.Map{"name": gothUser.Email, "auth": true, "oauth": cnf.OauthEnable})
 	} else {
 		auth.BeginAuthHandler(ctx)
 	}
 }
 
 var AuthCheck = func(ctx iris.Context) {
+	log.Debugln()
 	if gothUser, err := auth.CompleteUserAuth(ctx); err == nil {
 		ctx.ViewData("", gothUser)
 		ctx.JSON(iris.Map{"name": gothUser.Email, "auth": true, "oauth": cnf.OauthEnable})
 	} else {
+		log.Debugln("GOTHUSER>>>", gothUser)
 		ctx.JSON(iris.Map{"auth": false, "oauth": cnf.OauthEnable})
 	}
 }

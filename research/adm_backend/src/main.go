@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	openidConnect, _ := openidConnect.New(cnf.OauthClientId, cnf.OauthClientSecret, cnf.OauthCallback, cnf.OauthDiscoveryURL)
+	openidConnect, _ := openidConnect.New(cnf.OauthClientId, cnf.OauthClientSecret, cnf.OauthCallback, cnf.OauthDiscoveryURL, "openid")
 	if openidConnect != nil {
 		goth.UseProviders(openidConnect)
 	}

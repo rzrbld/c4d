@@ -8,7 +8,7 @@ import (
 
 var (
 	MyHostPort             = getEnv("SRV_HOST_PORT", ":3333")
-	MyLogLevel             = getEnv("SRV_LOG_LEVEL", "INFO")
+	MyLogLevel             = getEnv("SRV_LOG_LEVEL", "DEBUG")
 	MyCORS                 = getEnv("SRV_CORS_DOMAIN", "*")
 	OpenSearchIgnoreSSL, _ = strconv.ParseBool(getEnv("OPENSEARCH_SSL_IGNORE", "true"))
 	MetricsEnable, _       = strconv.ParseBool(getEnv("SRV_METRICS_ENABLE", "false"))
@@ -17,7 +17,7 @@ var (
 	// ScBlockKey             = getEnv("SRV_COOKIE_BLOCK_KEY", "bnfYuphzxPhJMR823YNezH83fuHuddFC")
 	// ---------------
 	ScCookieName      = getEnv("SRV_COOKIE_NAME", "cakesessionid")
-	OauthEnable, _    = strconv.ParseBool(getEnv("SRV_OAUTH_ENABLE", "false"))
+	OauthEnable, _    = strconv.ParseBool(getEnv("SRV_OAUTH_ENABLE", "true"))
 	OauthProvider     = getEnv("SRV_OAUTH_PROVIDER", "openid-connect")
 	AuditLogEnable, _ = strconv.ParseBool(getEnv("SRV_AUDIT_LOG_ENABLE", "false"))
 	OauthClientId     = getEnv("SRV_OAUTH_CLIENT_ID", "login-app")

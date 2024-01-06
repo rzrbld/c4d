@@ -12,11 +12,15 @@ class ConvergenceCollaborationController {
   ];
 
   static generateUserName() {
-    const fName = Math.floor(Math.random() * ConvergenceCollaborationController.FIRST_NAMES.length);
-    const lName = Math.floor(Math.random() * ConvergenceCollaborationController.LAST_NAMES.length);
-    return ConvergenceCollaborationController.FIRST_NAMES[fName] +
-      " " +
-      ConvergenceCollaborationController.LAST_NAMES[lName];
+    if(KkeConfig.AUTH_ENABLE){
+      return window.UserName
+    } else {
+      const fName = Math.floor(Math.random() * ConvergenceCollaborationController.FIRST_NAMES.length);
+      const lName = Math.floor(Math.random() * ConvergenceCollaborationController.LAST_NAMES.length);
+      return ConvergenceCollaborationController.FIRST_NAMES[fName] +
+        " " +
+        ConvergenceCollaborationController.LAST_NAMES[lName];
+    }
   }
 
   static _getGraphId() {
@@ -51,6 +55,7 @@ class ConvergenceCollaborationController {
 
   connect() {
     const displayName = ConvergenceCollaborationController.generateUserName();
+  
     return Convergence
       .connectAnonymously(this._url, displayName)
       .then(domain => {

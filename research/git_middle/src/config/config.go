@@ -19,7 +19,7 @@ var (
 	ScHashKey  = getEnv("COOKIE_HASH_KEY", "7pO5WRJOLRKtUmSkY7l5Ifz62AHlNUga")
 	ScBlockKey = getEnv("COOKIE_BLOCK_KEY", "zwWi2xKfvl9su4s06PuqIWLop37DgzIf")
 	// ---------------
-	ScCookieName      = getEnv("COOKIE_NAME", "c4kesessionid")
+	ScCookieName      = getEnv("COOKIE_NAME", "cakesessionid")
 	OauthEnable, _    = strconv.ParseBool(getEnv("OAUTH_ENABLE", "false"))
 	AuditLogEnable, _ = strconv.ParseBool(getEnv("AUDIT_LOG_ENABLE", "false"))
 
