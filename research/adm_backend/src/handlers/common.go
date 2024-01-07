@@ -31,6 +31,17 @@ type UserRolesGroups struct {
 	Date_Modified time.Time `json:"date_modified"`
 }
 
+// Users with group and Projects
+type ProjectUsersGroups struct {
+	Group_ID    string `json:"group_id"`
+	Group_Name  string `json:"group_name"`
+	Group_Role  string `json:"group_role"`
+	ID          string `json:"project_id"`
+	Name        string `json:"project_name"`
+	Description string `json:"project_description"`
+	GitLink     string `json:"project_git_link"`
+}
+
 // Project represents the Projects Table
 type Project struct {
 	ID            string    `json:"id"`

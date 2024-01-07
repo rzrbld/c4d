@@ -126,6 +126,17 @@ var GetUserGroups = func(ctx iris.Context) {
 	}
 }
 
+var IsUserExist = func(ctx iris.Context, email string) string {
+	var user User
+	row := pgClient.QueryRow(context.Background(), "SELECT id FROM users WHERE mail = $1", email)
+	err := row.Scan(&user.ID)
+	if err != nil {
+		return "error: User not found"
+	}
+	log.Debugln("Data", user)
+	return user.ID
+}
+
 var DeleteUser = func(ctx iris.Context) {
 	userId := ctx.Params().Get("id")
 
@@ -185,6 +196,42 @@ var UpdateUser = func(ctx iris.Context) {
 		}
 
 		ctx.JSON(iris.Map{"message": "User updated successfully"})
+	} else {
+		ctx.JSON(DefaultAuthError())
+	}
+}
+
+var GetUserID = func(ctx iris.Context) User {
+	var userInfo = GetUserInfo(ctx)
+	userInfo.ID = IsUserExist(ctx, userInfo.Mail)
+	return userInfo
+}
+
+var GetUserProjects = func(ctx iris.Context) {
+	if CheckAuthBeforeRequest(ctx) {
+		var userInfo = GetUserID(ctx)
+
+		var projects []ProjectUsersGroups
+		rows, err := pgClient.Query(context.Background(), "select g.id as group_id,	g.\"name\" as group_name,	gru.user_role as user_role,	p.\"name\" as project_name,	p.id as project_id,	p.description as project_desc,	p.git_link as project_repo from	users as u,	groups_users_rel as gru,	groups as g,	projects_groups_rel as pgr,	projects as p where	u.id=$1	and	gru.delete_ =false	and	gru.user_id = u.id	and	g.id=gru.group_id	and	g.id=pgr.group_id	and	p.id=pgr.project_id	and   u.delete_ =false   and   g.delete_ =false   and   p.delete_ =false   and   pgr.delete_ =false", userInfo.ID)
+		if err != nil {
+			log.Fatalln("Query failed:", err)
+		}
+
+		defer rows.Close()
+
+		for rows.Next() {
+			var project ProjectUsersGroups
+			if err := rows.Scan(&project.Group_ID, &project.Group_Name, &project.Group_Role, &project.Name, &project.ID, &project.Description, &project.GitLink); err != nil {
+				ctx.JSON(iris.Map{"error": err.Error()})
+				return
+			}
+			projects = append(projects, project)
+		}
+
+		// log.Infoln("USER ID: ", IsUserExist(ctx, userInfo.Mail))
+		// userInfo.ID = IsUserExist(ctx, userInfo.Mail)
+		// log.Infoln("USER>>>", userInfo)
+		ctx.JSON(projects)
 	} else {
 		ctx.JSON(DefaultAuthError())
 	}

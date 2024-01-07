@@ -22,9 +22,22 @@ var AuthRoot = func(ctx iris.Context) {
 	}
 }
 
-var AuthCheck = func(ctx iris.Context) {
-	log.Debugln()
+var GetUserInfo = func(ctx iris.Context) User {
+	var user User
 	if gothUser, err := auth.CompleteUserAuth(ctx); err == nil {
+		user.Name = gothUser.Name
+		user.Mail = gothUser.Email
+	} else {
+		user.Name = ""
+		user.Mail = ""
+	}
+	return user
+}
+
+var AuthCheck = func(ctx iris.Context) {
+	log.Debugln("AuthCheck is called")
+	if gothUser, err := auth.CompleteUserAuth(ctx); err == nil {
+		log.Debugln("AuthCheck is called")
 		ctx.ViewData("", gothUser)
 		ctx.JSON(iris.Map{"name": gothUser.Email, "auth": true, "oauth": cnf.OauthEnable})
 	} else {

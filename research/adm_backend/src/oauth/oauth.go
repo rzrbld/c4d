@@ -89,7 +89,7 @@ var CompleteUserAuth = func(ctx iris.Context) (goth.User, error) {
 	}
 	session := sessionsManager.Start(ctx)
 	value := session.GetString(providerName)
-	log.Debugln("session value for " + providerName + " found! with value: " + value)
+	log.Debugln("session value for " + providerName + " found!")
 	if value == "" {
 		log.Debugln("session value for " + providerName + " not found")
 		return goth.User{}, errors.New("session value for " + providerName + " not found")

@@ -30,7 +30,7 @@ func main() {
  ╚═════╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝																																
  ` + "\033[m")
 
-	fmt.Println("\033[33mC4ke adm svc")
+	fmt.Println("\033[33mC4ke back adm svc")
 	fmt.Println("Version    : 1.0")
 	fmt.Println("Authors    : rzrbld")
 	fmt.Println("License    : MIT")
@@ -81,6 +81,7 @@ func main() {
 	v1Users := app.Party("/api/v1/users", crs).AllowMethods(iris.MethodOptions)
 	{
 		v1Users.Get("/", hdl.GetUsersList)
+		v1Users.Get("/projects", hdl.GetUserProjects)
 		v1Users.Post("/", hdl.CreateUser)
 		v1Users.Get("/{id:uuid}", hdl.GetUser)
 		v1Users.Get("/{id:uuid}/groups", hdl.GetUserGroups)
