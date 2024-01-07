@@ -8,7 +8,7 @@ import (
 
 var (
 	MyHostPort             = getEnv("SRV_HOST_PORT", ":3333")
-	MyLogLevel             = getEnv("SRV_LOG_LEVEL", "DEBUG")
+	MyLogLevel             = getEnv("SRV_LOG_LEVEL", "INFO")
 	MyCORS                 = getEnv("SRV_CORS_DOMAIN", "*")
 	OpenSearchIgnoreSSL, _ = strconv.ParseBool(getEnv("OPENSEARCH_SSL_IGNORE", "true"))
 	MetricsEnable, _       = strconv.ParseBool(getEnv("SRV_METRICS_ENABLE", "false"))
