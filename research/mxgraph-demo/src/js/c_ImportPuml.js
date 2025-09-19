@@ -65,10 +65,10 @@ function c4pumlGetTemplated(str, svgDoc){
             template = template.replace('%_Name_%', Name)
             template = template.replace('%_Desc_%', Desc)
 
-            var elemSvg = svgDoc.getElementById('elem_'+cid).getElementsByTagName('rect')[0]
+            var elemSvg = svgDoc.getElementById('entity_'+cid)?.getElementsByTagName('rect')[0]
 
-            var x = Number(elemSvg.getAttribute('x'))*1.2
-            var y = Number(elemSvg.getAttribute('y'))*1.2
+            var x = Number(elemSvg.getAttribute('x'))*1.15
+            var y = Number(elemSvg.getAttribute('y'))*1.15
 
             template = template.replace('%_x_%', x)
             template = template.replace('%_y_%', y)
@@ -102,12 +102,12 @@ function c4pumlGetTemplated(str, svgDoc){
             var y = 0
 
             if(c4Name == "ContainerDb" || c4Name == "ContainerQueue" || c4Name == "ContainerDb_Ext" || c4Name == "ContainerQueue_Ext" ){
-                var elemSvg = svgDoc.getElementById('elem_'+cid).getElementsByTagName('text')[0]
+                var elemSvg = svgDoc.getElementById('entity_'+cid)?.getElementsByTagName('text')[0]
                 x = (Number(elemSvg.getAttribute('x'))-55)*1.15
                 y = (Number(elemSvg.getAttribute('y'))-55)*1.25
 
             }else{
-                var elemSvg = svgDoc.getElementById('elem_'+cid).getElementsByTagName('rect')[0]
+                var elemSvg = svgDoc.getElementById('entity_'+cid)?.getElementsByTagName('rect')[0]
                 x = Number(elemSvg.getAttribute('x'))*1.15
                 y = Number(elemSvg.getAttribute('y'))*1.15
             }
@@ -180,7 +180,7 @@ function c4pumlGetTemplated(str, svgDoc){
             template = template.replace('%_uid_%', cid)
             template = template.replace('%_Name_%', Name)
 
-            var elemSvg = svgDoc.getElementById('cluster_'+cid).getElementsByTagName('rect')[0]
+            var elemSvg = svgDoc.getElementById('cluster_'+cid)?.getElementsByTagName('rect')[0]
 
             var x = Number(elemSvg.getAttribute('x'))*1.2
             var y = Number(elemSvg.getAttribute('y'))*1.2
@@ -204,7 +204,7 @@ function c4pumlGetTemplated(str, svgDoc){
 
 function filterPumlStr(str){
     str = str.trim()
-    const regex2 = new RegExp(/^[a-zA-Z].*\([a-zA-Z].*\)/g);
+    const regex2 = new RegExp(/^[a-zA-Z].*\([a-zA-Z0-9].*\)/g);
     var vstr = ""
 
     isValid = regex2.test(str);
@@ -274,10 +274,13 @@ var PumlArrCln = []
 
 for (let i = 0; i < PumlArrRaw.length; i++) {
     const pstr = PumlArrRaw[i];
+    // console.log("PARSER>>>>",pstr, filterPumlStr(pstr))
     if(filterPumlStr(pstr)){
         PumlArrCln.push(pstr)
     }
 }
+
+// console.log("FINAL ARRAY >>>>", PumlArrCln)
 
 tstrBody = ""
 
