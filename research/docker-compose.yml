@@ -1,0 +1,95 @@
+version: '2'
+services:
+    converge:
+        image: convergencelabs/convergence-omnibus:latest
+        hostname: converge
+        restart: always
+        container_name: converge
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+        ports:
+          - "8000:80"
+    encoder:
+        build: ../puml_enc_svc/
+        hostname: encoder
+        restart: always
+        container_name: encoder
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+        environment:
+          PUML_URL: "https://puml.mws-tech.pw/svg/"
+        ports:
+            - "8091:8080"
+    plantuml:
+        image: plantuml/plantuml-server:jetty
+        hostname: plantuml
+        restart: always
+        container_name: plantuml
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+        ports:
+          - "8092:8080"
+    backend:
+        build: ../backend/
+        hostname: backend
+        restart: always
+        container_name: backend
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+        ports:
+          - "8090:8080"
+
+    nginx:
+        build: .
+        image: umputun/nginx-le:latest
+        hostname: nginx
+        restart: always
+        container_name: nginx
+
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+
+        volumes:
+            - ./etc/data:/srv/docroot/mxgraph-demo
+            - ./etc/ssl:/etc/nginx/ssl
+            - ./etc/graph-demo.conf:/etc/nginx/service.conf
+            - ./etc/graph-demo-api.conf:/etc/nginx/service2.conf
+            - ./etc/graph-demo-back.conf:/etc/nginx/service3.conf
+            - ./etc/graph-demo-enc.conf:/etc/nginx/service4.conf
+            - ./etc/graph-demo-puml.conf:/etc/nginx/service5.conf
+            # more services, should be service*.conf
+            # - ./etc/stream-example-2.conf:/etc/nginx/stream2.conf # more streams, should be stream*.conf
+            # - ./etc/conf.d:/etc/nginx/conf.d-le # configuration folder, all files from it will be added
+            # - ./etc/stream.conf:/etc/nginx/stream.conf.d-le # streams configuration folder, all files from it will be added
+        ports:
+            - "80:80"
+            - "443:443"
+            - "8080:8080"
+            - "8081:8081"
+            - "8082:8082"
+            - "8083:8083"
+            - "8084:8084"
+
+        environment:
+            - TZ=Europe/Moscow
+            - LETSENCRYPT=true
+            - LE_EMAIL=razblade@gmail.com
+            - LE_FQDN=mws-tech.pw,www.mws-tech.pw,enc.mws-tech.pw,back.mws-tech.pw,conv.mws-tech.pw,puml.mws-tech.pw
+            #- SSL_CERT=le-crt.pem
+            #- SSL_KEY=le-key.pem
+            #- SSL_CHAIN_CERT=le-chain-crt.pem
